@@ -1,0 +1,110 @@
+industry: ecommerce
+display_name: "Ecommerce"
+
+# Optional per-dataset category overrides.
+dataset_category_overrides: {}
+
+# External datasets can be declared as they are onboarded.
+external_datasets: []
+
+# Source connectors used by ingestion workflows.
+data_sources:
+  kaggle:
+    enabled: true
+    search_tags: ["ecommerce", "retail", "orders", "transactions", "customer", "pricing"]
+    max_datasets: 80
+  web:
+    enabled: true
+
+# Category planning targets for initial industry buildout.
+categories:
+  demand_signal:
+    target_datasets: 5
+    typical_targets: ["daily_orders", "demand_next_period", "units_sold"]
+    feature_hints: ["seasonality", "marketing_spend", "campaigns", "traffic"]
+
+  conversion_optimization:
+    target_datasets: 5
+    typical_targets: ["converted", "purchase_completed", "session_conversion"]
+    feature_hints: ["session_depth", "traffic_source", "device", "campaign"]
+
+  merchandising:
+    target_datasets: 5
+    typical_targets: ["gmv", "margin", "sell_through"]
+    feature_hints: ["assortment_mix", "discount_depth", "placement", "season"]
+
+  basket_intelligence:
+    target_datasets: 5
+    typical_targets: ["add_on_purchase", "bundle_acceptance", "cross_sell_success"]
+    feature_hints: ["cart_contents", "co_view", "price_anchor", "session_history"]
+
+  checkout_risk:
+    target_datasets: 5
+    typical_targets: ["is_fraud", "chargeback", "abuse_label"]
+    feature_hints: ["payment_method", "device_fingerprint", "velocity", "geo_mismatch"]
+
+  fulfillment_flow:
+    target_datasets: 5
+    typical_targets: ["sla_breach", "late_delivery", "fulfillment_exception"]
+    feature_hints: ["warehouse_load", "carrier_service", "distance", "cutoff_time"]
+
+  catalog_quality:
+    target_datasets: 5
+    typical_targets: ["listing_quality_risk", "search_suppression", "return_risk"]
+    feature_hints: ["title_quality", "attribute_completeness", "image_count", "taxonomy_fit"]
+
+# Cross-industry pass/fail policy used by L0/L1 trainers.
+benchmark_policy:
+  default_classification_min_f1: 0.85
+  default_regression_min_r2: 0.85
+  category_overrides: {}
+
+training:
+  # Hard gate: L1 can run only after every ecommerce L0 worker is trained and passes policy.
+  l1_requires_all_l0_pass: true
+  # When a dataset spec provides multiple targets, allow ordered fallback attempts.
+  allow_target_fallback: true
+  # If the primary target misses benchmark, attempt listed alternates before final fail.
+  fallback_on_fail: true
+  # Enable category-level parallel scheduling for large worker groups in ecommerce.
+  enable_large_category_parallel: true
+  # Categories with unique worker count above this use parallel L0 scheduling.
+  parallel_threshold_workers: 25
+  parallel_max_workers: 4
+  # Enable coercion of numeric-like string features (e.g., "$1,200.00") in ecommerce.
+  enable_numeric_string_coercion: true
+  # Try alternate estimators when a primary model misses policy threshold.
+  enable_model_fallback: true
+  model_fallback_on_policy_fail: true
+  stop_on_first_policy_pass: true
+  use_policy_candidate_order: true
+  classification_model_candidates: ["lightgbm", "randomforest", "catboost", "xgboost"]
+  regression_model_candidates: ["lightgbm", "randomforest", "catboost", "xgboost"]
+  model_max_rows:
+    randomforest: 60000
+    catboost: 100000
+    xgboost: 120000
+  # Ecommerce-specific L1 stabilizers for smoother, more consistent convergence.
+  l1_config:
+    batch_size: 64
+    learning_rate: 0.0007
+    epochs: 140
+    min_epochs: 24
+    early_stop_patience: 18
+    scheduler_patience: 4
+    scheduler_factor: 0.6
+    gradient_clip_norm: 1.0
+    validation_split: 0.2
+    stratified_split: true
+    use_class_balancing: true
+    label_smoothing: 0.03
+  # Keep each model single-threaded to avoid CPU oversubscription during category parallelism.
+  per_model_n_jobs: 1
+  # Exclude structurally non-trainable tables from L0 worker expectations.
+  worker_eligibility:
+    enabled: true
+    target_required: true
+    min_rows: 20
+    min_columns: 2
+    min_feature_columns: 1
+    block_two_column_lookup: false

@@ -1,0 +1,963 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-02-06",
+    "description": "Comprehensive aviation dataset specifications for L0/L1 training",
+    "total_datasets": 100,
+    "categories": ["operations", "delay", "maintenance", "customer", "safety", "demand", "pricing", "weather", "network"]
+  },
+  "datasets": [
+    {
+      "id": "opensky_live_global",
+      "name": "OpenSky Global Live States",
+      "source": "opensky",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "on_ground",
+      "description": "Real-time global aircraft ADS-B data"
+    },
+    {
+      "id": "opensky_europe",
+      "name": "OpenSky Europe Region",
+      "source": "opensky",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "on_ground",
+      "description": "European airspace aircraft states"
+    },
+    {
+      "id": "openflights_routes",
+      "name": "OpenFlights Routes",
+      "source": "openflights",
+      "category": "network",
+      "task_type": "classification",
+      "target": "codeshare",
+      "kaggle": null,
+      "url": "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat",
+      "description": "Global airline route network"
+    },
+    {
+      "id": "openflights_airports",
+      "name": "OpenFlights Airports",
+      "source": "openflights",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "type",
+      "url": "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat",
+      "description": "Global airport database"
+    },
+    {
+      "id": "openflights_airlines",
+      "name": "OpenFlights Airlines",
+      "source": "openflights",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "active",
+      "url": "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat",
+      "description": "Global airline database"
+    },
+    {
+      "id": "openflights_planes",
+      "name": "OpenFlights Planes",
+      "source": "openflights",
+      "category": "operations",
+      "task_type": "classification",
+      "url": "https://raw.githubusercontent.com/jpatokal/openflights/master/data/planes.dat",
+      "description": "Aircraft types database"
+    },
+    {
+      "id": "ourairports_airports",
+      "name": "OurAirports Global",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "type",
+      "url": "https://ourairports.com/data/airports.csv",
+      "description": "Comprehensive global airport data"
+    },
+    {
+      "id": "ourairports_runways",
+      "name": "OurAirports Runways",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "regression",
+      "target": "length_ft",
+      "url": "https://ourairports.com/data/runways.csv",
+      "description": "Global runway specifications"
+    },
+    {
+      "id": "ourairports_frequencies",
+      "name": "OurAirports Frequencies",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "type",
+      "url": "https://ourairports.com/data/airport-frequencies.csv",
+      "description": "Airport communication frequencies"
+    },
+    {
+      "id": "ourairports_navaids",
+      "name": "OurAirports Navigation Aids",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "type",
+      "url": "https://ourairports.com/data/navaids.csv",
+      "description": "Navigation aid locations"
+    },
+    {
+      "id": "ourairports_countries",
+      "name": "OurAirports Countries",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "url": "https://ourairports.com/data/countries.csv",
+      "description": "Country reference data"
+    },
+    {
+      "id": "ourairports_regions",
+      "name": "OurAirports Regions",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "url": "https://ourairports.com/data/regions.csv",
+      "description": "Regional reference data"
+    },
+    {
+      "id": "ourairports_us_enhanced",
+      "name": "OurAirports US Enhanced",
+      "source": "ourairports",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "type",
+      "custom_prep": "airports",
+      "description": "US airports with FAA enplanement data"
+    },
+    {
+      "id": "kaggle_flight_delays_2015",
+      "name": "2015 Flight Delays",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "usdot/flight-delays",
+      "target": "ARRIVAL_DELAY",
+      "description": "US DOT flight delay data 2015"
+    },
+    {
+      "id": "kaggle_flight_delay_2018_2022",
+      "name": "Flight Status 2018-2022",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "robikscube/flight-delay-dataset-20182022",
+      "target": "DEP_DEL15",
+      "description": "US flight delays 2018-2022"
+    },
+    {
+      "id": "kaggle_flight_delay_2019_2023",
+      "name": "Flight Delay 2019-2023",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "patrickzel/flight-delay-and-cancellation-dataset-2019-2023",
+      "target": "DEP_DEL15",
+      "description": "US flight delays and cancellations 2019-2023"
+    },
+    {
+      "id": "kaggle_flight_delay_2018_2024",
+      "name": "Flight Delay 2018-2024",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "shubhamsingh42/flight-delay-dataset-2018-2024",
+      "target": "DEP_DELAY",
+      "description": "Comprehensive US flight delays"
+    },
+    {
+      "id": "kaggle_airline_delay_causes",
+      "name": "Airline Delay Causes",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "giovamata/airlinedelaycauses",
+      "target": "arr_delay",
+      "description": "Detailed delay cause breakdown"
+    },
+    {
+      "id": "kaggle_flight_delay_causes",
+      "name": "Flight Delay and Causes",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "undersc0re/flight-delay-and-causes",
+      "target": "ARRIVAL_DELAY",
+      "description": "Flight delays with cause analysis"
+    },
+    {
+      "id": "kaggle_flight_delay_prediction",
+      "name": "Flight Delay Prediction",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "jimschacko/airlines-dataset-to-predict-a-delay",
+      "target": "Flight_Status",
+      "description": "Flight status prediction"
+    },
+    {
+      "id": "kaggle_jan_flight_delays",
+      "name": "January 2019 Flights",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "divyansh22/flight-delay-prediction",
+      "target": "ARR_DELAY",
+      "description": "January 2019 domestic flights"
+    },
+    {
+      "id": "kaggle_airline_delay",
+      "name": "Airline Delay Data",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "sriharshaeedala/airline-delay",
+      "target": "arr_delay",
+      "description": "Airline delay statistics"
+    },
+    {
+      "id": "corgis_airlines",
+      "name": "CORGIS Airlines",
+      "source": "corgis",
+      "category": "delay",
+      "task_type": "regression",
+      "url": "https://corgis-edu.github.io/corgis/datasets/csv/airlines/airlines.csv",
+      "target": "statistics_minutes_delayed_total",
+      "description": "Aggregated airline statistics"
+    },
+    {
+      "id": "kaggle_flight_data_2024",
+      "name": "Flight Data 2024",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "hrishitpatil/flight-data-2024",
+      "target": "DEP_DEL15",
+      "description": "2024 flight delay data"
+    },
+    {
+      "id": "nasa_cmapss_fd001",
+      "name": "NASA C-MAPSS FD001",
+      "source": "nasa",
+      "category": "maintenance",
+      "task_type": "regression",
+      "target": "rul",
+      "custom_prep": "cmapss",
+      "description": "Turbofan degradation - single condition"
+    },
+    {
+      "id": "nasa_cmapss_fd002",
+      "name": "NASA C-MAPSS FD002",
+      "source": "nasa",
+      "category": "maintenance",
+      "task_type": "regression",
+      "target": "rul",
+      "custom_prep": "cmapss",
+      "description": "Turbofan degradation - six conditions"
+    },
+    {
+      "id": "nasa_cmapss_fd003",
+      "name": "NASA C-MAPSS FD003",
+      "source": "nasa",
+      "category": "maintenance",
+      "task_type": "regression",
+      "target": "rul",
+      "custom_prep": "cmapss",
+      "description": "Turbofan degradation - two fault modes"
+    },
+    {
+      "id": "nasa_cmapss_fd004",
+      "name": "NASA C-MAPSS FD004",
+      "source": "nasa",
+      "category": "maintenance",
+      "task_type": "regression",
+      "target": "rul",
+      "custom_prep": "cmapss",
+      "description": "Turbofan degradation - complex"
+    },
+    {
+      "id": "kaggle_aircraft_engine_rul",
+      "name": "Aircraft Engine RUL",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "regression",
+      "kaggle": "behrad3d/nasa-cmaps",
+      "target": "RUL",
+      "description": "NASA simulated engine data"
+    },
+    {
+      "id": "kaggle_predictive_maintenance",
+      "name": "Predictive Maintenance",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "classification",
+      "kaggle": "shivamb/machine-predictive-maintenance-classification",
+      "target": "Target",
+      "description": "Machine failure prediction"
+    },
+    {
+      "id": "kaggle_ai4i_maintenance",
+      "name": "AI4I Predictive Maintenance",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "classification",
+      "kaggle": "stephanmatzka/predictive-maintenance-dataset-ai4i-2020",
+      "target": "Machine failure",
+      "description": "AI4I 2020 maintenance data"
+    },
+    {
+      "id": "kaggle_turbofan_degradation",
+      "name": "Turbofan Degradation",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "regression",
+      "kaggle": "myloal123/turbofan-degradation",
+      "target": "RUL",
+      "description": "Turbofan engine degradation"
+    },
+    {
+      "id": "twitter_airline_sentiment",
+      "name": "Twitter Airline Sentiment",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "crowdflower/twitter-airline-sentiment",
+      "target": "airline_sentiment",
+      "description": "Twitter sentiment for US airlines"
+    },
+    {
+      "id": "kaggle_passenger_satisfaction",
+      "name": "Airline Passenger Satisfaction",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "teejmahal20/airline-passenger-satisfaction",
+      "target": "satisfaction",
+      "description": "Passenger satisfaction survey"
+    },
+    {
+      "id": "kaggle_airlines_customer_satisfaction",
+      "name": "Airlines Customer Satisfaction",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "sjleshrac/airlines-customer-satisfaction",
+      "target": "satisfaction",
+      "description": "Customer satisfaction data"
+    },
+    {
+      "id": "kaggle_airline_reviews",
+      "name": "Airline Reviews Dataset",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "regression",
+      "kaggle": "sujalsuthar/airlines-reviews",
+      "target": "overall_rating",
+      "description": "Skytrax airline reviews"
+    },
+    {
+      "id": "kaggle_british_airways_reviews",
+      "name": "British Airways Reviews",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "dharun4772/british-airwaysreviews",
+      "target": "recommended",
+      "description": "British Airways customer reviews"
+    },
+    {
+      "id": "kaggle_airline_sentiment",
+      "name": "Airline Sentiment",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "welkin10/airline-sentiment",
+      "target": "sentiment",
+      "description": "Airline sentiment analysis"
+    },
+    {
+      "id": "kaggle_customer_satisfaction",
+      "name": "Passenger Satisfaction",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "classification",
+      "kaggle": "johndddddd/customer-satisfaction",
+      "target": "satisfaction",
+      "description": "Customer satisfaction prediction"
+    },
+    {
+      "id": "kaggle_airplane_crashes",
+      "name": "Airplane Crashes Since 1908",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "regression",
+      "kaggle": "saurograndi/airplane-crashes-since-1908",
+      "target": "Fatalities",
+      "description": "Historical airplane crash data"
+    },
+    {
+      "id": "kaggle_aviation_accidents",
+      "name": "Aviation Accident Database",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "khsamaha/aviation-accident-database-synopses",
+      "target": "Injury_Severity",
+      "description": "NTSB aviation accidents"
+    },
+    {
+      "id": "kaggle_bird_strikes",
+      "name": "FAA Wildlife Strikes",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "faa/wildlife-strikes",
+      "target": "damage",
+      "description": "FAA bird strike incidents"
+    },
+    {
+      "id": "kaggle_aircraft_incidents",
+      "name": "Aircraft Incidents",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "landfallmotto/aircraft-incidents-since-1919",
+      "target": "severity",
+      "description": "Aircraft incidents since 1919"
+    },
+    {
+      "id": "kaggle_airplane_accident_severity",
+      "name": "Airplane Accident Severity",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "parulpandey/airplane-accident-severity-classification",
+      "target": "Severity",
+      "description": "Accident severity classification"
+    },
+    {
+      "id": "kaggle_air_passengers",
+      "name": "Air Passengers Monthly",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "rakannimer/air-passengers",
+      "target": "Passengers",
+      "description": "Monthly passenger numbers"
+    },
+    {
+      "id": "kaggle_international_passengers",
+      "name": "International Airline Passengers",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "chirag19/air-passengers",
+      "target": "Passengers",
+      "description": "International passenger data"
+    },
+    {
+      "id": "kaggle_airline_dataset",
+      "name": "Global Airline Dataset",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "iamsouravbanerjee/airline-dataset",
+      "target": "Passengers",
+      "description": "Global airline passenger data"
+    },
+    {
+      "id": "kaggle_us_air_traffic",
+      "name": "US Domestic Air Traffic",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "flashgordon/usa-airport-dataset",
+      "target": "Passengers",
+      "description": "US domestic air traffic"
+    },
+    {
+      "id": "kaggle_flight_prices_india",
+      "name": "Flight Prices India",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "nikhilmittal/flight-fare-prediction-mh",
+      "target": "Price",
+      "description": "Indian domestic flight prices"
+    },
+    {
+      "id": "kaggle_flight_price_prediction",
+      "name": "Flight Price Prediction",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "shubhambathwal/flight-price-prediction",
+      "target": "price",
+      "description": "Flight price prediction"
+    },
+    {
+      "id": "kaggle_us_airline_fares",
+      "name": "US Domestic Fares",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "zernach/2018-airplane-flights",
+      "target": "ITIN_FARE",
+      "description": "US domestic airfares"
+    },
+    {
+      "id": "kaggle_easemytrip_flights",
+      "name": "EaseMyTrip Flights",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "shubhambathwal/flight-price-prediction",
+      "target": "price",
+      "description": "Indian flight booking data"
+    },
+    {
+      "id": "kaggle_flight_fare_goibibo",
+      "name": "GoIbibo Flight Data",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "promptcloud/goibibo-flight-data",
+      "target": "price",
+      "description": "GoIbibo flight pricing"
+    },
+    {
+      "id": "jfk_weather",
+      "name": "JFK Weather 2024",
+      "source": "noaa",
+      "category": "weather",
+      "task_type": "regression",
+      "target": "visibility",
+      "description": "JFK airport weather"
+    },
+    {
+      "id": "kaggle_weather_delays",
+      "name": "US Weather Events",
+      "source": "kaggle",
+      "category": "weather",
+      "task_type": "classification",
+      "kaggle": "sobhanmoosavi/us-weather-events",
+      "target": "Severity",
+      "description": "Weather events dataset"
+    },
+    {
+      "id": "kaggle_airports_update_2024",
+      "name": "Airports Update 2024",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "ahmadrafiee/airports-airlines-planes-and-routes-update-2024",
+      "target": "type",
+      "description": "Updated 2024 airport data"
+    },
+    {
+      "id": "kaggle_world_airports",
+      "name": "World Airport Dataset",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "sanjeetsinghnaik/world-airport-dataset",
+      "target": "type",
+      "description": "Global airport information"
+    },
+    {
+      "id": "kaggle_commercial_aircraft",
+      "name": "Commercial Aircraft",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "regression",
+      "kaggle": "nelyg8002000/commercial-aircraft-dataset",
+      "target": "Max_Speed",
+      "description": "Commercial aircraft specs"
+    },
+    {
+      "id": "kaggle_flights_airports",
+      "name": "Flights and Airports",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "classification",
+      "kaggle": "tylerx/flights-and-airports-data",
+      "target": "CANCELLED",
+      "description": "US flights and airports"
+    },
+    {
+      "id": "kaggle_airport_network",
+      "name": "Airport Network Analysis",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "regression",
+      "kaggle": "open-flights/flight-route-database",
+      "target": "stops",
+      "description": "Flight route network"
+    },
+    {
+      "id": "kaggle_fgvc_aircraft",
+      "name": "FGVC Aircraft",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "seryouxblaster764/fgvc-aircraft",
+      "target": "family",
+      "description": "Aircraft type classification"
+    },
+    {
+      "id": "kaggle_airbus_detection",
+      "name": "Airbus Aircraft Detection",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "airbusgeo/airbus-aircrafts-sample-dataset",
+      "target": "class",
+      "description": "Airbus aircraft detection"
+    },
+    {
+      "id": "kaggle_aircraft_type",
+      "name": "Aircraft Type Dataset",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "thedevastator/aircraft-data-icao-iata-codes-and-types",
+      "target": "type",
+      "description": "Aircraft ICAO/IATA codes"
+    },
+    {
+      "id": "kaggle_flight_route_database",
+      "name": "Flight Route Database",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "classification",
+      "kaggle": "open-flights/flight-route-database",
+      "target": "stops",
+      "description": "Global flight routes"
+    },
+    {
+      "id": "kaggle_airports_worldwide",
+      "name": "Airports Worldwide",
+      "source": "kaggle",
+      "category": "operations",
+      "task_type": "classification",
+      "kaggle": "andrewmvd/airport-data-map",
+      "target": "type",
+      "description": "Worldwide airport map data"
+    },
+    {
+      "id": "kaggle_airline_on_time",
+      "name": "Airline On-Time Performance",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "classification",
+      "kaggle": "yuanyuwendymu/airline-delay-and-cancellation-data-2009-2018",
+      "target": "DEP_DEL15",
+      "description": "US airline on-time 2009-2018"
+    },
+    {
+      "id": "kaggle_bts_flights",
+      "name": "BTS Domestic Flights",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "usdot/domestic-airlines-itineraries",
+      "target": "ITIN_FARE",
+      "description": "BTS domestic itineraries"
+    },
+    {
+      "id": "kaggle_flight_performance_2015",
+      "name": "2015 Flight Performance",
+      "source": "kaggle",
+      "category": "delay",
+      "task_type": "regression",
+      "kaggle": "usdot/2015-flight-delays-and-cancellations",
+      "target": "ARRIVAL_DELAY",
+      "description": "2015 US flight performance"
+    },
+    {
+      "id": "kaggle_aircraft_maintenance_ml",
+      "name": "Aircraft Maintenance ML",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "classification",
+      "kaggle": "yks1234/aircraft-maintenance-ml-dataset",
+      "target": "Failure",
+      "description": "Aircraft maintenance prediction"
+    },
+    {
+      "id": "kaggle_engine_failure",
+      "name": "Engine Failure Prediction",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "classification",
+      "kaggle": "behrad3d/engine-failure-prediction",
+      "target": "failure",
+      "description": "Engine failure prediction"
+    },
+    {
+      "id": "kaggle_rul_dataset",
+      "name": "RUL Dataset",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "regression",
+      "kaggle": "arnabbiswas1/remaining-useful-life-rul-dataset",
+      "target": "RUL",
+      "description": "Remaining useful life data"
+    },
+    {
+      "id": "kaggle_bearing_dataset",
+      "name": "NASA Bearing Dataset",
+      "source": "kaggle",
+      "category": "maintenance",
+      "task_type": "regression",
+      "kaggle": "vinayak123tyagi/bearing-dataset",
+      "target": "RUL",
+      "description": "NASA bearing degradation"
+    },
+    {
+      "id": "kaggle_skytrax_reviews",
+      "name": "Skytrax Airline Reviews",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "regression",
+      "kaggle": "dharun4772/skytrax-airline-reviews",
+      "target": "overall_rating",
+      "description": "Skytrax reviews dataset"
+    },
+    {
+      "id": "kaggle_airline_quality",
+      "name": "Airline Quality Ratings",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "regression",
+      "kaggle": "andrewmvd/airline-quality-data",
+      "target": "quality_score",
+      "description": "Airline quality metrics"
+    },
+    {
+      "id": "kaggle_airport_reviews",
+      "name": "Airport Reviews",
+      "source": "kaggle",
+      "category": "customer",
+      "task_type": "regression",
+      "kaggle": "anshulmehtakaggl/airport-reviews",
+      "target": "rating",
+      "description": "Airport customer reviews"
+    },
+    {
+      "id": "kaggle_aviation_safety_network",
+      "name": "Aviation Safety Network",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "cgurkan/aviation-safety-network-database",
+      "target": "severity",
+      "description": "Aviation safety database"
+    },
+    {
+      "id": "kaggle_ntsb_accidents",
+      "name": "NTSB Aviation Accidents",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "khsamaha/ntsb-aviation-accident-database",
+      "target": "Injury_Severity",
+      "description": "NTSB accident database"
+    },
+    {
+      "id": "kaggle_fatal_accidents",
+      "name": "Fatal Air Accidents",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "regression",
+      "kaggle": "saurograndi/all-plane-crashes-from-1908-to-2009",
+      "target": "Fatalities",
+      "description": "Fatal aircraft accidents"
+    },
+    {
+      "id": "kaggle_incident_reports",
+      "name": "Aviation Incident Reports",
+      "source": "kaggle",
+      "category": "safety",
+      "task_type": "classification",
+      "kaggle": "arnavs19/aviation-data",
+      "target": "severity",
+      "description": "Aviation incident reports"
+    },
+    {
+      "id": "kaggle_traffic_forecast",
+      "name": "Air Traffic Forecast",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "thedevastator/air-traffic-forecast",
+      "target": "passengers",
+      "description": "Air traffic forecasting"
+    },
+    {
+      "id": "kaggle_airport_traffic",
+      "name": "Airport Traffic Stats",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "airport/traffic-statistics",
+      "target": "total_passengers",
+      "description": "Airport traffic statistics"
+    },
+    {
+      "id": "kaggle_booking_data",
+      "name": "Flight Booking Data",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "classification",
+      "kaggle": "tejashvi14/travel-booking-dataset",
+      "target": "booking_complete",
+      "description": "Flight booking completion"
+    },
+    {
+      "id": "kaggle_british_airways_booking",
+      "name": "British Airways Bookings",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "classification",
+      "kaggle": "saadharoon27/british-airways-data",
+      "target": "booking_complete",
+      "description": "BA booking predictions"
+    },
+    {
+      "id": "kaggle_expedia_flights",
+      "name": "Expedia Flight Searches",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "smirkin/expedia-flight-dataset",
+      "target": "total_fare",
+      "description": "Expedia flight search data"
+    },
+    {
+      "id": "kaggle_fare_prediction",
+      "name": "Airfare Prediction",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "jilkothari/finance-and-economy-datasets",
+      "target": "fare",
+      "description": "Airfare prediction data"
+    },
+    {
+      "id": "kaggle_dynamic_pricing",
+      "name": "Dynamic Airline Pricing",
+      "source": "kaggle",
+      "category": "pricing",
+      "task_type": "regression",
+      "kaggle": "dilwong/dynamic-pricing",
+      "target": "price",
+      "description": "Dynamic pricing dataset"
+    },
+    {
+      "id": "kaggle_weather_airport",
+      "name": "Airport Weather Data",
+      "source": "kaggle",
+      "category": "weather",
+      "task_type": "classification",
+      "kaggle": "veeralakrishna/weather-data",
+      "target": "weather_type",
+      "description": "Airport weather conditions"
+    },
+    {
+      "id": "kaggle_storm_events",
+      "name": "Storm Events Impact",
+      "source": "kaggle",
+      "category": "weather",
+      "task_type": "regression",
+      "kaggle": "noaa/storm-events-database",
+      "target": "damage",
+      "description": "Storm impact on aviation"
+    },
+    {
+      "id": "kaggle_visibility",
+      "name": "Aviation Visibility",
+      "source": "kaggle",
+      "category": "weather",
+      "task_type": "regression",
+      "kaggle": "thedevastator/aviation-visibility",
+      "target": "visibility",
+      "description": "Aviation visibility data"
+    },
+    {
+      "id": "kaggle_airport_connectivity",
+      "name": "Airport Connectivity",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "regression",
+      "kaggle": "arjunprasadsarkhel/airport-connectivity",
+      "target": "connectivity_score",
+      "description": "Airport connectivity metrics"
+    },
+    {
+      "id": "kaggle_route_optimization",
+      "name": "Flight Route Optimization",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "regression",
+      "kaggle": "thedevastator/route-optimization",
+      "target": "fuel_consumption",
+      "description": "Route optimization data"
+    },
+    {
+      "id": "kaggle_hub_analysis",
+      "name": "Airline Hub Analysis",
+      "source": "kaggle",
+      "category": "network",
+      "task_type": "classification",
+      "kaggle": "itsmesunil/airline-hub-network",
+      "target": "is_hub",
+      "description": "Airline hub network"
+    },
+    {
+      "id": "kaggle_aeroclub_recsys",
+      "name": "FlightRank 2025",
+      "source": "kaggle",
+      "category": "demand",
+      "task_type": "regression",
+      "kaggle": "aeroclub-recsys-2025",
+      "target": "score",
+      "description": "Flight ranking data"
+    },
+    {
+      "id": "opensky_aircraft_metadata",
+      "name": "OpenSky Aircraft Database",
+      "source": "opensky",
+      "category": "operations",
+      "task_type": "classification",
+      "target": "typecode",
+      "description": "Aircraft metadata from OpenSky"
+    },
+    {
+      "id": "opensky_flights_history",
+      "name": "OpenSky Historical Flights",
+      "source": "opensky",
+      "category": "network",
+      "task_type": "regression",
+      "target": "duration",
+      "description": "Historical flight data"
+    },
+    {
+      "id": "opensky_airport_arrivals",
+      "name": "OpenSky Airport Arrivals",
+      "source": "opensky",
+      "category": "operations",
+      "task_type": "regression",
+      "target": "arrival_count",
+      "description": "Airport arrival statistics"
+    }
+  ]
+}

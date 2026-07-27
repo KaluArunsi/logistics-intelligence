@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toji.ai/schemas/dashboardbundle.schema.json",
+  "title": "DashboardBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["bundle_version", "generated_at", "tables", "views", "layout"],
+  "properties": {
+    "bundle_version": {"type": "string", "pattern": "^1\\.\\d+\\.\\d+$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "title": {"type": "string", "maxLength": 140},
+    "description": {"type": "string", "maxLength": 2000},
+    "assumptions": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {"type": "string", "maxLength": 500}
+    },
+    "tables": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "additionalProperties": {"$ref": "#/$defs/Table"}
+    },
+    "views": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {"$ref": "#/$defs/View"}
+    },
+    "controls": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {"$ref": "#/$defs/Control"}
+    },
+    "layout": {"$ref": "#/$defs/Layout"},
+    "theme": {"$ref": "#/$defs/Theme"}
+  },
+  "$defs": {
+    "FieldType": {
+      "type": "string",
+      "enum": ["number", "integer", "string", "date", "datetime", "boolean", "category"]
+    },
+    "Field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": {"type": "string", "maxLength": 64, "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+        "type": {"$ref": "#/$defs/FieldType"},
+        "label": {"type": "string", "maxLength": 120},
+        "nullable": {"type": "boolean"},
+        "role": {
+          "type": "string",
+          "enum": ["dimension", "measure", "id", "time", "probability", "text", "other"]
+        }
+      }
+    },
+    "Table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "rows"],
+      "properties": {
+        "schema": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/Field"}},
+        "rows": {
+          "type": "array",
+          "maxItems": 200000,
+          "items": {
+            "type": "object",
+            "additionalProperties": {"type": ["string", "number", "integer", "boolean", "null"]}
+          }
+        },
+        "primary_key": {"type": "array", "maxItems": 5, "items": {"type": "string", "maxLength": 64}}
+      }
+    },
+    "GridPlacement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": {"type": "integer", "minimum": 0, "maximum": 24},
+        "y": {"type": "integer", "minimum": 0, "maximum": 500},
+        "w": {"type": "integer", "minimum": 1, "maximum": 24},
+        "h": {"type": "integer", "minimum": 1, "maximum": 40}
+      }
+    },
+    "ViewLayout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grid"],
+      "properties": {
+        "grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["xs"],
+          "properties": {
+            "xs": {"$ref": "#/$defs/GridPlacement"},
+            "md": {"$ref": "#/$defs/GridPlacement"},
+            "lg": {"$ref": "#/$defs/GridPlacement"}
+          }
+        },
+        "min_height_px": {"type": "integer", "minimum": 120, "maximum": 1600}
+      }
+    },
+    "KPI": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields"],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field"],
+            "properties": {
+              "field": {"type": "string", "maxLength": 64},
+              "label": {"type": "string", "maxLength": 80},
+              "format": {"type": "string", "maxLength": 32},
+              "delta_field": {"type": "string", "maxLength": 64}
+            }
+          }
+        }
+      }
+    },
+    "TableView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columns"],
+      "properties": {
+        "columns": {"type": "array", "minItems": 1, "maxItems": 30, "items": {"type": "string", "maxLength": 64}},
+        "page_size": {"type": "integer", "minimum": 5, "maximum": 200},
+        "sort": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "by": {"type": "string", "maxLength": 64},
+            "dir": {"type": "string", "enum": ["asc", "desc"]}
+          }
+        }
+      }
+    },
+    "View": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "title", "layout"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 64, "pattern": "^[a-z][a-z0-9_\\-]*$"},
+        "type": {"type": "string", "enum": ["vega-lite", "kpi", "table", "markdown"]},
+        "title": {"type": "string", "maxLength": 140},
+        "subtitle": {"type": "string", "maxLength": 240},
+        "source_table": {"type": "string", "maxLength": 64},
+        "spec": {"type": "object"},
+        "kpi": {"$ref": "#/$defs/KPI"},
+        "table": {"$ref": "#/$defs/TableView"},
+        "markdown": {"type": "string", "maxLength": 8000},
+        "layout": {"$ref": "#/$defs/ViewLayout"}
+      }
+    },
+    "Control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "label", "bind"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 64, "pattern": "^[a-z][a-z0-9_\\-]*$"},
+        "type": {"type": "string", "enum": ["slider", "select", "toggle", "dateRange"]},
+        "label": {"type": "string", "maxLength": 100},
+        "help": {"type": "string", "maxLength": 200},
+        "bind": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["view_id", "param"],
+          "properties": {
+            "view_id": {"type": "string", "maxLength": 64},
+            "param": {"type": "string", "maxLength": 64}
+          }
+        }
+      }
+    },
+    "Layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grid_columns"],
+      "properties": {
+        "grid_columns": {"type": "integer", "minimum": 4, "maximum": 24},
+        "breakpoints": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "xs_max_px": {"type": "integer", "minimum": 320, "maximum": 900},
+            "md_max_px": {"type": "integer", "minimum": 641, "maximum": 1400}
+          }
+        },
+        "row_height_px": {"type": "integer", "minimum": 20, "maximum": 60},
+        "gap_px": {"type": "integer", "minimum": 0, "maximum": 24}
+      }
+    },
+    "Theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"type": "string", "enum": ["light", "dark"]},
+        "accent": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+        "font_family": {"type": "string", "maxLength": 80}
+      }
+    }
+  }
+}

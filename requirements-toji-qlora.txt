@@ -1,0 +1,13 @@
+# Optional dependencies for TOJI-15 / TOJI-16 local fine-tuning and evaluation.
+# Install only when you are ready to run QLoRA/LoRA training.
+
+transformers>=4.46.0
+peft>=0.13.0
+accelerate>=0.34.0
+safetensors>=0.4.0
+sentencepiece>=0.2.0
+
+# CUDA-only (Linux/NVIDIA) 4-bit QLoRA path.
+# On Apple Silicon, use LoRA mode (no 4-bit quantization) unless you have
+# a compatible alternative stack.
+bitsandbytes>=0.43.0; platform_system != "Darwin"

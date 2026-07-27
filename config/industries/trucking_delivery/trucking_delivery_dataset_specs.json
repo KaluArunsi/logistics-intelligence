@@ -1,0 +1,6576 @@
+{
+  "datasets": {
+    "asia__hong_kong__courier_workforce_profile_derived_csv": {
+      "categories": [
+        "workforce_shift_planning"
+      ],
+      "category": "workforce_shift_planning",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_workforce_volume",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_10bbaec2_5faed511_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_856432a012": {
+      "categories": [
+        "reverse_logistics_returns"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "figure",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "sd_value",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_2a708e08_25be2aea_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_de83a2b7ad": {
+      "categories": [
+        "reverse_logistics_returns"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "figure",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "sd_value",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_8b480940_4527a122_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_fe6f16e0b7": {
+      "categories": [
+        "reverse_logistics_returns"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "figure",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "sd_value",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_abec6c97_5305cb95_particulars_of_first_registered_vehicles_csv": {
+      "categories": [
+        "dispatch_capacity_balance",
+        "fleet_utilization",
+        "fuel_energy_efficiency",
+        "urban_traffic_risk"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "vehicle_class",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "cylinder_capacity_of_engine_c_c",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_abec6c97_5305cb95_particulars_of_first_registered_vehicles_particulars_of_first_registered_vehicles_english_nov_2019_csv": {
+      "categories": [
+        "fleet_utilization",
+        "dispatch_capacity_balance",
+        "fuel_energy_efficiency",
+        "urban_traffic_risk"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "vehicle_class",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "taxable_value_hk",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_abec6c97_fd964a37_particulars_of_first_registered_vehicles_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "dispatch_capacity_balance",
+        "fleet_utilization",
+        "urban_traffic_risk"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "vehicle_class",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "fuel_type",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "taxable_value_hk",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_b28436a0_f686ad8e_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_d1719957bf": {
+      "categories": [
+        "reverse_logistics_returns"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "figure",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_b28fa391_73ce8f30_traffic_snapshot_images_csv": {
+      "categories": [
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "asia__hong_kong__hk_b28fa391_73ce8f30_traffic_snapshot_images_traffic_camera_locations_english_csv": {
+      "categories": [
+        "urban_traffic_risk",
+        "route_eta_reliability"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "longitude",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__hong_kong__hk_bfc8d167_be5d9095_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_0526a7f539": {
+      "categories": [
+        "reverse_logistics_returns"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "Hong Kong Census and Statistics Department",
+        "source_urls": [
+          "https://www.censtatd.gov.hk/en/scode200.html",
+          "https://www.data.gov.hk/en-data/dataset/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "figure",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_indicators_df_equipment_asia_csv": {
+      "categories": [
+        "vehicle_maintenance_risk",
+        "fleet_utilization"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "vehicle_maintenance_risk",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_indicators_df_infrastructure_asia_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_indicators_df_measurement_asia_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_indicators_df_safety_asia_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_indicators_df_transportindicators_asia_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_infrinv_df_infrinv_asia_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_st_df_stfreight_asia_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "fuel",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_st_df_stindicators_asia_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "fuel",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_st_df_sttraffic_asia_csv": {
+      "categories": [
+        "urban_traffic_risk",
+        "fleet_utilization",
+        "fuel_energy_efficiency",
+        "route_eta_reliability"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_trends_df_trendscont_asia_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_trends_df_trendsfreight_asia_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__oecd_trends_df_trendssafety_asia_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_status",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__oecd__stfreight_mode_fuel_profile_derived_csv": {
+      "categories": [
+        "fuel_energy_efficiency"
+      ],
+      "category": "fuel_energy_efficiency",
+      "derived_target": {
+        "high_label": "high_consumption",
+        "low_label": "low_consumption",
+        "name": "energy_efficiency_band",
+        "source": "target_obs_value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "energy_efficiency_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "target_obs_value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m451031_merchandise_exports_by_commodity_division_monthly_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m451041_domestic_exports_by_commodity_division_monthly_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m451081_selected_merchandise_trade_at_current_prices_monthly_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high_trade_value",
+        "low_label": "trade_value_drop",
+        "name": "value_band",
+        "source": "value",
+        "threshold": 4473989.0,
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m451111_merchandise_imports_of_machinery_and_equipment_monthly_csv": {
+      "categories": [
+        "vehicle_maintenance_risk"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "vehicle_maintenance_risk",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m451121_merchandise_exports_of_machinery_and_equipment_monthly_csv": {
+      "categories": [
+        "vehicle_maintenance_risk"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "vehicle_maintenance_risk",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m650671_outbound_departures_of_singapore_residents_by_mode_of_transport_annual_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "asia__singapore__singstat_m651351_public_transport_operation_and_ridership_annual_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Singapore Department of Statistics",
+        "source_urls": [
+          "https://www.singstat.gov.sg/",
+          "https://tablebuilder.singstat.gov.sg/"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__cross_border_lane_flow_derived_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cross_border_trucking",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_lane_flow",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "flow_std",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "time_period",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_rail_go_consgmt_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_rail_go_contnbr_csv": {
+      "categories": [
+        "dispatch_capacity_balance"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_rail_go_contwgt_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_rail_go_quartal_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ca_c_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_flag",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ca_hac_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_flag",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ia_lgtt_csv": {
+      "categories": [
+        "dispatch_capacity_balance",
+        "urban_traffic_risk"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ia_ltt_csv": {
+      "categories": [
+        "dispatch_capacity_balance",
+        "urban_traffic_risk"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ia_rc_csv": {
+      "categories": [
+        "dispatch_capacity_balance",
+        "urban_traffic_risk"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ia_ugtt_csv": {
+      "categories": [
+        "urban_traffic_risk",
+        "dispatch_capacity_balance"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_flag",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_ia_utt_csv": {
+      "categories": [
+        "dispatch_capacity_balance",
+        "urban_traffic_risk"
+      ],
+      "category": "dispatch_capacity_balance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "dispatch_capacity_balance",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_na_dctg_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_road_go_na_dctt_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_frmod_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_frtra_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "obs_value_band",
+        "source": "obs_value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "notes": [
+        "2026-02-17: disabled near-threshold blocker (R2 0.829) in high-coverage route_eta_reliability"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "obs_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "obs_value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_ms_frmod6_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_ms_frmod_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_psmod_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "Eurostat Transport Metadata",
+        "source_urls": [
+          "https://ec.europa.eu/eurostat/cache/metadata/en/road_esms.htm",
+          "https://ec.europa.eu/eurostat/cache/metadata/en/rail_esms.htm"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__eurostat__eurostat_tran_hv_pstra_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "obs_value_band",
+        "source": "obs_value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "notes": [
+        "2026-02-17: disabled near-threshold blocker (R2 0.844) in high-coverage route_eta_reliability"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "obs_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "obs_value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "europe__oecd__oecd_indicators_df_equipment_europe_csv": {
+      "categories": [
+        "vehicle_maintenance_risk",
+        "fleet_utilization"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "vehicle_maintenance_risk",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_indicators_df_infrastructure_europe_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_indicators_df_measurement_europe_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_indicators_df_safety_europe_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_indicators_df_transportindicators_europe_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_infrinv_df_infrinv_europe_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_st_df_stfreight_europe_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "europe__oecd__oecd_st_df_stindicators_europe_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "europe__oecd__oecd_st_df_sttraffic_europe_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization",
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "fuel",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_trends_df_trendscont_europe_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_trends_df_trendsfreight_europe_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__oecd_trends_df_trendssafety_europe_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_status",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__oecd__sttraffic_vehicle_fuel_profile_derived_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "traffic_volume_band",
+        "source": "target_obs_value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "traffic_volume_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__uk__operator_license_shift_capacity_derived_csv": {
+      "categories": [
+        "workforce_shift_planning"
+      ],
+      "category": "workforce_shift_planning",
+      "derived_target": {
+        "high_label": "high_capacity",
+        "low_label": "low_capacity",
+        "name": "shift_capacity_band",
+        "source": "target_shift_capacity",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "UK Operator Licensing and Transport Data",
+        "source_urls": [
+          "https://www.gov.uk/government/collections/operator-licensing-statistics",
+          "https://www.gov.uk/government/organisations/traffic-commissioners"
+        ]
+      },
+      "targets": [
+        {
+          "name": "shift_capacity_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "target_shift_capacity",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "operator_count",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "l1_target_family": "shift_coverage",
+        "worker_enabled": true
+      }
+    },
+    "europe__uk__uk_1699fb94_59853277_northern_ireland_goods_vehicle_operator_s_licence_records_northern_ireland_goods_vehicle_ope_6ccbd8f6a4": {
+      "categories": [
+        "workforce_shift_planning"
+      ],
+      "category": "workforce_shift_planning",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "UK Operator Licensing and Transport Data",
+        "source_urls": [
+          "https://www.gov.uk/government/collections/operator-licensing-statistics",
+          "https://www.gov.uk/government/organisations/traffic-commissioners"
+        ]
+      },
+      "targets": [
+        {
+          "name": "numberofvehiclesauthorised",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__uk__uk_2a67d1ee_2a6fc4bd_traffic_commissioners_goods_and_public_service_vehicle_operator_licence_records_olbslicencer_6366599eba": {
+      "categories": [
+        "workforce_shift_planning"
+      ],
+      "category": "workforce_shift_planning",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "UK Operator Licensing and Transport Data",
+        "source_urls": [
+          "https://www.gov.uk/government/collections/operator-licensing-statistics",
+          "https://www.gov.uk/government/organisations/traffic-commissioners"
+        ]
+      },
+      "targets": [
+        {
+          "name": "numberofvehiclesauthorised",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "europe__uk__uk_2a67d1ee_bdaeaae3_traffic_commissioners_goods_and_public_service_vehicle_operator_licence_records_olbslicencer_61f7a2b556": {
+      "categories": [
+        "workforce_shift_planning",
+        "vehicle_maintenance_risk",
+        "fleet_utilization",
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "workforce_shift_planning",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "UK Operator Licensing and Transport Data",
+        "source_urls": [
+          "https://www.gov.uk/government/collections/operator-licensing-statistics",
+          "https://www.gov.uk/government/organisations/traffic-commissioners"
+        ]
+      },
+      "targets": [
+        {
+          "name": "numberofvehiclesauthorised",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "l1_target_family": "shift_coverage",
+        "worker_enabled": true
+      }
+    },
+    "europe__uk__uk_83dd0dd8_3c463593_licensed_taxi_drivers_by_postal_district_licensed_taxi_drivers_at_30_june_2025_csv_csv": {
+      "categories": [
+        "driver_safety_compliance"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "other__oecd__oecd_indicators_df_equipment_other_csv": {
+      "categories": [
+        "vehicle_maintenance_risk",
+        "fleet_utilization"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "vehicle_maintenance_risk",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_indicators_df_infrastructure_other_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_indicators_df_measurement_other_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_indicators_df_safety_other_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_status",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_indicators_df_transportindicators_other_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "price_base",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_infrinv_df_infrinv_other_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "infrastructure_value_band",
+        "source": "obs_value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "infrastructure_value_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_st_df_stfreight_other_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "fuel",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_st_df_stindicators_other_csv": {
+      "categories": [
+        "fuel_energy_efficiency",
+        "fleet_utilization"
+      ],
+      "category": "fuel_energy_efficiency",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fuel_energy_efficiency",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "fuel",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_st_df_sttraffic_other_csv": {
+      "categories": [
+        "urban_traffic_risk",
+        "fleet_utilization",
+        "fuel_energy_efficiency",
+        "route_eta_reliability"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_trends_df_trendscont_other_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_trends_df_trendsfreight_other_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dataflow",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__oecd__oecd_trends_df_trendssafety_other_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "OECD Transport Indicators",
+        "source_urls": [
+          "https://sdmx.oecd.org/",
+          "https://www.oecd.org/en/data/insights/data-explainers/2024/05/transport-data.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "obs_value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "obs_status",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__worldbank__worldbank_lp_lpi_ovrl_xq_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "lpi_value_band",
+        "source": "value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cross_border_trucking",
+        "source_family": "World Bank LPI",
+        "source_urls": [
+          "https://lpi.worldbank.org/",
+          "https://www.worldbank.org/en/programs/world-bank-enterprise-surveys/brief/lpi"
+        ]
+      },
+      "targets": [
+        {
+          "name": "lpi_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__worldbank__worldbank_lp_lpi_time_xq_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "lpi_value_band",
+        "source": "value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cross_border_trucking",
+        "source_family": "World Bank LPI",
+        "source_urls": [
+          "https://lpi.worldbank.org/",
+          "https://www.worldbank.org/en/programs/world-bank-enterprise-surveys/brief/lpi"
+        ]
+      },
+      "targets": [
+        {
+          "name": "lpi_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "other__worldbank__worldbank_lp_lpi_trac_xq_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "lpi_value_band",
+        "source": "value",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cross_border_trucking",
+        "source_family": "World Bank LPI",
+        "source_urls": [
+          "https://lpi.worldbank.org/",
+          "https://www.worldbank.org/en/programs/world-bank-enterprise-surveys/brief/lpi"
+        ]
+      },
+      "targets": [
+        {
+          "name": "lpi_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "value",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__amazon_lastmile__almrrc2021_data_evaluation__model_score_inputs__eval_actual_sequences_json": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__amazon_lastmile__almrrc2021_data_evaluation__model_score_inputs__eval_invalid_sequence_scores_json": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__amazon_lastmile__almrrc2021_data_training__model_build_inputs__actual_sequences_json": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__amazon_lastmile__almrrc2021_data_training__model_build_inputs__invalid_sequence_scores_json": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__amazon_lastmile__route_exception_flag_eval_derived_csv": {
+      "categories": [
+        "parcel_exception_risk"
+      ],
+      "category": "parcel_exception_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "parcel_exception_risk",
+        "source_family": "Amazon Last Mile Challenge",
+        "source_urls": [
+          "https://registry.opendata.aws/amazon-last-mile-challenges/",
+          "https://www.amazon.science/publications/learning-to-generalize-for-vehicle-routing"
+        ]
+      },
+      "targets": [
+        {
+          "name": "route_exception_flag",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "invalid_sequence_score",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__amazon_lastmile__route_exception_flag_train_derived_csv": {
+      "categories": [
+        "parcel_exception_risk"
+      ],
+      "category": "parcel_exception_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "parcel_exception_risk",
+        "source_family": "Amazon Last Mile Challenge",
+        "source_urls": [
+          "https://registry.opendata.aws/amazon-last-mile-challenges/",
+          "https://www.amazon.science/publications/learning-to-generalize-for-vehicle-routing"
+        ]
+      },
+      "targets": [
+        {
+          "name": "route_exception_flag",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "invalid_sequence_score",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__amazon_lastmile__route_invalid_score_eval_derived_csv": {
+      "categories": [
+        "last_mile_sla"
+      ],
+      "category": "last_mile_sla",
+      "derived_target": {
+        "high_label": "high_sla_risk",
+        "low_label": "low_sla_risk",
+        "name": "invalid_sequence_band",
+        "source": "invalid_sequence_score",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "notes": [
+        "2026-02-17: disabled low-signal SLA score prediction worker (best F1 < 0.85)",
+        "2026-02-17: disabled low-signal SLA score prediction worker (best F1 < 0.85)"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "invalid_sequence_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__amazon_lastmile__route_invalid_score_train_derived_csv": {
+      "categories": [
+        "last_mile_sla"
+      ],
+      "category": "last_mile_sla",
+      "derived_target": {
+        "high_label": "high_sla_risk",
+        "low_label": "low_sla_risk",
+        "name": "invalid_sequence_band",
+        "source": "invalid_sequence_score",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "notes": [
+        "2026-02-17: disabled low-signal SLA score prediction worker (best F1 < 0.85)",
+        "2026-02-17: disabled low-signal SLA score prediction worker (best F1 < 0.85)"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "invalid_sequence_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_25e5_bvnb_air_drafts_by_limiting_bridge_for_select_container_ports_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_3jux_kwvh_annual_passenger_border_crossings_with_michigan_new_york_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "skip_training": true,
+      "targets": [],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_75qq_qmj6_freight_activity_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "week_current",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_btpt_uxhx_vehicles_entering_u_s_by_country_csv": {
+      "categories": [
+        "cross_border_trucking",
+        "fleet_utilization"
+      ],
+      "category": "cross_border_trucking",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "current",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_bw6n_ddqk_transportation_services_index_and_seasonally_adjusted_transportation_data_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "dispatch_capacity_balance",
+        "fleet_utilization",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "inv_to_sales",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_dasz_28ip_bridge_art_draft_restrictions_2025_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "air_draft_in_feet",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_f3sb_gw7h_cfs_temperature_control_file_2012_2022_csv": {
+      "categories": [
+        "cold_chain_last_mile"
+      ],
+      "category": "cold_chain_last_mile",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cold_chain_last_mile",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "ton",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "ton_f",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "ton_s",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__bts_h7pv_kjj5_freight_indicators_weekly_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "week_change",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__bts_j246_y2rf_cfs_area_file_2012_2022_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "tonnage_band",
+        "source": "ton",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tonnage_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__bts_keg4_3bc2_border_crossing_entry_data_csv": {
+      "categories": [
+        "cross_border_trucking"
+      ],
+      "category": "cross_border_trucking",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cross_border_trucking",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "border",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__bts_r8cc_5x95_transportation_services_index_2000_present_csv": {
+      "categories": [
+        "vehicle_maintenance_risk"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "tsi_passenger",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__bts__cfs_tempctrl_commodity_value_derived_csv": {
+      "categories": [
+        "cold_chain_last_mile"
+      ],
+      "category": "cold_chain_last_mile",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "target_value_sum_band",
+        "source": "target_value_sum",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cold_chain_last_mile",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_value_sum_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "target_value_sum",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "ton_sum",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__cfs_tempctrl_distance_profile_derived_csv": {
+      "categories": [
+        "cold_chain_last_mile"
+      ],
+      "category": "cold_chain_last_mile",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "target_avg_miles_band",
+        "source": "target_avg_miles",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cold_chain_last_mile",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_avg_miles_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "target_avg_miles",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "ton_sum",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__cfs_tempctrl_mode_change_derived_csv": {
+      "categories": [
+        "cold_chain_last_mile"
+      ],
+      "category": "cold_chain_last_mile",
+      "derived_target": {
+        "high_label": "growth",
+        "low_label": "decline",
+        "name": "target_ton_change_band",
+        "source": "target_ton_change",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cold_chain_last_mile",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_ton_change_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "target_ton_change",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "value_change",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__bts__cfs_tempctrl_mode_year_ton_derived_csv": {
+      "categories": [
+        "cold_chain_last_mile"
+      ],
+      "category": "cold_chain_last_mile",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "cold_chain_last_mile",
+        "source_family": "BTS / ATRI / CFS",
+        "source_urls": [
+          "https://data.transportation.gov/Roadways-and-Bridges/BTS-ATRI-Freight-Mobility-Initiative-County-to-Coun/uta5-4eu5",
+          "https://www.bts.gov/commodity-flow-survey"
+        ]
+      },
+      "targets": [
+        {
+          "name": "target_ton_sum",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "value_sum",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_enduse_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "air_val_yr_band",
+        "source": "air_val_yr",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "notes": [
+        "2026-02-17: disabled near-threshold blocker (F1 0.843) in high-coverage route_eta_reliability"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "air_val_yr",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "air_val_yr_band",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_hitech_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "all_val_yr",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_naics_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "annual_air_value_band",
+        "source": "air_val_yr",
+        "threshold": 75137.0,
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "US Census International Trade",
+        "source_urls": [
+          "https://www.census.gov/data/developers/data-sets/international-trade.html",
+          "https://www.census.gov/foreign-trade/reference/products/catalog/nomenclature/index.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "annual_air_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "air_val_yr",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_sitc_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "annual_air_value_band",
+        "source": "air_val_yr",
+        "threshold": 75137.0,
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "US Census International Trade",
+        "source_urls": [
+          "https://www.census.gov/data/developers/data-sets/international-trade.html",
+          "https://www.census.gov/foreign-trade/reference/products/catalog/nomenclature/index.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "annual_air_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "air_val_yr",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_statenaics_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "annual_total_value_band",
+        "source": "all_val_yr",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "US Census International Trade",
+        "source_urls": [
+          "https://www.census.gov/data/developers/data-sets/international-trade.html",
+          "https://www.census.gov/foreign-trade/reference/products/catalog/nomenclature/index.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "annual_total_value_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_exports_usda_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "air_val_yr",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_imports_enduse_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "annual_air_value_band",
+        "source": "air_val_yr",
+        "threshold": 75137.0,
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "US Census International Trade",
+        "source_urls": [
+          "https://www.census.gov/data/developers/data-sets/international-trade.html",
+          "https://www.census.gov/foreign-trade/reference/products/catalog/nomenclature/index.html"
+        ]
+      },
+      "targets": [
+        {
+          "name": "annual_air_value_band",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "air_val_yr",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__census_intltrade__census_timeseries_intltrade_imports_hitech_2024_12_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "air_val_yr",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_2emp_mxtb_boc3_all_with_history_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_42um_tgh5_hpms_spatial_all_sections_2024_csv": {
+      "categories": [
+        "last_mile_sla"
+      ],
+      "category": "last_mile_sla",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "last_mile_sla",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_4y6x_dmck_sms_ab_passproperty_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "driver_insp_total",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "unsafe_driv_ac",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_6eyk_hxee_carrier_all_with_history_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "urban_traffic_risk"
+      ],
+      "category": "driver_safety_compliance",
+      "derived_target": {
+        "high_label": "high_coverage",
+        "low_label": "low_coverage",
+        "name": "coverage_band",
+        "source": "min_cov_amount",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "coverage_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_6sqe_dvqs_inshist_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "min_cov_amount",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_7mzw_a8si_u_s_imports_and_exports_value_by_year_and_mode_2003_thru_2023_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "air_total_exports_value_b",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_7wn6_i5b9_highway_rail_grade_crossing_incident_data_form_57_csv": {
+      "categories": [
+        "parcel_exception_risk"
+      ],
+      "category": "parcel_exception_risk",
+      "features": {
+        "exclude": [
+          "totalkilledform57",
+          "totalinjuredform57",
+          "crossinguserskilled",
+          "crossingusersinjured",
+          "drivercondition"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "parcel_exception_risk",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "crossingusersinjured",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "totalinjuredform57",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "totalkilledform57",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_8kgi_8dcn_historic_hpms_data_sample_1998_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "urban_traffic_risk",
+        "cross_border_trucking",
+        "dispatch_capacity_balance",
+        "fleet_utilization",
+        "pickup_dropoff_reliability",
+        "route_eta_reliability"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "lane_cost_yield",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "donut_aadt_volume",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "len_classes_curves_a",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "len_classes_curves_b",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_8mt8_2mdr_sms_input_violation_csv": {
+      "categories": [
+        "driver_safety_compliance"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "severity_weight",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_8vwk_s3iq_hpms_spatial_other_principal_arterial_sections_2024_csv": {
+      "categories": [
+        "last_mile_sla"
+      ],
+      "category": "last_mile_sla",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "last_mile_sla",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_8wvp_gjhh_injury_illness_summary_operational_data_form_55_6_year_view_csv": {
+      "categories": [
+        "urban_traffic_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "reporting_railroad_class",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "reporting_railroad_individual_class",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_96tg_4mhf_rejected_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "min_cov_amount",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_9hnm_fr6r_licensed_drivers_vehicle_registrations_and_resident_population_dv_1c_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "year",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_9mw4_x3tu_authhist_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_a6pv_7q2j_licensed_drivers_by_sex_and_ratio_to_population_2010_2023_dl_1c_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "residents",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_az4n_8mr2_company_census_file_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "total_intrastate_drivers",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "classdef",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_bx7m_yn3v_injury_illness_summary_casualty_data_form_55a_6_year_view_csv": {
+      "categories": [
+        "urban_traffic_risk",
+        "driver_safety_compliance",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "urban_traffic_risk",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "urban_traffic_risk",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "reporting_railroad_class",
+          "primary": true,
+          "task_type": "classification"
+        },
+        {
+          "name": "actionsbeforeinjury",
+          "primary": false,
+          "task_type": "classification"
+        },
+        {
+          "name": "incidentday",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_c2pi_dj5z_hpms_spatial_local_sections_2024_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "lane_cost_yield",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_c44g_ntqk_freight_shipments_within_the_u_s_by_mode_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_d7b8_pmxm_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_time_2022_experimental_csv": {
+      "categories": [
+        "pickup_dropoff_reliability",
+        "fleet_utilization"
+      ],
+      "category": "pickup_dropoff_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "pickup_dropoff_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_dggd_bg3y_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2020_experimental_csv": {
+      "categories": [
+        "pickup_dropoff_reliability",
+        "fleet_utilization"
+      ],
+      "category": "pickup_dropoff_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "pickup_dropoff_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_dkgi_gbeh_cfs_hazmat_file_2012_2022_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "route_eta_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "hazclass",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_dwyf_zaik_licensed_drivers_by_state_1949_2024_dl_201_csv": {
+      "categories": [
+        "workforce_shift_planning"
+      ],
+      "category": "workforce_shift_planning",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "workforce_shift_planning",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "drivers",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_eygb_9xv5_hpms_spatial_minor_collector_sections_2024_csv": {
+      "categories": [
+        "pickup_dropoff_reliability",
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "pickup_dropoff_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "pickup_dropoff_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_ez58_m3b4_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2023_experimental_csv": {
+      "categories": [
+        "last_mile_sla",
+        "pickup_dropoff_reliability"
+      ],
+      "category": "last_mile_sla",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "last_mile_sla",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_fx4q_ay7w_vehicle_inspection_file_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "urban_traffic_risk"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "insp_end_time",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "final_status_date",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_gu5j_r7xj_nyc_cv_pilot_ie_processed_data_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "warningstarttime",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_h3zn_uid9_sms_c_pass_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "driver_insp_total",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "unsafe_driv_ac",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_h9zy_gjn8_sms_c_passproperty_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "derived_target": {
+        "high_label": "high_risk",
+        "low_label": "low_risk",
+        "name": "maintenance_risk_band",
+        "source": "veh_maint_measure",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "notes": [
+        "2026-02-17: disabled low-signal targetability (single-class/weak-signal constraints)",
+        "2026-02-17: disabled low-signal targetability (single-class/weak-signal constraints)"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "maintenance_risk_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_icqf_xf4w_highway_rail_grade_crossing_accident_incident_source_data_form_57_csv": {
+      "categories": [
+        "parcel_exception_risk"
+      ],
+      "category": "parcel_exception_risk",
+      "features": {
+        "exclude": [
+          "userkld",
+          "userinj"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "parcel_exception_risk",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "casinjrr",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "hazard",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_iie8_uenj_advanced_driver_assistance_system_adas_equipped_single_vehicle_data_for_central_ohio_csv": {
+      "categories": [
+        "route_eta_reliability",
+        "fleet_utilization",
+        "urban_traffic_risk"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "closest_distance_lateral",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_jjab_3wm6_hpms_spatial_minor_arterial_sections_2024_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "lane_cost_yield",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_jm62_yva2_licensed_drivers_by_sex_and_age_groups_1963_2024_dl_220_csv": {
+      "categories": [
+        "driver_safety_compliance"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "drivers",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_jz72_ehnf_hpms_spatial_other_freeway_expressway_sections_2024_csv": {
+      "categories": [
+        "last_mile_sla"
+      ],
+      "category": "last_mile_sla",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "last_mile_sla",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "counter_peak_lanes",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_kjg3_diqy_sms_input_motor_carrier_census_information_csv": {
+      "categories": [
+        "reverse_logistics_returns",
+        "driver_safety_compliance",
+        "cross_border_trucking",
+        "urban_traffic_risk"
+      ],
+      "category": "reverse_logistics_returns",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "reverse_logistics_returns",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "mcs150_mileage",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_m3ry_qcip_sms_ab_pass_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_mayv_2qfz_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2021_experimental_csv": {
+      "categories": [
+        "pickup_dropoff_reliability"
+      ],
+      "category": "pickup_dropoff_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "pickup_dropoff_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_nxvf_jch2_hpms_spatial_nhs_sections_2024_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "pickup_dropoff_reliability",
+        "route_eta_reliability",
+        "urban_traffic_risk",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "lane_cost_yield",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "counter_peak_lanes",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_p2mt_9ige_out_of_service_orders_csv": {
+      "categories": [
+        "vehicle_maintenance_risk"
+      ],
+      "category": "vehicle_maintenance_risk",
+      "derived_target": {
+        "drop_nulls": true,
+        "map": {
+          "ACTIVE": "active",
+          "INACTIVE": "inactive"
+        },
+        "name": "status_active_flag",
+        "source": "status",
+        "type": "categorical_map"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "notes": [
+        "2026-02-17: disabled low-signal targetability (best F1 < 0.85 after retargeting)",
+        "2026-02-17: disabled low-signal targetability (best F1 < 0.85 after retargeting)"
+      ],
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "status_active_flag",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_phpr_iuzz_hpms_spatial_ramp_sections_2024_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk"
+      ],
+      "category": "lane_cost_yield",
+      "derived_target": {
+        "high_label": "high",
+        "low_label": "low",
+        "name": "future_aadt_band",
+        "source": "future_aadt",
+        "type": "threshold_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "lane_cost_yield",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "future_aadt_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_qh9u_swkp_actpendinsur_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "underl_lim_amount",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_qq62_cjjy_cfs_export_file_2012_2022_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "ton",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_sa6p_acbp_revocation_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "dot_number",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_sn4k_eiea_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2019_experimental_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_50",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dest_county_fips",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "dest_county_name",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_tf8u_hrm4_hpms_spatial_federal_aid_sections_2024_csv": {
+      "categories": [
+        "pickup_dropoff_reliability",
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "pickup_dropoff_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "pickup_dropoff_reliability",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "counter_peak_lanes",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_uta5_4eu5_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2024_experimental_csv": {
+      "categories": [
+        "last_mile_sla",
+        "pickup_dropoff_reliability"
+      ],
+      "category": "last_mile_sla",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "last_mile_sla",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_uwah_u9bn_highway_rail_grade_crossing_incident_data_form_57_6_year_view_csv": {
+      "categories": [
+        "parcel_exception_risk"
+      ],
+      "category": "parcel_exception_risk",
+      "features": {
+        "exclude": [
+          "totalkilledform57",
+          "totalinjuredform57",
+          "crossinguserskilled",
+          "crossingusersinjured",
+          "drivercondition"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "parcel_exception_risk",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "crossingusersinjured",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "totalinjuredform57",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "employeesinjured",
+          "primary": false,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_vhz2_exyi_advanced_driver_assistance_system_adas_equipped_two_vehicle_data_for_central_ohio_csv": {
+      "categories": [
+        "route_eta_reliability",
+        "fleet_utilization",
+        "urban_traffic_risk"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "closest_distance_lateral",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_wj9w_5aje_hpms_spatial_major_collector_sections_2024_csv": {
+      "categories": [
+        "lane_cost_yield",
+        "route_eta_reliability",
+        "urban_traffic_risk",
+        "vehicle_maintenance_risk"
+      ],
+      "category": "lane_cost_yield",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "end_point",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_wt8s_2hbx_inspections_per_unit_csv": {
+      "categories": [
+        "driver_safety_compliance",
+        "fleet_utilization"
+      ],
+      "category": "driver_safety_compliance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "driver_safety_compliance",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "insp_unit_number",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_xx4g_5dg2_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2018_experimental_csv": {
+      "categories": [
+        "fleet_utilization"
+      ],
+      "category": "fleet_utilization",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "target_alignment": {
+        "business_use_case": "fleet_utilization",
+        "source_family": "US DOT / FMCSA / FHWA / FRA",
+        "source_urls": [
+          "https://csa.fmcsa.dot.gov/",
+          "https://www.fmcsa.dot.gov/mission/policy/what-csa",
+          "https://www.fhwa.dot.gov/policyinformation/hpms/fieldmanual/",
+          "https://railroads.dot.gov/safety-data/crossing-and-inventory-data-download"
+        ]
+      },
+      "targets": [
+        {
+          "name": "tt_percentile_75",
+          "primary": true,
+          "task_type": "regression"
+        },
+        {
+          "name": "dest_county_fips",
+          "primary": false,
+          "task_type": "regression"
+        },
+        {
+          "name": "dest_county_name",
+          "primary": false,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "allow_target_fallback": true,
+        "fallback_on_fail": true,
+        "gating": true,
+        "worker_enabled": true
+      }
+    },
+    "us__usdot__usdot_y5ut_ibwt_supply_chain_and_freight_indicators_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "value1",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_y9wr_xk52_2017_commodity_flow_survey_public_use_file_cfs_puf_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "shipmt_value",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    },
+    "us__usdot__usdot_ypjt_5ydn_insur_all_with_history_csv": {
+      "categories": [
+        "route_eta_reliability"
+      ],
+      "category": "route_eta_reliability",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "batch_size": 50000,
+        "max_rows": 250000
+      },
+      "targets": [
+        {
+          "name": "max_cov_amount",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ],
+      "training": {
+        "gating": false,
+        "worker_enabled": false
+      }
+    }
+  },
+  "industry": "trucking_delivery",
+  "intake_targets": {
+    "asia": 30,
+    "europe": 25,
+    "other": 15,
+    "us": 50
+  },
+  "notes": "Dataset-level training specs for trucking_delivery. Official/trusted sources only; Kaggle/OpenML disabled by policy for this industry.",
+  "requirements": {
+    "min_l1_categories": 8,
+    "min_workers_per_category": 5,
+    "min_workers_required": 50,
+    "planned_categories": 15
+  },
+  "version": 1
+}

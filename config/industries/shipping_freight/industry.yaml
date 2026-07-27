@@ -1,0 +1,211 @@
+industry: shipping_freight
+display_name: "Shipping & Freight"
+
+# Optional per-dataset category overrides.
+dataset_category_overrides:
+  us__usdot__usdot_uta5_4eu5_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2024_experimental_csv: trucking_capacity
+  us__usdot__usdot_ez58_m3b4_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2023_experimental_csv: trucking_capacity
+  us__usdot__usdot_d7b8_pmxm_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_time_2022_experimental_csv: eta_delay_risk
+  us__usdot__usdot_mayv_2qfz_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2021_experimental_csv: eta_delay_risk
+  us__usdot__usdot_dggd_bg3y_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2020_experimental_csv: eta_delay_risk
+  us__usdot__usdot_sn4k_eiea_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2019_experimental_csv: eta_delay_risk
+  us__usdot__usdot_xx4g_5dg2_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2018_experimental_csv: eta_delay_risk
+  us__bts__bts_xnav_e47e_ptff_persons_traveling_into_the_united_states_at_land_border_crossings_and_international_airports_csv: cross_border_flow
+  # HK courier/logistics tables -> explicit last-mile routing.
+  asia__hong_kong__hk_0d86e521_ee4c0052_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_7cb7dabcb7: last_mile_sla
+  asia__hong_kong__hk_2a708e08_25be2aea_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_de83a2b7ad: last_mile_sla
+  asia__hong_kong__hk_8b480940_4527a122_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_fe6f16e0b7: last_mile_sla
+  asia__hong_kong__hk_b28436a0_f686ad8e_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_d1719957bf: last_mile_sla
+  asia__hong_kong__hk_bfc8d167_be5d9095_key_statistics_on_business_performance_and_operating_characteristics_of_the_transportat_0526a7f539: last_mile_sla
+  # HK marine safety + fleet-relevant tables.
+  asia__hong_kong__hk_97d4b3a9_602edab5_marine_accident_statistics_marine_accident_statistics_english_csv: carrier_safety_risk
+  asia__hong_kong__hk_abec6c97_5305cb95_particulars_of_first_registered_vehicles_particulars_of_first_registered_vehicles_english_nov_2019_csv: fleet_utilization
+  # OECD transport indicators mapped explicitly to underfilled categories.
+  asia__oecd__oecd_indicators_df_measurement_asia_csv: last_mile_sla
+  europe__oecd__oecd_indicators_df_measurement_europe_csv: last_mile_sla
+  other__oecd__oecd_indicators_df_measurement_other_csv: last_mile_sla
+  asia__oecd__oecd_indicators_df_equipment_asia_csv: fleet_utilization
+  europe__oecd__oecd_indicators_df_equipment_europe_csv: fleet_utilization
+  other__oecd__oecd_indicators_df_equipment_other_csv: fleet_utilization
+  asia__oecd__oecd_infrinv_df_infrinv_asia_csv: fleet_utilization
+  europe__oecd__oecd_infrinv_df_infrinv_europe_csv: fleet_utilization
+  other__oecd__oecd_infrinv_df_infrinv_other_csv: fleet_utilization
+  asia__oecd__oecd_indicators_df_infrastructure_asia_csv: inland_waterway_flow
+  europe__oecd__oecd_indicators_df_infrastructure_europe_csv: inland_waterway_flow
+  other__oecd__oecd_indicators_df_infrastructure_other_csv: inland_waterway_flow
+  # CFS hazmat as cold-chain integrity risk proxy.
+  us__usdot__usdot_dkgi_gbeh_cfs_hazmat_file_2012_2022_csv: cold_chain_integrity
+  # UK operator records represent fleet capacity and utilization constraints.
+  europe__uk__uk_2a67d1ee_bdaeaae3_traffic_commissioners_goods_and_public_service_vehicle_operator_licence_records_olbslicencer_61f7a2b556: fleet_utilization
+
+# External datasets can be declared as they are onboarded.
+external_datasets: []
+
+# Source connectors used by ingestion workflows.
+data_sources:
+  official:
+    enabled: true
+    priority_order: ["us", "asia", "europe", "other"]
+    allowlist_only: true
+  web:
+    enabled: true
+  kaggle:
+    enabled: false
+  openml:
+    enabled: false
+  huggingface:
+    enabled: false
+
+# Intake quotas for official/trusted sourcing.
+regional_intake_targets:
+  us:
+    min_unique_datasets: 50
+  asia:
+    min_unique_datasets: 30
+  europe:
+    min_unique_datasets: 25
+  other:
+    min_unique_datasets: 15
+
+# Category planning targets for initial industry buildout.
+categories:
+  customs_compliance:
+    target_datasets: 8
+    typical_targets: ["clearance_hold_flag", "compliance_risk_tier", "inspection_required"]
+    feature_hints: ["hs_code", "origin_country", "entry_port", "broker_profile"]
+
+  cross_border_flow:
+    target_datasets: 8
+    typical_targets: ["cross_border_volume", "crossing_time_hours", "queue_delay_minutes"]
+    feature_hints: ["border_port", "lane_type", "carrier_type", "timestamp"]
+
+  trade_volume_mix:
+    target_datasets: 8
+    typical_targets: ["tonnage", "teu_volume", "value_usd"]
+    feature_hints: ["commodity_code", "mode", "trade_partner", "period"]
+
+  port_terminal_congestion:
+    target_datasets: 8
+    typical_targets: ["berth_wait_hours", "terminal_dwell_hours", "congestion_level"]
+    feature_hints: ["port", "terminal", "arrival_ts", "yard_utilization"]
+
+  ocean_schedule_reliability:
+    target_datasets: 8
+    typical_targets: ["on_time_arrival", "schedule_deviation_bucket", "blank_sailing_flag"]
+    feature_hints: ["vessel_service", "port_pair", "planned_eta", "actual_eta"]
+
+  inland_waterway_flow:
+    target_datasets: 8
+    typical_targets: ["barge_volume", "lock_delay_hours", "waterway_throughput"]
+    feature_hints: ["river_segment", "lock_id", "water_level", "season"]
+
+  rail_intermodal_flow:
+    target_datasets: 8
+    typical_targets: ["intermodal_transit_hours", "rail_dwell_hours", "container_turn_time"]
+    feature_hints: ["terminal_id", "lane", "equipment_type", "train_schedule"]
+
+  trucking_capacity:
+    target_datasets: 8
+    typical_targets: ["capacity_index", "load_to_truck_ratio", "capacity_tightness_tier"]
+    feature_hints: ["region", "equipment_type", "weekday", "market_conditions"]
+
+  fleet_utilization:
+    target_datasets: 8
+    typical_targets: ["asset_utilization_pct", "empty_mile_ratio", "driver_idle_hours"]
+    feature_hints: ["tractor_id", "trip_distance", "dwell_time", "load_factor"]
+
+  eta_delay_risk:
+    target_datasets: 8
+    typical_targets: ["late_arrival_flag", "eta_error_minutes", "delay_risk_band"]
+    feature_hints: ["route", "weather", "traffic", "checkpoint_events"]
+
+  last_mile_sla:
+    target_datasets: 8
+    typical_targets: ["sla_breach_flag", "delivery_exception_flag", "attempt_success"]
+    feature_hints: ["delivery_zone", "stop_sequence", "time_window", "driver_shift"]
+
+  lane_cost_yield:
+    target_datasets: 8
+    typical_targets: ["cost_per_mile", "gross_margin_pct", "lane_yield_bucket"]
+    feature_hints: ["origin_dest_lane", "fuel_index", "distance", "rate_contract"]
+
+  claims_damage_risk:
+    target_datasets: 8
+    typical_targets: ["claim_filed_flag", "damage_severity", "claim_amount_band"]
+    feature_hints: ["commodity_type", "packaging", "handling_events", "temperature_trace"]
+
+  carrier_safety_risk:
+    target_datasets: 8
+    typical_targets: ["safety_incident_flag", "violation_risk_tier", "crash_likelihood"]
+    feature_hints: ["carrier_id", "inspection_history", "driver_profile", "equipment_age"]
+
+  cold_chain_integrity:
+    target_datasets: 8
+    typical_targets: ["temperature_excursion_flag", "cold_chain_break_event", "spoilage_risk"]
+    feature_hints: ["sensor_readings", "setpoint", "door_open_events", "route_duration"]
+
+# Cross-industry pass/fail policy used by L0/L1 trainers.
+benchmark_policy:
+  default_classification_min_f1: 0.85
+  default_regression_min_r2: 0.85
+  category_overrides: {}
+
+goals:
+  min_workers_required: 50
+  min_workers_per_category_required: 5
+  min_l1_categories_required: 8
+  planned_categories: 15
+
+training:
+  # Hard gate: L1 can run only after every shipping_freight L0 worker is trained and passes policy.
+  l1_requires_all_l0_pass: true
+  # When a dataset spec provides multiple targets, allow ordered fallback attempts.
+  allow_target_fallback: true
+  # If the primary target misses benchmark, attempt listed alternates before final fail.
+  fallback_on_fail: true
+  # Enable category-level parallel scheduling for large worker groups.
+  enable_large_category_parallel: true
+  parallel_threshold_workers: 25
+  parallel_max_workers: 4
+  # Normalize currency and localized numerics during feature prep.
+  enable_numeric_string_coercion: true
+  # Try alternate estimators when a primary model misses policy threshold.
+  enable_model_fallback: true
+  model_fallback_on_policy_fail: true
+  stop_on_first_policy_pass: true
+  use_policy_candidate_order: true
+  classification_model_candidates: ["lightgbm", "randomforest", "catboost", "xgboost"]
+  regression_model_candidates: ["lightgbm", "randomforest", "catboost", "xgboost"]
+  model_max_rows:
+    randomforest: 80000
+    catboost: 250000
+    xgboost: 250000
+  l1_config:
+    batch_size: 64
+    learning_rate: 0.0007
+    epochs: 150
+    min_epochs: 24
+    early_stop_patience: 20
+    scheduler_patience: 4
+    scheduler_factor: 0.6
+    gradient_clip_norm: 1.0
+    validation_split: 0.2
+    stratified_split: true
+    use_class_balancing: true
+    label_smoothing: 0.02
+  # Keep each model single-threaded to avoid CPU oversubscription during category parallelism.
+  per_model_n_jobs: 1
+  # Business-value guardrails: reject metadata/index-like target columns unless explicitly allowed in spec.
+  target_guardrails:
+    enabled: true
+    low_value_exact: ["year", "period", "series_no", "row_labels", "price_base", "unit_mult", "decimal", "decimals", "ranking", "rank", "index"]
+    low_value_patterns: [".*_ranking$", "^rank_.*", "^row_.*", ".*_label(s)?$", "^label(s)?$"]
+    allow_exact: ["obs_value", "value", "hours", "count", "ton", "tons", "teu", "total"]
+  # Exclude structurally non-trainable tables from L0 worker expectations.
+  worker_eligibility:
+    enabled: true
+    target_required: true
+    min_rows: 30
+    min_columns: 2
+    min_feature_columns: 1
+    block_two_column_lookup: false

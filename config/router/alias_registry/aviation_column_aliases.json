@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "industry": "aviation",
+  "updated_at": "2026-02-22T17:28:28.654664+00:00",
+  "aliases": [
+    {
+      "canonical_column": "date",
+      "alias": "event_date",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "openai_runtime",
+      "categories": [
+        "customer"
+      ],
+      "worker_dataset_ids": [
+        "kaggle_airline_passenger_satisfaction",
+        "mendeley_airline_reviews_sentiment",
+        "skytrax_airline_reviews",
+        "skytrax_airport_reviews",
+        "skytrax_lounge_reviews",
+        "skytrax_seat_reviews",
+        "twitter_airline_sentiment"
+      ],
+      "first_seen": "2026-02-18T10:47:33.971240+00:00",
+      "last_seen": "2026-02-22T17:28:28.653932+00:00",
+      "hit_count": 22,
+      "notes": [
+        "heuristic_similarity",
+        "Likely the date of the flight/event",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity",
+        "heuristic_similarity"
+      ]
+    },
+    {
+      "canonical_column": "Arrival Delay in Minutes",
+      "alias": "delay_rate",
+      "status": "candidate",
+      "confidence": 0.6,
+      "source": "groq_runtime",
+      "categories": [
+        "customer"
+      ],
+      "worker_dataset_ids": [
+        "kaggle_airline_passenger_satisfaction",
+        "mendeley_airline_reviews_sentiment",
+        "skytrax_airline_reviews",
+        "skytrax_airport_reviews",
+        "skytrax_lounge_reviews",
+        "skytrax_seat_reviews",
+        "twitter_airline_sentiment"
+      ],
+      "first_seen": "2026-02-18T13:21:45.453354+00:00",
+      "last_seen": "2026-02-18T13:21:45.453354+00:00",
+      "hit_count": 1,
+      "notes": [
+        "Related to delay metrics, best match is arrival delay"
+      ]
+    }
+  ]
+}

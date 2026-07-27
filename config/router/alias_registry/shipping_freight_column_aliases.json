@@ -1,0 +1,455 @@
+{
+  "industry": "shipping_freight",
+  "version": 1,
+  "updated_at": "2026-02-24T03:01:16.320420+00:00",
+  "aliases": [
+    {
+      "canonical_column": "geo",
+      "alias": "country",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "cross_border_flow",
+        "ocean_schedule_reliability"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": [
+        "Common alias: country \u2192 geo"
+      ]
+    },
+    {
+      "canonical_column": "geo",
+      "alias": "region",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "cross_border_flow",
+        "ocean_schedule_reliability"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": [
+        "Common alias: region \u2192 geo"
+      ]
+    },
+    {
+      "canonical_column": "freq",
+      "alias": "frequency",
+      "status": "approved",
+      "confidence": 0.98,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "eta_delay_risk",
+        "port_terminal_congestion"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": [
+        "Common alias: frequency \u2192 freq"
+      ]
+    },
+    {
+      "canonical_column": "freq",
+      "alias": "reporting_frequency",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "eta_delay_risk",
+        "port_terminal_congestion"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "cargo",
+      "alias": "cargo_description",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "cold_chain_integrity"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "cargo_type",
+      "alias": "commodity",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "cold_chain_integrity",
+        "trade_volume_mix"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "cargo_type",
+      "alias": "goods_type",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "claims_damage_risk",
+        "cold_chain_integrity",
+        "trade_volume_mix"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "time_period",
+      "alias": "date",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "eta_delay_risk",
+        "ocean_schedule_reliability",
+        "port_terminal_congestion"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "time_period",
+      "alias": "event_date",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "eta_delay_risk",
+        "ocean_schedule_reliability",
+        "port_terminal_congestion"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "obs_value",
+      "alias": "value",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "cross_border_flow",
+        "trade_volume_mix",
+        "lane_cost_yield"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "obs_value",
+      "alias": "amount",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "cross_border_flow",
+        "trade_volume_mix",
+        "lane_cost_yield"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "transport_mode",
+      "alias": "mode",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "carrier_safety_risk",
+        "inland_waterway_flow",
+        "rail_intermodal_flow"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "transport_mode",
+      "alias": "shipping_method",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "carrier_safety_risk",
+        "inland_waterway_flow",
+        "rail_intermodal_flow"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "vehicle_type",
+      "alias": "vessel_type",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "carrier_safety_risk",
+        "fleet_utilization"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "vehicle_type",
+      "alias": "equipment_type",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "carrier_safety_risk",
+        "fleet_utilization"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "port",
+      "alias": "port_name",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "port_terminal_congestion",
+        "ocean_schedule_reliability",
+        "cold_chain_integrity"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "port",
+      "alias": "terminal",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "port_terminal_congestion",
+        "ocean_schedule_reliability"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "distance",
+      "alias": "miles",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "lane_cost_yield",
+        "trucking_capacity",
+        "carrier_safety_risk"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "distance",
+      "alias": "km",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "lane_cost_yield",
+        "trucking_capacity",
+        "carrier_safety_risk"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "delay_rate",
+      "alias": "late_delivery_rate",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "eta_delay_risk",
+        "last_mile_sla"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "delay_rate",
+      "alias": "on_time_rate",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "eta_delay_risk",
+        "last_mile_sla"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "cost",
+      "alias": "freight_cost",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "lane_cost_yield",
+        "trucking_capacity"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "cost",
+      "alias": "shipping_cost",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "lane_cost_yield",
+        "trucking_capacity"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "volume",
+      "alias": "shipment_volume",
+      "status": "approved",
+      "confidence": 0.96,
+      "source": "manual_seed",
+      "categories": [
+        "trade_volume_mix",
+        "port_terminal_congestion"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "volume",
+      "alias": "tonnage",
+      "status": "approved",
+      "confidence": 0.95,
+      "source": "manual_seed",
+      "categories": [
+        "trade_volume_mix",
+        "port_terminal_congestion",
+        "cold_chain_integrity"
+      ],
+      "worker_dataset_ids": [],
+      "first_seen": "2026-02-19T12:00:00+00:00",
+      "last_seen": "2026-02-19T12:00:00+00:00",
+      "hit_count": 5,
+      "notes": []
+    },
+    {
+      "canonical_column": "dmode_ttl",
+      "alias": "xmode_ttl",
+      "status": "candidate",
+      "confidence": 0.875,
+      "source": "none_runtime",
+      "categories": [
+        "cold_chain_integrity"
+      ],
+      "worker_dataset_ids": [
+        "asia__singapore__singstat_m651101_sea_cargo_and_shipping_statistics_monthly_csv",
+        "europe__eurostat__eurostat_road_go_ca_hac_csv",
+        "europe__eurostat__eurostat_road_go_ia_ltt_csv",
+        "us__bts__bts_f3sb_gw7h_cfs_temperature_control_file_2012_2022_csv",
+        "us__usdot__usdot_dkgi_gbeh_cfs_hazmat_file_2012_2022_csv"
+      ],
+      "first_seen": "2026-02-24T03:01:16.320172+00:00",
+      "last_seen": "2026-02-24T03:01:16.320172+00:00",
+      "hit_count": 1,
+      "notes": [
+        "heuristic_similarity"
+      ],
+      "semantic_evidence": [
+        "heuristic_similarity"
+      ]
+    }
+  ]
+}

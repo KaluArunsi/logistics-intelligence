@@ -1,0 +1,1050 @@
+{
+  "industry": "trucking_delivery",
+  "categories": {
+    "cold_chain_last_mile": {
+      "question_groups": [
+        {
+          "group_id": "geography_origin",
+          "columns": ["geotype", "st", "geo_id", "geo_ttl"],
+          "question": "Where is the origin of this cold-chain shipment? Please provide the state and geographic area.",
+          "hint": "e.g., State: TX, Metro area: Dallas-Fort Worth",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "geotype", "label": "Geography type", "type": "categorical", "options": ["State", "Metro Area", "County", "Remainder of State"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "st", "label": "State code", "type": "categorical", "options": ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "geo_id", "label": "Geographic area ID", "type": "integer", "min": 0, "max": 99999, "default_strategy": "conservative"},
+            {"column": "geo_ttl", "label": "Geographic area name", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "geography_destination",
+          "columns": ["ddestgeo", "ddestgeo_ttl"],
+          "question": "What is the destination geography for this cold-chain delivery?",
+          "hint": "e.g., Same state, different metro area, or out-of-state",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ddestgeo", "label": "Destination geo code", "type": "integer", "min": 0, "max": 99999, "default_strategy": "conservative"},
+            {"column": "ddestgeo_ttl", "label": "Destination area name", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "commodity_industry",
+          "columns": ["naics", "naics_ttl", "comm", "comm_ttl"],
+          "question": "What type of temperature-controlled commodity is being shipped, and what industry sector does it belong to?",
+          "hint": "e.g., NAICS: Food Manufacturing, Commodity: Frozen fruits and vegetables",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "naics", "label": "Industry sector (NAICS code)", "type": "integer", "min": 11, "max": 99, "default_strategy": "conservative"},
+            {"column": "naics_ttl", "label": "Industry sector name", "type": "categorical", "options": ["Agriculture", "Food Manufacturing", "Chemical Manufacturing", "Pharmaceutical", "Wholesale Trade", "Retail Trade", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "comm", "label": "Commodity code", "type": "integer", "min": 0, "max": 99, "default_strategy": "conservative"},
+            {"column": "comm_ttl", "label": "Commodity description", "type": "categorical", "options": ["Frozen food", "Fresh produce", "Dairy products", "Meat and seafood", "Pharmaceuticals", "Chemicals", "Other temperature-sensitive"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_mode",
+          "columns": ["dmode", "dmode_ttl", "tmode", "tmode_ttl"],
+          "question": "What mode of transport is used for this cold-chain shipment?",
+          "hint": "e.g., Refrigerated truck, or truck and rail combination",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "dmode", "label": "Domestic mode code", "type": "integer", "min": 0, "max": 20, "default_strategy": "conservative"},
+            {"column": "dmode_ttl", "label": "Domestic transport mode", "type": "categorical", "options": ["Truck", "For-hire truck", "Company-owned truck", "Rail", "Truck and rail", "Air (includes truck and air)", "Parcel, U.S.P.S. or courier", "Pipeline", "Water", "Multiple modes", "Other single modes"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "tmode", "label": "Total mode code", "type": "integer", "min": 0, "max": 20, "default_strategy": "conservative"},
+            {"column": "tmode_ttl", "label": "Total transport mode", "type": "categorical", "options": ["Truck", "Rail", "Air", "Water", "Pipeline", "Parcel, U.S.P.S. or courier", "No mode designation"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "shipment_weight_distance",
+          "columns": ["shipwt", "shipwt_ttl", "shipdist", "shipdist_ttl"],
+          "question": "What is the typical shipment weight class and distance range for your cold-chain deliveries?",
+          "hint": "e.g., 10,000-49,999 lbs, shipped 250-499 miles",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "shipwt", "label": "Shipment weight class code", "type": "integer", "min": 0, "max": 10, "default_strategy": "conservative"},
+            {"column": "shipwt_ttl", "label": "Shipment weight range", "type": "categorical", "options": ["Less than 50 lbs", "50 - 99 lbs", "100 - 499 lbs", "500 - 999 lbs", "1,000 - 9,999 lbs", "10,000 - 49,999 lbs", "50,000 - 99,999 lbs", "100,000 lbs or more"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "shipdist", "label": "Shipment distance class code", "type": "integer", "min": 0, "max": 10, "default_strategy": "conservative"},
+            {"column": "shipdist_ttl", "label": "Shipment distance range", "type": "categorical", "options": ["Less than 50 miles", "50 - 99 miles", "100 - 249 miles", "250 - 499 miles", "500 - 749 miles", "750 - 999 miles", "1,000 - 1,499 miles", "1,500 - 2,000 miles", "Over 2,000 miles"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["year"],
+          "question": "What year does this cold-chain shipment data apply to?",
+          "hint": "e.g., 2022",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "mileage_metrics",
+          "columns": ["avgmile", "avgmile_f", "avgmile_s", "avgmile_s_f"],
+          "question": "What is the average miles per shipment, and do you have the associated footnote or suppression flags?",
+          "hint": "e.g., 320 miles average per shipment",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "avgmile", "label": "Avg miles per shipment", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "avgmile_f", "label": "Avg miles footnote flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "avgmile_s", "label": "Avg miles suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "avgmile_s_f", "label": "Avg miles suppression flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "mileage_change",
+          "columns": ["avgmilepchg", "avgmilepchg_f", "avgmilepchg_s", "avgmilepchg_s_f"],
+          "question": "What is the percentage change in average miles compared to the prior period?",
+          "hint": "e.g., +5% increase in average shipping distance year-over-year",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "avgmilepchg", "label": "Avg miles % change", "type": "percentage", "min": -100, "max": 500, "default_strategy": "conservative"},
+            {"column": "avgmilepchg_f", "label": "Miles change footnote", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "avgmilepchg_s", "label": "Miles change suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "avgmilepchg_s_f", "label": "Miles change suppression flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "tonnage_value",
+          "columns": ["ton_f", "ton_s", "ton_s_f", "tonpchg", "val", "val_f", "val_s", "valpchg"],
+          "question": "What are the tonnage and shipment value figures, including any year-over-year changes?",
+          "hint": "e.g., 500 thousand tons, $2.1B in value, tonnage up 3%",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "ton_f", "label": "Tonnage footnote flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "ton_s", "label": "Tonnage suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "ton_s_f", "label": "Tonnage suppression flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "tonpchg", "label": "Tonnage % change", "type": "percentage", "min": -100, "max": 500, "default_strategy": "conservative"},
+            {"column": "val", "label": "Shipment value ($M)", "type": "float", "min": 0, "max": 999999, "default_strategy": "conservative"},
+            {"column": "val_f", "label": "Value footnote flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "val_s", "label": "Value suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "valpchg", "label": "Value % change", "type": "percentage", "min": -100, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "great_circle_distance",
+          "columns": ["avgmilegcd", "avgmilegcd_f", "avgmilegcd_s", "avgmilegcd_s_f", "avgmilepchggcd", "avgmilepchggcd_f", "avgmilepchggcd_s", "avgmilepchggcd_s_f"],
+          "question": "Do you have great-circle distance metrics for these shipments, and how have they changed?",
+          "hint": "e.g., 280 miles great-circle distance, up 2% from prior period",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "avgmilegcd", "label": "Avg great-circle miles", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "avgmilegcd_f", "label": "GCD miles footnote", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "avgmilegcd_s", "label": "GCD miles suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "avgmilegcd_s_f", "label": "GCD miles suppression flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "avgmilepchggcd", "label": "GCD miles % change", "type": "percentage", "min": -100, "max": 500, "default_strategy": "conservative"},
+            {"column": "avgmilepchggcd_f", "label": "GCD change footnote", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "avgmilepchggcd_s", "label": "GCD change suppression", "type": "float", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "avgmilepchggcd_s_f", "label": "GCD change suppression flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "cross_border_trucking": {
+      "question_groups": [
+        {
+          "group_id": "geography",
+          "columns": ["geo"],
+          "question": "Which border crossing or geographic zone does this cross-border trucking data cover?",
+          "hint": "e.g., Laredo TX, Buffalo-Niagara NY, Detroit MI",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "geo", "label": "Border crossing / geography", "type": "categorical", "options": ["Laredo TX", "Buffalo-Niagara NY", "Detroit MI", "El Paso TX", "Otay Mesa CA", "Blaine WA", "Nogales AZ", "Hidalgo TX", "Port Huron MI", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "loading_unloading",
+          "columns": ["c_load", "c_unload"],
+          "question": "What are the loading and unloading countries for this cross-border shipment?",
+          "hint": "e.g., Loaded in Mexico, unloaded in USA",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "c_load", "label": "Country of loading", "type": "categorical", "options": ["USA", "Canada", "Mexico"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "c_unload", "label": "Country of unloading", "type": "categorical", "options": ["USA", "Canada", "Mexico"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["time_period"],
+          "question": "What time period does this cross-border trucking data cover?",
+          "hint": "e.g., 2023-Q3, or January 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "flow_volume",
+          "columns": ["flow_std"],
+          "question": "What is the standardized trade flow volume for this cross-border corridor?",
+          "hint": "e.g., 15000 truck crossings per month",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "flow_std", "label": "Standardized flow volume", "type": "float", "min": 0, "max": 10000000, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "dispatch_capacity_balance": {
+      "question_groups": [
+        {
+          "group_id": "vehicle_identity",
+          "columns": ["vehicle_make", "vehicle_model"],
+          "question": "What is the make and model of the vehicle in your dispatch fleet?",
+          "hint": "e.g., Freightliner Cascadia, Volvo VNL, Peterbilt 579",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "vehicle_make", "label": "Vehicle manufacturer", "type": "categorical", "options": ["Freightliner", "Volvo", "Peterbilt", "Kenworth", "International", "Mack", "Western Star", "Hino", "Isuzu", "Ford", "Chevrolet", "RAM", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_model", "label": "Vehicle model", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fuel_engine",
+          "columns": ["fuel_type", "cylinder_capacity_of_engine_c_c"],
+          "question": "What fuel type does the vehicle use, and what is its engine displacement?",
+          "hint": "e.g., Diesel, 12,800 cc engine",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "fuel_type", "label": "Fuel type", "type": "categorical", "options": ["Diesel", "Gasoline", "CNG", "LNG", "Electric", "Hybrid", "Hydrogen", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "cylinder_capacity_of_engine_c_c", "label": "Engine displacement (cc)", "type": "integer", "min": 500, "max": 20000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "body_registration",
+          "columns": ["body_type", "first_registration_vehicle_status"],
+          "question": "What is the body type and registration status of this vehicle?",
+          "hint": "e.g., Box truck, first registered as new",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "body_type", "label": "Body type", "type": "categorical", "options": ["Box Truck", "Flatbed", "Tanker", "Refrigerated", "Dry Van", "Curtainside", "Chassis", "Tractor", "Pickup", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "first_registration_vehicle_status", "label": "Registration status", "type": "categorical", "options": ["New", "Used", "Imported New", "Imported Used"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weight_capacity",
+          "columns": ["permitted_gross_vehicle_weight", "number_of_passenger_seats"],
+          "question": "What is the permitted gross vehicle weight and number of seats?",
+          "hint": "e.g., 36,000 kg GVW, 2 seats (driver + passenger)",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "permitted_gross_vehicle_weight", "label": "Gross vehicle weight (kg)", "type": "integer", "min": 500, "max": 80000, "default_strategy": "conservative"},
+            {"column": "number_of_passenger_seats", "label": "Number of seats", "type": "integer", "min": 1, "max": 60, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "value_age",
+          "columns": ["taxable_value_hk", "year_of_manufacture"],
+          "question": "What is the taxable value of the vehicle and when was it manufactured?",
+          "hint": "e.g., 150,000 HK$ value, manufactured in 2019",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "taxable_value_hk", "label": "Taxable value (HK$)", "type": "float", "min": 0, "max": 10000000, "default_strategy": "conservative"},
+            {"column": "year_of_manufacture", "label": "Year of manufacture", "type": "integer", "min": 1980, "max": 2026, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "driver_safety_compliance": {
+      "question_groups": [
+        {
+          "group_id": "data_source",
+          "columns": ["dataflow", "ref_area"],
+          "question": "Which data source and region does this safety compliance data come from?",
+          "hint": "e.g., ITF transport safety dataset, United States",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ref_area", "label": "Reference area / country", "type": "categorical", "options": ["USA", "CAN", "MEX", "GBR", "DEU", "FRA", "JPN", "AUS", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "measurement_config",
+          "columns": ["freq", "measure", "unit_measure"],
+          "question": "How frequently is this safety data reported, and what metric and unit are being measured?",
+          "hint": "e.g., Annual frequency, fatality count, persons",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["Annual", "Quarterly", "Monthly"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "measure", "label": "Safety metric", "type": "categorical", "options": ["Fatalities", "Injuries", "Accidents", "Violations", "Incidents per million km", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["Persons", "Number", "Per million vehicle-km", "Per billion ton-km", "Index", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_vehicle",
+          "columns": ["transport_mode", "vehicle_type"],
+          "question": "What transport mode and vehicle type does this safety data apply to?",
+          "hint": "e.g., Road transport, heavy goods vehicles",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["Road", "Rail", "Inland waterway", "Maritime", "Air", "Pipeline", "All modes"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["Heavy goods vehicle", "Light commercial vehicle", "Bus/Coach", "Passenger car", "Motorcycle", "All vehicles"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "infrastructure_price",
+          "columns": ["infrastructure_type", "price_base"],
+          "question": "What infrastructure type and price base apply to this safety data?",
+          "hint": "e.g., Motorway, constant prices 2015",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "infrastructure_type", "label": "Infrastructure type", "type": "categorical", "options": ["Motorway", "National road", "Regional road", "Urban road", "All roads", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["Current prices", "Constant prices 2015", "Constant prices 2010", "Not applicable"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["time_period"],
+          "question": "What time period does this safety compliance data cover?",
+          "hint": "e.g., 2022, or 2023-Q2",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["unit_mult", "decimals"],
+          "question": "What is the unit multiplier and decimal precision for the reported safety figures?",
+          "hint": "e.g., unit multiplier 0 (ones), 2 decimal places",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "unit_mult", "label": "Unit multiplier (power of 10)", "type": "integer", "min": 0, "max": 12, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "fleet_utilization": {
+      "question_groups": [
+        {
+          "group_id": "data_source",
+          "columns": ["dataflow", "ref_area"],
+          "question": "Which data source and region does this fleet utilization data come from?",
+          "hint": "e.g., ITF transport indicators, Germany",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ref_area", "label": "Reference area / country", "type": "categorical", "options": ["USA", "CAN", "MEX", "GBR", "DEU", "FRA", "JPN", "AUS", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "measurement_config",
+          "columns": ["freq", "measure", "unit_measure"],
+          "question": "How frequently is fleet utilization reported, and what metric is being tracked?",
+          "hint": "e.g., Annual, vehicle-kilometers, millions of km",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["Annual", "Quarterly", "Monthly"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "measure", "label": "Utilization metric", "type": "categorical", "options": ["Vehicle-km", "Ton-km", "Vehicle stock", "Load factor", "Empty running", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["Millions of vehicle-km", "Millions of ton-km", "Number of vehicles", "Percentage", "Index", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_vehicle",
+          "columns": ["transport_mode", "vehicle_type"],
+          "question": "What transport mode and vehicle category does this fleet data apply to?",
+          "hint": "e.g., Road freight, heavy-duty trucks",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["Road", "Rail", "Inland waterway", "Maritime", "Air", "Pipeline", "All modes"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["Heavy goods vehicle", "Light commercial vehicle", "Bus/Coach", "All goods vehicles", "All vehicles"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "infrastructure_price",
+          "columns": ["infrastructure_type", "price_base"],
+          "question": "What road infrastructure type and price basis does this fleet data use?",
+          "hint": "e.g., All roads, constant 2015 prices",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "infrastructure_type", "label": "Infrastructure type", "type": "categorical", "options": ["Motorway", "National road", "Regional road", "Urban road", "All roads", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["Current prices", "Constant prices 2015", "Constant prices 2010", "Not applicable"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["time_period"],
+          "question": "What time period does this fleet utilization data cover?",
+          "hint": "e.g., 2022 annual data",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "observation_quality",
+          "columns": ["obs_status", "unit_mult", "decimals"],
+          "question": "What is the observation status and data precision for the fleet figures?",
+          "hint": "e.g., Normal observation, unit multiplier 6 (millions), 1 decimal",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "obs_status", "label": "Observation status", "type": "categorical", "options": ["Normal", "Estimated", "Provisional", "Break in series", "Missing", "Not applicable"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_mult", "label": "Unit multiplier (power of 10)", "type": "integer", "min": 0, "max": 12, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "fuel_energy_efficiency": {
+      "question_groups": [
+        {
+          "group_id": "vehicle_identity",
+          "columns": ["vehicle_make", "vehicle_model"],
+          "question": "What is the make and model of the vehicle you are evaluating for fuel efficiency?",
+          "hint": "e.g., Volvo FH, Scania R450, Mercedes-Benz Actros",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "vehicle_make", "label": "Vehicle manufacturer", "type": "categorical", "options": ["Freightliner", "Volvo", "Peterbilt", "Kenworth", "International", "Mack", "Scania", "Mercedes-Benz", "DAF", "MAN", "Hino", "Isuzu", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_model", "label": "Vehicle model", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fuel_engine",
+          "columns": ["fuel_type", "cylinder_capacity_of_engine_c_c"],
+          "question": "What fuel does this vehicle use, and what is the engine size?",
+          "hint": "e.g., Diesel, 13,000 cc displacement",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "fuel_type", "label": "Fuel type", "type": "categorical", "options": ["Diesel", "Gasoline", "CNG", "LNG", "Electric", "Hybrid", "Biodiesel", "Hydrogen", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "cylinder_capacity_of_engine_c_c", "label": "Engine displacement (cc)", "type": "integer", "min": 500, "max": 20000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "body_registration",
+          "columns": ["body_type", "first_registration_vehicle_status"],
+          "question": "What body configuration does the vehicle have, and was it registered new or used?",
+          "hint": "e.g., Dry van trailer, registered as new",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "body_type", "label": "Body type", "type": "categorical", "options": ["Box Truck", "Flatbed", "Tanker", "Refrigerated", "Dry Van", "Curtainside", "Chassis", "Tractor", "Pickup", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "first_registration_vehicle_status", "label": "Registration status", "type": "categorical", "options": ["New", "Used", "Imported New", "Imported Used"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weight_capacity",
+          "columns": ["permitted_gross_vehicle_weight", "number_of_passenger_seats"],
+          "question": "What is the gross vehicle weight rating and seating configuration?",
+          "hint": "e.g., 44,000 kg GVW, 2 seats",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "permitted_gross_vehicle_weight", "label": "Gross vehicle weight (kg)", "type": "integer", "min": 500, "max": 80000, "default_strategy": "conservative"},
+            {"column": "number_of_passenger_seats", "label": "Number of seats", "type": "integer", "min": 1, "max": 60, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "value_age",
+          "columns": ["taxable_value_hk", "year_of_manufacture"],
+          "question": "What is the vehicle's taxable value and year of manufacture?",
+          "hint": "e.g., 200,000 HK$ value, built in 2021",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "taxable_value_hk", "label": "Taxable value (HK$)", "type": "float", "min": 0, "max": 10000000, "default_strategy": "conservative"},
+            {"column": "year_of_manufacture", "label": "Year of manufacture", "type": "integer", "min": 1980, "max": 2026, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "lane_cost_yield": {
+      "question_groups": [
+        {
+          "group_id": "temporal_location",
+          "columns": ["year", "state", "county"],
+          "question": "What year, state, and county does this lane data cover?",
+          "hint": "e.g., 2022, Texas, Harris County",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "year", "label": "Data year", "type": "integer", "min": 2000, "max": 2026, "default_strategy": "conservative"},
+            {"column": "state", "label": "State FIPS code", "type": "integer", "min": 1, "max": 56, "default_strategy": "conservative"},
+            {"column": "county", "label": "County FIPS code", "type": "integer", "min": 0, "max": 999, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "road_classification",
+          "columns": ["functional_system", "gen_functional_system", "rural_urban", "type_facility"],
+          "question": "How is this road segment classified in terms of function, urban/rural setting, and facility type?",
+          "hint": "e.g., Interstate, Urban, Divided highway",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "functional_system", "label": "Functional classification", "type": "categorical", "options": ["Interstate", "Other Freeways", "Principal Arterial", "Minor Arterial", "Major Collector", "Minor Collector", "Local"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "gen_functional_system", "label": "General functional system", "type": "integer", "min": 0, "max": 7, "default_strategy": "conservative"},
+            {"column": "rural_urban", "label": "Rural or urban", "type": "categorical", "options": ["Rural", "Urban", "Small Urban"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "type_facility", "label": "Facility type", "type": "categorical", "options": ["One-way", "Two-way", "Divided", "Undivided", "One-way couplet"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "traffic_volume",
+          "columns": ["aadt", "standard_aadt_volume", "future_aadt", "future_aadt_year"],
+          "question": "What is the current and projected average annual daily traffic for this road segment?",
+          "hint": "e.g., AADT of 45,000 vehicles today, projected 52,000 by 2035",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "aadt", "label": "Current AADT", "type": "integer", "min": 0, "max": 500000, "default_strategy": "conservative"},
+            {"column": "standard_aadt_volume", "label": "Standard AADT volume", "type": "integer", "min": 0, "max": 500000, "default_strategy": "conservative"},
+            {"column": "future_aadt", "label": "Future AADT projection", "type": "integer", "min": 0, "max": 500000, "default_strategy": "conservative"},
+            {"column": "future_aadt_year", "label": "Future AADT year", "type": "integer", "min": 2020, "max": 2060, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "truck_traffic",
+          "columns": ["single_unit_veh_peak", "single_unit_veh_average", "comb_comm_veh_peak", "comb_comm_veh_average", "designated_truck_route"],
+          "question": "What percentage of traffic is commercial trucks, and is this a designated truck route?",
+          "hint": "e.g., 8% single-unit peak, 12% combination peak, designated truck route",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "single_unit_veh_peak", "label": "Single-unit truck % (peak)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "single_unit_veh_average", "label": "Single-unit truck % (avg)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "comb_comm_veh_peak", "label": "Combination truck % (peak)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "comb_comm_veh_average", "label": "Combination truck % (avg)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "designated_truck_route", "label": "Designated truck route", "type": "categorical", "options": ["Yes", "No", "Unknown"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "lane_geometry",
+          "columns": ["number_lanes", "lane_width", "section_length", "median_type", "median_width"],
+          "question": "Describe the lane geometry: how many lanes, what width, and what type of median?",
+          "hint": "e.g., 4 lanes, 12 ft wide, raised median 40 ft",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "number_lanes", "label": "Number of lanes", "type": "integer", "min": 1, "max": 16, "default_strategy": "conservative"},
+            {"column": "lane_width", "label": "Lane width (ft)", "type": "integer", "min": 8, "max": 16, "default_strategy": "conservative"},
+            {"column": "section_length", "label": "Section length (miles)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "median_type", "label": "Median type code", "type": "integer", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "median_width", "label": "Median width (ft)", "type": "integer", "min": 0, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "pavement_condition",
+          "columns": ["roughness", "pavement_condition", "surface_type", "speed_limit"],
+          "question": "What is the pavement condition, surface type, roughness, and speed limit on this segment?",
+          "hint": "e.g., IRI roughness 95, good condition, asphalt, 65 mph",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "roughness", "label": "IRI roughness (in/mile)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "pavement_condition", "label": "Pavement condition rating", "type": "float", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "surface_type", "label": "Surface type code", "type": "integer", "min": 0, "max": 12, "default_strategy": "conservative"},
+            {"column": "speed_limit", "label": "Speed limit (mph)", "type": "integer", "min": 15, "max": 85, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "access_toll",
+          "columns": ["access_control", "toll", "national_highway_system"],
+          "question": "Is this segment access-controlled, tolled, or part of the National Highway System?",
+          "hint": "e.g., Full access control, no toll, NHS route",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "access_control", "label": "Access control", "type": "categorical", "options": ["Full", "Partial", "None"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "toll", "label": "Toll road", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "national_highway_system", "label": "NHS designation", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "traffic_operations",
+          "columns": ["k_factor", "directional_factor", "peak_capacity", "volume_flow_ratio"],
+          "question": "What are the peak traffic operations characteristics for this segment?",
+          "hint": "e.g., K-factor 0.09, directional factor 55%, V/C ratio 0.75",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "k_factor", "label": "K-factor (peak hour %)", "type": "float", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "directional_factor", "label": "Directional factor (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "peak_capacity", "label": "Peak capacity (veh/hr)", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "volume_flow_ratio", "label": "Volume-to-capacity ratio", "type": "float", "min": 0, "max": 3, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "intersections",
+          "columns": ["num_grade_sep_intrchngs", "num_atgrade_signal", "num_atgrade_stop", "num_atgrade_other", "num_atgrade_rrcrossings"],
+          "question": "How many interchanges, signalized intersections, stop signs, and railroad crossings are on this segment?",
+          "hint": "e.g., 2 interchanges, 5 signals, 1 railroad crossing",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "num_grade_sep_intrchngs", "label": "Grade-separated interchanges", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"},
+            {"column": "num_atgrade_signal", "label": "Signalized intersections", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "num_atgrade_stop", "label": "Stop-controlled intersections", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "num_atgrade_other", "label": "Other at-grade intersections", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "num_atgrade_rrcrossings", "label": "Railroad crossings", "type": "integer", "min": 0, "max": 20, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "shoulder_terrain",
+          "columns": ["shoulder_type", "shoulder_width_right", "shoulder_width_left", "type_terrain", "climate_zone"],
+          "question": "Describe the shoulder configuration, terrain type, and climate zone for this segment.",
+          "hint": "e.g., Paved shoulders, 10 ft right / 4 ft left, flat terrain, temperate climate",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "shoulder_type", "label": "Shoulder type code", "type": "integer", "min": 0, "max": 8, "default_strategy": "conservative"},
+            {"column": "shoulder_width_right", "label": "Right shoulder width (ft)", "type": "integer", "min": 0, "max": 30, "default_strategy": "conservative"},
+            {"column": "shoulder_width_left", "label": "Left shoulder width (ft)", "type": "integer", "min": 0, "max": 30, "default_strategy": "conservative"},
+            {"column": "type_terrain", "label": "Terrain type", "type": "categorical", "options": ["Flat", "Rolling", "Mountainous"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "climate_zone", "label": "Climate zone code", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "last_mile_sla": {
+      "question_groups": [
+        {
+          "group_id": "route_identity",
+          "columns": ["route_id", "route_number", "route_signing", "route_qualifier", "routename"],
+          "question": "What is the route identifier, number, and designation for this last-mile corridor?",
+          "hint": "e.g., Route ID 12345, US-75, Interstate signing",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "route_id", "label": "Route ID", "type": "integer", "min": 0, "max": 999999, "default_strategy": "conservative"},
+            {"column": "route_number", "label": "Route number", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "route_signing", "label": "Route signing type", "type": "categorical", "options": ["Interstate", "US Route", "State Route", "County Road", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "route_qualifier", "label": "Route qualifier", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "routename", "label": "Route name", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "traffic_volume",
+          "columns": ["aadt", "aadt_combination", "aadt_single_unit", "aadt_d"],
+          "question": "What is the average annual daily traffic, including the truck breakdown?",
+          "hint": "e.g., 30,000 AADT total, 4,000 combination trucks, 2,000 single-unit trucks",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "aadt", "label": "Total AADT", "type": "integer", "min": 0, "max": 500000, "default_strategy": "conservative"},
+            {"column": "aadt_combination", "label": "Combination truck AADT", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "aadt_single_unit", "label": "Single-unit truck AADT", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "aadt_d", "label": "AADT data quality flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "road_geometry",
+          "columns": ["facility_type", "f_system", "through_lanes", "dir_through_lanes", "lane_width"],
+          "question": "What is the road geometry: facility type, functional system, and lane configuration?",
+          "hint": "e.g., Divided highway, principal arterial, 3 through lanes, 12 ft wide",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "facility_type", "label": "Facility type code", "type": "integer", "min": 0, "max": 7, "default_strategy": "conservative"},
+            {"column": "f_system", "label": "Functional system code", "type": "integer", "min": 1, "max": 7, "default_strategy": "conservative"},
+            {"column": "through_lanes", "label": "Total through lanes", "type": "integer", "min": 1, "max": 16, "default_strategy": "conservative"},
+            {"column": "dir_through_lanes", "label": "Directional through lanes", "type": "integer", "min": 1, "max": 8, "default_strategy": "conservative"},
+            {"column": "lane_width", "label": "Lane width (ft)", "type": "integer", "min": 8, "max": 16, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "pavement_condition",
+          "columns": ["iri", "iri_d", "rutting", "rutting_d", "cracking_percent", "cracking_percent_d"],
+          "question": "What is the pavement condition in terms of roughness (IRI), rutting depth, and cracking percentage?",
+          "hint": "e.g., IRI 120 in/mile, rutting 0.15 in, 8% cracking",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "iri", "label": "IRI roughness (in/mile)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "iri_d", "label": "IRI data quality flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "rutting", "label": "Rutting depth (inches)", "type": "float", "min": 0, "max": 2, "default_strategy": "conservative"},
+            {"column": "rutting_d", "label": "Rutting data quality flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "cracking_percent", "label": "Cracking (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "cracking_percent_d", "label": "Cracking data quality flag", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "speed_signals",
+          "columns": ["speed_limit", "number_signals", "signal_type", "stop_signs"],
+          "question": "What is the speed limit, and how many traffic signals and stop signs are along this corridor?",
+          "hint": "e.g., 35 mph, 8 signals, 3 stop signs in the delivery zone",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "speed_limit", "label": "Speed limit (mph)", "type": "integer", "min": 15, "max": 85, "default_strategy": "conservative"},
+            {"column": "number_signals", "label": "Number of traffic signals", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "signal_type", "label": "Signal type code", "type": "integer", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "stop_signs", "label": "Number of stop signs", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "shoulder_median",
+          "columns": ["shoulder_type", "shoulder_width_l", "shoulder_width_r", "median_type", "median_width"],
+          "question": "Describe the shoulder and median configuration for this last-mile route.",
+          "hint": "e.g., Paved shoulders, 6 ft right / 2 ft left, no median",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "shoulder_type", "label": "Shoulder type code", "type": "integer", "min": 0, "max": 8, "default_strategy": "conservative"},
+            {"column": "shoulder_width_l", "label": "Left shoulder width (ft)", "type": "integer", "min": 0, "max": 30, "default_strategy": "conservative"},
+            {"column": "shoulder_width_r", "label": "Right shoulder width (ft)", "type": "integer", "min": 0, "max": 30, "default_strategy": "conservative"},
+            {"column": "median_type", "label": "Median type code", "type": "integer", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "median_width", "label": "Median width (ft)", "type": "integer", "min": 0, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "ownership_nhs",
+          "columns": ["ownership", "nhs", "strahnet_type", "access_control"],
+          "question": "Who owns this road, and is it part of the NHS or STRAHNET network?",
+          "hint": "e.g., State-owned, NHS designated, no access control",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ownership", "label": "Government ownership code", "type": "integer", "min": 0, "max": 80, "default_strategy": "conservative"},
+            {"column": "nhs", "label": "National Highway System", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "strahnet_type", "label": "STRAHNET type", "type": "categorical", "options": ["Interstate", "Non-Interstate", "Connector", "Not on STRAHNET"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "access_control", "label": "Access control", "type": "categorical", "options": ["Full", "Partial", "None"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal_record",
+          "columns": ["year_record", "year_last_improvement", "future_aadt", "future_aadt_year"],
+          "question": "What year is this record from, and when was the last road improvement?",
+          "hint": "e.g., Record year 2022, last improved in 2018, projected AADT 40,000 by 2040",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "terrain_turning",
+          "columns": ["terrain_type", "turn_lanes_l", "turn_lanes_r", "curves_a", "curves_b", "grades_a"],
+          "question": "What is the terrain type, and are there turning lanes, curves, or significant grades?",
+          "hint": "e.g., Flat terrain, left turn lanes present, gentle curves",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "terrain_type", "label": "Terrain type", "type": "categorical", "options": ["Flat", "Rolling", "Mountainous"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "turn_lanes_l", "label": "Left turn lanes", "type": "integer", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "turn_lanes_r", "label": "Right turn lanes", "type": "integer", "min": 0, "max": 5, "default_strategy": "conservative"},
+            {"column": "curves_a", "label": "Class A curves count", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"},
+            {"column": "curves_b", "label": "Class B curves count", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"},
+            {"column": "grades_a", "label": "Class A grades count", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "truck_percentages",
+          "columns": ["pct_dh_combination", "pct_dh_single_unit", "pct_pass_sight", "k_factor", "dir_factor"],
+          "question": "What are the design-hour truck percentages and traffic flow factors for this corridor?",
+          "hint": "e.g., 15% combination trucks in design hour, K-factor 0.09, directional factor 55%",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "pct_dh_combination", "label": "Design-hour combination truck %", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "pct_dh_single_unit", "label": "Design-hour single-unit truck %", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "pct_pass_sight", "label": "Passing sight distance %", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "k_factor", "label": "K-factor", "type": "float", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "dir_factor", "label": "Directional factor", "type": "float", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "parcel_exception_risk": {
+      "question_groups": [
+        {
+          "group_id": "route_stops",
+          "columns": ["n_stops"],
+          "question": "How many stops are on this delivery route?",
+          "hint": "e.g., 45 stops on a typical daily parcel route",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "n_stops", "label": "Number of stops", "type": "integer", "min": 1, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "position_statistics",
+          "columns": ["pos_mean", "pos_span", "pos_max", "pos_min"],
+          "question": "What are the position statistics for stops along the route (mean, span, max, and min positions)?",
+          "hint": "e.g., Mean position 22, span 40, max 44, min 1",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "pos_mean", "label": "Mean stop position", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "pos_span", "label": "Stop position span", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "pos_max", "label": "Maximum stop position", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "pos_min", "label": "Minimum stop position", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sequence_quality",
+          "columns": ["invalid_sequence_score"],
+          "question": "What is the invalid sequence score for this route, indicating how much the actual delivery order deviated from the planned sequence?",
+          "hint": "e.g., 0.15 means 15% of stops were delivered out of planned order",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "invalid_sequence_score", "label": "Invalid sequence score", "type": "float", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "pickup_dropoff_reliability": {
+      "question_groups": [
+        {
+          "group_id": "origin",
+          "columns": ["orig_county_fips", "orig_state", "orig_county_name"],
+          "question": "Where does the freight originate? Provide the county and state.",
+          "hint": "e.g., Cook County, Illinois (FIPS 17031)",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "orig_county_fips", "label": "Origin county FIPS code", "type": "integer", "min": 1001, "max": 56045, "default_strategy": "conservative"},
+            {"column": "orig_state", "label": "Origin state", "type": "categorical", "options": ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "orig_county_name", "label": "Origin county name", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "destination",
+          "columns": ["dest_county_fips", "dest_state", "dest_county_name"],
+          "question": "Where is the freight being delivered? Provide the destination county and state.",
+          "hint": "e.g., Maricopa County, Arizona (FIPS 04013)",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dest_county_fips", "label": "Destination county FIPS code", "type": "integer", "min": 1001, "max": 56045, "default_strategy": "conservative"},
+            {"column": "dest_state", "label": "Destination state", "type": "categorical", "options": ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dest_county_name", "label": "Destination county name", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["year"],
+          "question": "What year does this pickup/dropoff reliability data cover?",
+          "hint": "e.g., 2023",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "volume_travel_time",
+          "columns": ["pair_moves", "tt_percentile_25", "tt_percentile_50"],
+          "question": "How many freight moves occur on this lane, and what are the typical travel times (25th and 50th percentile)?",
+          "hint": "e.g., 1,200 moves per year, 25th percentile 8 hours, median 10 hours",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "pair_moves", "label": "Number of lane-pair moves", "type": "integer", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "tt_percentile_25", "label": "Travel time 25th percentile (hours)", "type": "float", "min": 0, "max": 168, "default_strategy": "conservative"},
+            {"column": "tt_percentile_50", "label": "Travel time median (hours)", "type": "float", "min": 0, "max": 168, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "reverse_logistics_returns": {
+      "question_groups": [
+        {
+          "group_id": "industry_sector",
+          "columns": ["ind", "inddesc"],
+          "question": "What industry sector does this returns data cover?",
+          "hint": "e.g., Warehousing and storage, Couriers and messengers",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "ind", "label": "Industry code", "type": "integer", "min": 0, "max": 9999, "default_strategy": "conservative"},
+            {"column": "inddesc", "label": "Industry description", "type": "categorical", "options": ["Warehousing and Storage", "Couriers and Messengers", "General Freight Trucking", "Specialized Freight Trucking", "Postal Service", "Other Transportation Support", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "price_element",
+          "columns": ["pe_grp", "pe_grpdesc"],
+          "question": "What price element or cost group does this data represent?",
+          "hint": "e.g., Total compensation, Wages and salaries, Benefits",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "pe_grp", "label": "Price element group code", "type": "integer", "min": 0, "max": 999, "default_strategy": "conservative"},
+            {"column": "pe_grpdesc", "label": "Price element description", "type": "categorical", "options": ["Total compensation", "Wages and salaries", "Benefit costs", "Total employer costs", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal_frequency",
+          "columns": ["freq", "period"],
+          "question": "How frequently is this data reported and for what period?",
+          "hint": "e.g., Quarterly, 2023-Q4",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "statistical_values",
+          "columns": ["sd_value", "sv", "svdesc"],
+          "question": "What is the standard deviation of the cost values, and what seasonal variation applies?",
+          "hint": "e.g., Std dev 2.5, seasonally adjusted",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "sd_value", "label": "Standard deviation", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "sv", "label": "Seasonal variation code", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "svdesc", "label": "Seasonal variation description", "type": "categorical", "options": ["Seasonally adjusted", "Not seasonally adjusted", "Trend-cycle"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "route_eta_reliability": {
+      "question_groups": [
+        {
+          "group_id": "data_source",
+          "columns": ["dataflow", "ref_area"],
+          "question": "Which data source and region does this route ETA reliability data come from?",
+          "hint": "e.g., ITF transport performance indicators, United States",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ref_area", "label": "Reference area / country", "type": "categorical", "options": ["USA", "CAN", "MEX", "GBR", "DEU", "FRA", "JPN", "AUS", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "measurement_config",
+          "columns": ["freq", "measure", "unit_measure"],
+          "question": "How frequently is route reliability measured, and what metric is being tracked?",
+          "hint": "e.g., Annual, travel time index, ratio",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["Annual", "Quarterly", "Monthly"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "measure", "label": "Reliability metric", "type": "categorical", "options": ["Travel time index", "Buffer time index", "Planning time index", "On-time arrival rate", "Ton-km", "Vehicle-km", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["Ratio", "Percentage", "Minutes", "Hours", "Index", "Millions of ton-km", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_price",
+          "columns": ["transport_mode", "price_base"],
+          "question": "What transport mode and price basis does this ETA data cover?",
+          "hint": "e.g., Road freight, constant 2015 prices",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["Road", "Rail", "Inland waterway", "Maritime", "Air", "All modes"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["Current prices", "Constant prices 2015", "Constant prices 2010", "Not applicable"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["time_period"],
+          "question": "What time period does this route reliability data cover?",
+          "hint": "e.g., 2022 annual data",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["obs_status", "unit_mult", "decimals"],
+          "question": "What is the observation status and precision of the reported figures?",
+          "hint": "e.g., Normal observation, unit multiplier 0, 2 decimals",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "obs_status", "label": "Observation status", "type": "categorical", "options": ["Normal", "Estimated", "Provisional", "Break in series", "Missing", "Not applicable"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_mult", "label": "Unit multiplier (power of 10)", "type": "integer", "min": 0, "max": 12, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "urban_traffic_risk": {
+      "question_groups": [
+        {
+          "group_id": "location_identity",
+          "columns": ["key", "region", "district"],
+          "question": "What is the location identifier, region, and district for this urban traffic risk zone?",
+          "hint": "e.g., Key: TFL-001, Region: Greater London, District: Westminster",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "key", "label": "Location key", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "region", "label": "Region", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "district", "label": "District", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "description_url",
+          "columns": ["description", "url"],
+          "question": "Provide a description of the traffic risk location and any reference URL.",
+          "hint": "e.g., High-congestion intersection near distribution center, https://traffic.example.com/zone/123",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "description", "label": "Location description", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "url", "label": "Reference URL", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "coordinates",
+          "columns": ["easting", "northing", "latitude"],
+          "question": "What are the geographic coordinates (easting, northing, latitude) of this urban risk zone?",
+          "hint": "e.g., Easting 530000, Northing 180000, Latitude 51.5074",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "easting", "label": "Easting (meters)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "northing", "label": "Northing (meters)", "type": "float", "min": 0, "max": 1500000, "default_strategy": "conservative"},
+            {"column": "latitude", "label": "Latitude (degrees)", "type": "float", "min": -90, "max": 90, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "vehicle_maintenance_risk": {
+      "question_groups": [
+        {
+          "group_id": "data_source",
+          "columns": ["dataflow", "ref_area"],
+          "question": "Which data source and region does this vehicle maintenance risk data come from?",
+          "hint": "e.g., ITF transport infrastructure dataset, Canada",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": [], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ref_area", "label": "Reference area / country", "type": "categorical", "options": ["USA", "CAN", "MEX", "GBR", "DEU", "FRA", "JPN", "AUS", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "measurement_config",
+          "columns": ["freq", "measure", "unit_measure"],
+          "question": "How frequently is maintenance data reported, and what metric is being measured?",
+          "hint": "e.g., Annual, investment expenditure, millions of national currency",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["Annual", "Quarterly", "Monthly"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "measure", "label": "Maintenance metric", "type": "categorical", "options": ["Investment expenditure", "Maintenance expenditure", "Vehicle inspections", "Breakdown incidents", "Fleet age", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["Millions of national currency", "Number of vehicles", "Percentage", "Years", "Index", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_vehicle",
+          "columns": ["transport_mode", "vehicle_type"],
+          "question": "What transport mode and vehicle type does this maintenance data apply to?",
+          "hint": "e.g., Road transport, heavy goods vehicles",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["Road", "Rail", "Inland waterway", "Maritime", "Air", "Pipeline", "All modes"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["Heavy goods vehicle", "Light commercial vehicle", "Bus/Coach", "Passenger car", "All vehicles"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "infrastructure_price",
+          "columns": ["infrastructure_type", "price_base"],
+          "question": "What infrastructure type and price basis applies to the maintenance data?",
+          "hint": "e.g., All roads, current prices",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "infrastructure_type", "label": "Infrastructure type", "type": "categorical", "options": ["Motorway", "National road", "Regional road", "Urban road", "All roads", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["Current prices", "Constant prices 2015", "Constant prices 2010", "Not applicable"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal",
+          "columns": ["time_period"],
+          "question": "What time period does this vehicle maintenance data cover?",
+          "hint": "e.g., 2022 annual data",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["unit_mult", "decimals"],
+          "question": "What is the unit multiplier and decimal precision for the reported maintenance figures?",
+          "hint": "e.g., unit multiplier 6 (millions), 1 decimal place",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "unit_mult", "label": "Unit multiplier (power of 10)", "type": "integer", "min": 0, "max": 12, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "workforce_shift_planning": {
+      "question_groups": [
+        {
+          "group_id": "temporal",
+          "columns": ["period"],
+          "question": "What time period does this workforce data cover?",
+          "hint": "e.g., 2023-Q4, or March 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "industry_sector",
+          "columns": ["ind"],
+          "question": "What industry sector code does this workforce planning data apply to?",
+          "hint": "e.g., Industry code for truck transportation or warehousing",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "ind", "label": "Industry code", "type": "integer", "min": 0, "max": 9999, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "pay_element",
+          "columns": ["pe_grp"],
+          "question": "What pay element group is being analyzed for shift planning purposes?",
+          "hint": "e.g., Overtime pay, shift differential, total compensation",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "pe_grp", "label": "Pay element group code", "type": "integer", "min": 0, "max": 999, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "workforce_figures",
+          "columns": ["figure_std", "records"],
+          "question": "What is the standardized workforce figure and how many records support this data?",
+          "hint": "e.g., Standardized figure 125.3, based on 5,000 records",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "figure_std", "label": "Standardized figure", "type": "float", "min": 0, "max": 10000000, "default_strategy": "conservative"},
+            {"column": "records", "label": "Number of records", "type": "integer", "min": 0, "max": 10000000, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    }
+  }
+}

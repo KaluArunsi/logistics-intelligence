@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Toji turns logistics data and operating problems into clear analysis, benchmarks, and next actions.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23155E40'/><text x='7' y='24' font-size='20' fill='white' font-weight='700'>T</text></svg>">
+    <title>Toji | Logistics Intelligence</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+        /* ── Hero ────────────────────────────────────────────────── */
+        .hero {
+            background:
+                radial-gradient(circle at top center, rgba(21, 94, 64, 0.10), transparent 24%),
+                linear-gradient(180deg, #FBFBF8 0%, var(--bg-primary) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Nav overlaid, frosted glass on light bg */
+        .hero-header-wrap {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            z-index: 10;
+        }
+
+        .hero-header-wrap header {
+            background: rgba(250,250,248,0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ── Hero layout: central statement + stage ─────────────── */
+        .hero-inner {
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 160px 48px 72px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-left {
+            position: relative;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ── Modern Treasury-style typography ───────────────────── */
+        .hero-eyebrow {
+            font-family: 'Courier New', 'SF Mono', ui-monospace, monospace;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            text-transform: none;
+        }
+
+        .hero-title {
+            font-size: clamp(44px, 5.6vw, 80px);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            line-height: 0.96;
+            color: var(--text-primary);
+            margin-bottom: 22px;
+            max-width: 1180px;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 860px;
+            margin: 0 auto 34px;
+            font-weight: 400;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 26px;
+        }
+
+        .hero-proof {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-proof-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.72);
+            color: var(--text-secondary);
+            font-size: 13px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-proof-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .hero-stage {
+            width: 100%;
+            max-width: 980px;
+            position: relative;
+            margin-top: 56px;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-stage::before {
+            content: '';
+            position: absolute;
+            inset: 14% 20%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(21, 94, 64, 0.10), transparent 68%);
+            filter: blur(24px);
+            pointer-events: none;
+        }
+
+        /* ── Globe container (right column) ─────────────────────── */
+        .globe-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: min(62vw, 640px);
+            aspect-ratio: 1;
+            margin: 0 auto;
+        }
+
+        #globeCanvas {
+            width: 100%;
+            aspect-ratio: 1;
+            display: block;
+            cursor: grab;
+        }
+
+        #globeCanvas:active { cursor: grabbing; }
+
+        .globe-tooltip {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 11px;
+            font-size: 11px;
+            color: var(--text-primary);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            white-space: nowrap;
+            z-index: 20;
+            font-weight: 600;
+        }
+
+        .globe-tooltip.visible { opacity: 1; }
+
+        .hero-signal {
+            position: absolute;
+            min-width: 180px;
+            max-width: 208px;
+            padding: 13px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.92);
+            box-shadow: var(--shadow-md);
+            animation: hero-card-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .hero-signal.k1 { top: 4%; left: -4%; animation-delay: 0.04s; }
+        .hero-signal.k2 { top: 14%; right: -6%; animation-delay: 0.12s; }
+        .hero-signal.k3 { bottom: 2%; left: 10%; animation-delay: 0.20s; }
+        .hero-signal.k4 { bottom: 18%; right: 2%; animation-delay: 0.28s; }
+        .hero-signal.k5 { top: 49%; left: -7%; animation-delay: 0.36s; }
+
+        @keyframes hero-card-in {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hero-signal-label {
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: 9px;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .hero-signal-title {
+            font-size: 15px;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 7px;
+        }
+
+        .hero-signal-copy {
+            font-size: 11px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+
+        /* ── Demo section ───────────────────────────────────────── */
+        .demo-section {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 96px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        .section-eyebrow {
+            font-family: 'Courier New', 'SF Mono', ui-monospace, monospace;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.08;
+            color: var(--text-primary);
+            margin-bottom: 48px;
+        }
+
+        /* ── Demo tabs ─────────────────────────────────────── */
+        .demo-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 48px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .demo-tabs::-webkit-scrollbar { display: none; }
+
+        .demo-tab {
+            padding: 14px 24px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            position: relative;
+            transition: color 0.15s;
+            white-space: nowrap;
+            letter-spacing: -0.01em;
+        }
+
+        .demo-tab:hover { color: var(--text-primary); }
+
+        .demo-tab.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .demo-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        /* ── Demo stage ────────────────────────────────────── */
+        .demo-stage {
+            transition: opacity 0.2s;
+        }
+
+        .demo-stage.switching { opacity: 0; }
+
+        .demo-context {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .demo-problem {
+            font-size: clamp(22px, 2.4vw, 30px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 36px;
+            max-width: 680px;
+        }
+
+        /* KPI strip — hairline grid */
+        .demo-kpis {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 36px;
+        }
+
+        .demo-kpi {
+            padding: 20px 24px;
+            background: var(--bg-card);
+        }
+
+        .demo-kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .demo-kpi-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .demo-kpi-delta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .demo-kpi-delta.neg { color: var(--error); }
+        .demo-kpi-delta.pos { color: var(--success); }
+
+        /* Direction + chart */
+        .demo-direction {
+            display: flex;
+            gap: 32px;
+            align-items: start;
+            margin-bottom: 32px;
+        }
+
+        .demo-rec-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .demo-rec {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0;
+        }
+
+        .demo-chart-wrap {
+            flex-shrink: 0;
+            width: 200px;
+        }
+
+        .demo-chart { display: block; width: 100%; overflow: visible; }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            transition: stroke-dashoffset 0.7s ease;
+        }
+
+        .chart-line.drawn { stroke-dashoffset: 0; }
+
+        .chart-fill {
+            opacity: 0;
+            fill: url(#demoGrad);
+            transition: opacity 0.7s ease 0.2s;
+        }
+
+        .chart-fill.drawn { opacity: 1; }
+
+        .demo-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ── How it works ───────────────────────────────────────── */
+        .workflow {
+            padding: 80px 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .step {
+            padding: 36px 32px;
+            background: var(--bg-card);
+            cursor: pointer;
+            transition: background 0.12s;
+            position: relative;
+        }
+
+        .step:hover { background: color-mix(in srgb, var(--accent) 3%, var(--bg-card)); }
+        .step.active { background: color-mix(in srgb, var(--accent) 5%, var(--bg-card)); }
+
+        .step-num {
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .step.active .step-num { color: var(--accent); }
+
+        .step-icon { margin-bottom: 14px; }
+        .step-icon svg { width: 36px; height: 36px; }
+
+        .step h3 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        .step-bar {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+        }
+
+        .step.active .step-bar { width: 100%; transition: width 4s linear; }
+
+        /* ── CTA ─────────────────────────────────────────────────── */
+        .cta-band { padding: 80px 0; background: var(--bg-primary); }
+
+        .cta-inner {
+            background: var(--accent);
+            border-radius: var(--radius-md);
+            padding: 56px 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .cta-inner h2 {
+            font-size: clamp(22px, 2.4vw, 32px);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .cta-inner p { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+        .cta-btns { display: flex; gap: 10px; flex-shrink: 0; }
+
+        .cta-band .btn-primary { background: #fff; color: var(--accent); border-color: transparent; }
+        .cta-band .btn-secondary { background: transparent; color: #fff; border-color: rgba(255,255,255,0.35); }
+        .cta-band .btn-secondary:hover { border-color: rgba(255,255,255,0.7); }
+
+        /* ── Footer ──────────────────────────────────────────────── */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 0;
+            background: var(--bg-primary);
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .footer-brand .logo { margin-bottom: 12px; }
+
+        .footer-tagline {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+            max-width: 340px;
+        }
+
+        .footer-col h5 {
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: 9.5px;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .footer-col a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-bottom: 9px;
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+
+        .footer-col a:hover { color: var(--text-primary); }
+
+        /* ── Responsive ──────────────────────────────────────────── */
+        @media (max-width: 1100px) {
+            .hero-inner { padding: 140px 40px 60px; gap: 32px; }
+            .hero-stage { min-height: 420px; }
+            .hero-signal.k1 { top: 0; left: 1%; }
+            .hero-signal.k2 { top: 8%; right: 1%; }
+            .hero-signal.k3 { bottom: 0; left: 12%; }
+            .hero-signal.k4 { bottom: 14%; right: 6%; }
+            .hero-signal.k5 { top: 40%; left: 0; }
+            .demo-kpis { grid-template-columns: 1fr; }
+            .demo-direction { flex-direction: column; }
+            .demo-chart-wrap { width: 100%; }
+            .steps { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 740px) {
+            .hero-inner { padding: 120px 24px 48px; }
+            .hero-title { font-size: 48px; }
+            .hero-desc { font-size: 16px; }
+            .hero-stage { min-height: 320px; margin-top: 40px; }
+            .hero-signal { display: none; }
+            .container { padding: 0 24px; }
+            .demo-problem { font-size: 22px; }
+            .demo-actions { flex-direction: column; }
+            .demo-actions .btn-primary,
+            .demo-actions .btn-secondary { width: 100%; justify-content: center; min-height: 44px; }
+            .cta-inner { padding: 40px 28px; }
+            .footer-inner { grid-template-columns: 1fr; padding: 0 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-inner { padding: 100px 18px 40px; gap: 32px; }
+            .hero-title { font-size: 38px; letter-spacing: -0.04em; }
+            .hero-desc { font-size: 15px; margin-bottom: 28px; }
+            .hero-ctas { flex-direction: column; align-items: stretch; }
+            .hero-ctas .btn-primary,
+            .hero-ctas .btn-secondary { width: 100%; justify-content: center; min-height: 48px; }
+            .hero-proof { gap: 8px; }
+            .hero-stage { min-height: 240px; margin-top: 28px; }
+            .container { padding: 0 18px; }
+            .demo-section { padding: 64px 0; }
+            .section-title { margin-bottom: 28px; }
+            .section-lead { font-size: 14px; margin-bottom: 28px; }
+            .demo-tab { padding: 12px 16px; font-size: 12px; }
+            .demo-kpi-value { font-size: 22px; }
+            .demo-kpi { padding: 16px; }
+            .cta-inner { padding: 32px 20px; flex-direction: column; }
+            .cta-btns { width: 100%; flex-direction: column; }
+            .cta-btns .btn-primary,
+            .cta-btns .btn-secondary { width: 100%; justify-content: center; min-height: 44px; }
+            .workflow { padding: 56px 0; }
+            .step { padding: 24px 20px; }
+            .cta-band { padding: 48px 0; }
+            .site-footer { padding: 36px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <div class="hero">
+        <div class="hero-header-wrap">
+            <header>
+                <div class="header-content">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">T</div>
+                        Logistics Intelligence
+                    </a>
+                    <nav>
+                        <a href="#how">How it works</a>
+                        <a href="#features">Industries</a>
+                        <a href="upload.html" class="nav-btn">Start analysis</a>
+                    </nav>
+                </div>
+            </header>
+        </div>
+
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="hero-eyebrow">Logistics intelligence</div>
+                <h1 class="hero-title">See what is breaking,<br>what it costs,<br>and what to do next.</h1>
+                <p class="hero-desc">Toji helps operators spot the pressure points, size the risk, and move faster on the decisions that matter.</p>
+                <div class="hero-ctas">
+                    <a href="upload.html" class="btn-primary">Analyze your data &rarr;</a>
+                    <a href="synthesis.html" class="btn-secondary">Start with a problem</a>
+                </div>
+                <div class="hero-proof">
+                    <div class="hero-proof-item"><span class="hero-proof-dot"></span>Upload a file or describe the problem</div>
+                    <div class="hero-proof-item"><span class="hero-proof-dot"></span>Find cost, drag, and missed upside</div>
+                    <div class="hero-proof-item"><span class="hero-proof-dot"></span>Leave with a clear next move</div>
+                </div>
+            </div>
+
+            <div class="hero-stage">
+                <div class="hero-signal k1">
+                    <div class="hero-signal-label">Inventory drag</div>
+                    <div class="hero-signal-title">Cash gets buried<br>in the wrong stock.</div>
+                    <div class="hero-signal-copy">Find where working capital is trapped and which SKUs should move first.</div>
+                </div>
+                <div class="hero-signal k2">
+                    <div class="hero-signal-label">Service pressure</div>
+                    <div class="hero-signal-title">SLAs slip before<br>teams catch it.</div>
+                    <div class="hero-signal-copy">Trace the failure points behind delays, missed windows, and churn risk.</div>
+                </div>
+                <div class="hero-signal k3">
+                    <div class="hero-signal-label">Margin leakage</div>
+                    <div class="hero-signal-title">Costs creep up<br>until margin cracks.</div>
+                    <div class="hero-signal-copy">Turn scattered cost signals into one concrete action plan.</div>
+                </div>
+                <div class="hero-signal k4">
+                    <div class="hero-signal-label">Route drag</div>
+                    <div class="hero-signal-title">The network slows<br>where nobody checks.</div>
+                    <div class="hero-signal-copy">Spot bottlenecks across lanes, handoffs, and underused capacity.</div>
+                </div>
+                <div class="hero-signal k5">
+                    <div class="hero-signal-label">Demand swings</div>
+                    <div class="hero-signal-title">Demand moves faster<br>than planning can.</div>
+                    <div class="hero-signal-copy">See where timing, stock, and staffing are drifting out of sync.</div>
+                </div>
+                <div class="globe-wrap">
+                    <canvas id="globeCanvas"></canvas>
+                    <div class="globe-tooltip" id="globeTooltip"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- ── Demo + Scenario explorer ───────────────────────── -->
+        <section class="demo-section" id="features">
+            <div class="container">
+                <p class="section-eyebrow">See it working</p>
+                <h2 class="section-title">Choose an operating issue.<br>See how Toji frames the decision.</h2>
+
+                <div class="demo-tabs" id="demoTabs">
+                    <button class="demo-tab active" data-key="ecommerce" onclick="selectScenario('ecommerce', this)">E-Commerce &middot; Inventory</button>
+                    <button class="demo-tab" data-key="freight" onclick="selectScenario('freight', this)">Shipping &middot; Lanes</button>
+                    <button class="demo-tab" data-key="trucking" onclick="selectScenario('trucking', this)">Trucking &middot; Last Mile</button>
+                    <button class="demo-tab" data-key="other" onclick="selectScenario('other', this)">Other Industries</button>
+                </div>
+
+                <div class="demo-stage" id="demoStage">
+                    <div class="demo-context" id="demoContext">Q4 2024 to present &middot; 14,280 rows</div>
+                    <h3 class="demo-problem" id="demoProblem">Stock is tied up in slow movers while fill rate keeps missing target.</h3>
+
+                    <div class="demo-kpis" id="demoKpis"></div>
+
+                    <div class="demo-direction">
+                        <div>
+                            <div class="demo-rec-label">Toji's direction</div>
+                            <p class="demo-rec" id="demoRec">Reduce reorder points on 14 over-covered SKUs and free up $142K in working capital within 90 days.</p>
+                        </div>
+                        <div class="demo-chart-wrap">
+                            <svg class="demo-chart" viewBox="0 0 200 48" height="48">
+                                <defs>
+                                    <linearGradient id="demoGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#155E40" stop-opacity="0.15"/>
+                                        <stop offset="100%" stop-color="#155E40" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path class="chart-fill" id="chartFill" d=""></path>
+                                <path class="chart-line" id="chartLine" d=""></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="demo-actions">
+                        <a href="synthesis.html?industry=ecommerce" id="demoCta" class="btn-primary">Explore this case &rarr;</a>
+                        <a href="upload.html" class="btn-secondary">Upload your data</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── How it works ───────────────────────────────────────── -->
+        <section class="workflow" id="how">
+            <div class="container">
+                <p class="section-eyebrow">How it works</p>
+                <h2 class="section-title">Simple in. Clear decision out.</h2>
+                <div class="steps" id="workflowSteps">
+                    <div class="step active" onclick="activateStep(0)">
+                        <div class="step-num">01</div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" color="var(--accent)">
+                                <rect x="6" y="4" width="18" height="24" rx="2.5"/>
+                                <path d="M10 11h10M10 15h10M10 19h6"/>
+                                <path d="M21 18l7 7M25 18h3v3" stroke="var(--accent)"/>
+                            </svg>
+                        </div>
+                        <h3>Bring the context</h3>
+                        <p>Upload a CSV or describe the issue in plain language. No special formatting required.</p>
+                        <div class="step-bar"></div>
+                    </div>
+                    <div class="step" onclick="activateStep(1)">
+                        <div class="step-num">02</div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" color="var(--accent)">
+                                <path d="M5 9h26v16a2.5 2.5 0 0 1-2.5 2.5H7.5A2.5 2.5 0 0 1 5 25V9z"/>
+                                <path d="M5 9l13 9 13-9"/>
+                                <circle cx="29" cy="27" r="5" fill="var(--bg-card)" stroke="var(--accent)"/>
+                                <path d="M27.5 27h3M29 25.5v3" stroke="var(--accent)"/>
+                            </svg>
+                        </div>
+                        <h3>Toji sharpens the brief</h3>
+                        <p>Toji asks a few targeted questions so the analysis lines up with your operation, goals, and constraints.</p>
+                        <div class="step-bar"></div>
+                    </div>
+                    <div class="step" onclick="activateStep(2)">
+                        <div class="step-num">03</div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" color="var(--accent)">
+                                <rect x="4" y="6" width="28" height="24" rx="2.5"/>
+                                <path d="M4 13h28"/>
+                                <path d="M10 20h5M10 24h4" stroke="var(--accent)"/>
+                                <path d="M20 18l4 4-4 4" stroke="var(--accent)"/>
+                                <path d="M24 22h-5"/>
+                            </svg>
+                        </div>
+                        <h3>Move with conviction</h3>
+                        <p>Get the core visuals, your benchmark position, and the next action that matters most.</p>
+                        <div class="step-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CTA ─────────────────────────────────────────────── -->
+        <section class="cta-band">
+            <div class="container">
+                <div class="cta-inner">
+                    <div>
+                        <h2>Clarity for your business.</h2>
+                        <p>Start with a file or a plain-English problem statement. Toji takes it from there.</p>
+                    </div>
+                    <div class="cta-btns">
+                        <a href="upload.html" class="btn-primary">Analyze your data &rarr;</a>
+                        <a href="synthesis.html" class="btn-secondary">Start with a problem</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Footer ──────────────────────────────────────────── -->
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">T</div>
+                        Logistics Intelligence
+                    </a>
+                    <p class="footer-tagline">For logistics teams that need sharper analysis, faster decisions, and fewer blind spots.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="upload.html">Analyze data</a>
+                    <a href="synthesis.html">Start with a problem</a>
+                    <a href="chat.html" target="_blank">Ask Toji</a>
+                    <a href="dashboard.html">Dashboard</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Industries</h5>
+                    <a href="synthesis.html?industry=ecommerce">E-Commerce</a>
+                    <a href="synthesis.html?industry=shipping_freight">Shipping &amp; Freight</a>
+                    <a href="synthesis.html?industry=trucking_delivery">Trucking &amp; Delivery</a>
+                    <a href="synthesis.html">Other Industries</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="shared.js"></script>
+    <script>
+    // ════════════════════════════════════════════════════════════
+    // GLOBE — botronics-style particle sphere, right-column layout
+    // Light bg · dark particles · green routes · drag + momentum
+    // ════════════════════════════════════════════════════════════
+    (function () {
+        const canvas  = document.getElementById('globeCanvas');
+        if (!canvas) return;
+        const ctx     = canvas.getContext('2d');
+        const tooltip = document.getElementById('globeTooltip');
+
+        const HUBS = [
+            { name: 'New York',      lat: 40.71,  lon: -74.01  },
+            { name: 'London',        lat: 51.51,  lon: -0.13   },
+            { name: 'Singapore',     lat: 1.35,   lon: 103.82  },
+            { name: 'Shanghai',      lat: 31.23,  lon: 121.47  },
+            { name: 'Tokyo',         lat: 35.68,  lon: 139.65  },
+            { name: 'Dubai',         lat: 25.20,  lon: 55.27   },
+            { name: 'Amsterdam',     lat: 52.37,  lon: 4.90    },
+            { name: 'Sydney',        lat: -33.87, lon: 151.21  },
+            { name: 'Sao Paulo',     lat: -23.55, lon: -46.63  },
+            { name: 'San Francisco', lat: 37.77,  lon: -122.42 },
+            { name: 'Mumbai',        lat: 19.08,  lon: 72.88   },
+            { name: 'Hong Kong',     lat: 22.32,  lon: 114.17  },
+            { name: 'Los Angeles',   lat: 34.05,  lon: -118.24 },
+            { name: 'Frankfurt',     lat: 50.11,  lon: 8.68    },
+            { name: 'Rotterdam',     lat: 51.92,  lon: 4.48    },
+            { name: 'Chicago',       lat: 41.88,  lon: -87.63  },
+            { name: 'Seoul',         lat: 37.57,  lon: 126.98  },
+            { name: 'Nairobi',       lat: -1.29,  lon: 36.82   },
+            { name: 'Johannesburg',  lat: -26.20, lon: 28.04   },
+            { name: 'Miami',         lat: 25.77,  lon: -80.19  },
+        ];
+
+        const ROUTE_PAIRS = [
+            [0,1],[1,6],[14,6],[2,3],[3,4],[4,9],
+            [5,1],[10,5],[7,2],[9,12],[9,0],[8,1],
+            [11,3],[13,1],[15,0],[16,3],[17,5],[18,5],
+            [0,19],[12,2],[4,0],
+        ];
+
+        let rotY = 0.4, isDragging = false, lastMouseX = 0;
+        let velocityY = 0, lastDragDeltaX = 0, hoverHubIdx = -1, raf;
+        const rotX = 0.22;
+        const lastMouse = { x: -999, y: -999 };
+        const PARTICLES = [], ROUTES = [];
+
+        function latLon3D(lat, lon) {
+            const phi = (90-lat)*Math.PI/180, theta = lon*Math.PI/180;
+            return { x: Math.sin(phi)*Math.cos(theta), y: Math.cos(phi), z: Math.sin(phi)*Math.sin(theta) };
+        }
+
+        function slerp3D(a, b, t) {
+            const dot = Math.max(-1, Math.min(1, a.x*b.x+a.y*b.y+a.z*b.z));
+            const omega = Math.acos(dot);
+            if (omega < 0.0001) return { x: a.x+t*(b.x-a.x), y: a.y+t*(b.y-a.y), z: a.z+t*(b.z-a.z) };
+            const sinO = Math.sin(omega);
+            const s1 = Math.sin((1-t)*omega)/sinO, s2 = Math.sin(t*omega)/sinO;
+            return { x: s1*a.x+s2*b.x, y: s1*a.y+s2*b.y, z: s1*a.z+s2*b.z };
+        }
+
+        function project3D(p, R, cx, cy) {
+            const cosY=Math.cos(rotY), sinY=Math.sin(rotY);
+            const x1=p.x*cosY-p.z*sinY, z1=p.x*sinY+p.z*cosY;
+            const cosX=Math.cos(rotX), sinX=Math.sin(rotX);
+            const y2=p.y*cosX-z1*sinX, z2=p.y*sinX+z1*cosX;
+            return { sx: cx+x1*R, sy: cy-y2*R, depth: z2 };
+        }
+
+        function buildParticles(N) {
+            const golden = Math.PI*(3-Math.sqrt(5));
+            for (let i = 0; i < N; i++) {
+                const y = 1-(i/(N-1))*2, r = Math.sqrt(1-y*y), theta = golden*i;
+                PARTICLES.push({ x: r*Math.cos(theta), y, z: r*Math.sin(theta) });
+            }
+        }
+
+        function buildRoutes() {
+            ROUTE_PAIRS.forEach(([ai,bi],ri) => {
+                const a = latLon3D(HUBS[ai].lat, HUBS[ai].lon);
+                const b = latLon3D(HUBS[bi].lat, HUBS[bi].lon);
+                const pts = [];
+                for (let i = 0; i <= 80; i++) pts.push(slerp3D(a, b, i/80));
+                ROUTES.push({ pts, fromIdx:ai, toIdx:bi,
+                    packets: [
+                        { t:(ri*0.37)%1,          speed:0.0009+(ri%5)*0.0002 },
+                        { t:((ri*0.37)+0.55)%1,   speed:0.0007+(ri%3)*0.0003 },
+                    ]
+                });
+            });
+        }
+
+        function draw() {
+            const dpr = Math.min(window.devicePixelRatio||1, 2);
+            const W = canvas.offsetWidth, H = canvas.offsetHeight;
+            if (!W||!H) { raf=requestAnimationFrame(draw); return; }
+
+            if (canvas.width !== W*dpr || canvas.height !== H*dpr) {
+                canvas.width = W*dpr; canvas.height = H*dpr;
+                ctx.scale(dpr, dpr);
+            }
+
+            const cx=W/2, cy=H/2, R=Math.min(W,H)*0.44;
+            ctx.clearRect(0,0,W,H);
+
+            // Rotate
+            if (!isDragging) {
+                if (Math.abs(velocityY)>0.0002) { rotY+=velocityY; velocityY*=0.92; }
+                else { velocityY=0; rotY+=0.0022; }
+            }
+
+            // Particles (full sphere — botronics style, dark dots on light bg)
+            PARTICLES.forEach(p => {
+                const pr = project3D(p, R, cx, cy);
+                const a = pr.depth>0
+                    ? Math.min(1, pr.depth*1.7)*0.38
+                    : Math.max(0, 1+pr.depth*7)*0.05;
+                if (a<0.004) return;
+                ctx.beginPath();
+                ctx.arc(pr.sx, pr.sy, 0.8, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(10,10,10,${a.toFixed(3)})`;
+                ctx.fill();
+            });
+
+            // Clip to sphere for grid + routes
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, R-0.5, 0, Math.PI*2);
+            ctx.clip();
+
+            // Grid (very subtle)
+            drawGrid(ctx, R, cx, cy);
+
+            // Routes + packets
+            ROUTES.forEach(route => drawRoute(ctx, route, R, cx, cy));
+            ctx.restore();
+
+            // Hub dots
+            hoverHubIdx = -1;
+            const mx=lastMouse.x, my=lastMouse.y;
+            HUBS.forEach((hub, idx) => {
+                const pr = project3D(latLon3D(hub.lat,hub.lon), R, cx, cy);
+                if (pr.depth<0.1) return;
+                const alpha = Math.min(1, pr.depth*2);
+
+                const gr = ctx.createRadialGradient(pr.sx,pr.sy,0,pr.sx,pr.sy,8);
+                gr.addColorStop(0, `rgba(21,94,64,${alpha*0.18})`);
+                gr.addColorStop(1, 'rgba(21,94,64,0)');
+                ctx.beginPath(); ctx.arc(pr.sx,pr.sy,8,0,Math.PI*2);
+                ctx.fillStyle=gr; ctx.fill();
+
+                const dist = Math.hypot(mx-pr.sx, my-pr.sy);
+                const isHover = dist<14;
+                if (isHover) hoverHubIdx = idx;
+
+                ctx.beginPath();
+                ctx.arc(pr.sx, pr.sy, isHover?4.5:2.8, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(21,94,64,${alpha*(isHover?1:0.85)})`;
+                ctx.shadowBlur = isHover?8:0;
+                ctx.shadowColor = '#155E40';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            });
+
+            // Sphere border (very faint)
+            ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2);
+            ctx.strokeStyle='rgba(0,0,0,0.05)'; ctx.lineWidth=1; ctx.stroke();
+
+            updateTooltip(cx, cy, R);
+            raf = requestAnimationFrame(draw);
+        }
+
+        function drawGrid(ctx, R, cx, cy) {
+            ctx.strokeStyle='rgba(0,0,0,0.04)'; ctx.lineWidth=0.6;
+            [-60,-30,0,30,60].forEach(lat => {
+                ctx.beginPath(); let up=true;
+                for (let lon=-180; lon<=180; lon+=4) {
+                    const p=project3D(latLon3D(lat,lon),R,cx,cy);
+                    if(p.depth>0){up?ctx.moveTo(p.sx,p.sy):ctx.lineTo(p.sx,p.sy);up=false;}else up=true;
+                }
+                ctx.stroke();
+            });
+            for (let lon=-150; lon<=180; lon+=30) {
+                ctx.beginPath(); let up=true;
+                for (let lat=-80; lat<=80; lat+=4) {
+                    const p=project3D(latLon3D(lat,lon),R,cx,cy);
+                    if(p.depth>0){up?ctx.moveTo(p.sx,p.sy):ctx.lineTo(p.sx,p.sy);up=false;}else up=true;
+                }
+                ctx.stroke();
+            }
+        }
+
+        function drawRoute(ctx, route, R, cx, cy) {
+            const { pts, packets } = route;
+            ctx.beginPath(); let penUp=true;
+            pts.forEach(p => {
+                const pr=project3D(p,R,cx,cy);
+                if(pr.depth>0){penUp?ctx.moveTo(pr.sx,pr.sy):ctx.lineTo(pr.sx,pr.sy);penUp=false;}
+                else{if(!penUp){ctx.stroke();ctx.beginPath();}penUp=true;}
+            });
+            ctx.strokeStyle='rgba(21,94,64,0.28)'; ctx.lineWidth=1; ctx.stroke();
+
+            packets.forEach(pkt => {
+                pkt.t=(pkt.t+pkt.speed)%1;
+                const TRAIL=6;
+                for(let tr=TRAIL;tr>=0;tr--){
+                    const tt=(pkt.t-tr*0.018+1)%1;
+                    const idx=Math.min(Math.floor(tt*pts.length),pts.length-1);
+                    const pr=project3D(pts[idx],R,cx,cy);
+                    if(pr.depth<0.07) continue;
+                    const da=Math.min(1,pr.depth*2);
+                    if(tr===0){
+                        ctx.beginPath(); ctx.arc(pr.sx,pr.sy,2.5,0,Math.PI*2);
+                        ctx.shadowBlur=8; ctx.shadowColor='#155E40';
+                        ctx.fillStyle=`rgba(21,94,64,${da})`; ctx.fill(); ctx.shadowBlur=0;
+                    } else {
+                        ctx.beginPath(); ctx.arc(pr.sx,pr.sy,Math.max(0.5,1.8-tr*0.2),0,Math.PI*2);
+                        ctx.fillStyle=`rgba(21,94,64,${da*(1-tr/TRAIL)*0.38})`; ctx.fill();
+                    }
+                }
+            });
+        }
+
+        function updateTooltip(cx, cy, R) {
+            if (hoverHubIdx>=0) {
+                const hub = HUBS[hoverHubIdx];
+                const pr  = project3D(latLon3D(hub.lat,hub.lon), R, cx, cy);
+                const canvasRect = canvas.getBoundingClientRect();
+                const wrapRect   = canvas.parentElement.getBoundingClientRect();
+                tooltip.textContent = hub.name;
+                tooltip.style.left  = (canvasRect.left-wrapRect.left + pr.sx + 10)+'px';
+                tooltip.style.top   = (canvasRect.top-wrapRect.top  + pr.sy - 14)+'px';
+                tooltip.classList.add('visible');
+            } else {
+                tooltip.classList.remove('visible');
+            }
+        }
+
+        canvas.addEventListener('mousedown', e => {
+            isDragging=true; lastMouseX=e.clientX; velocityY=0;
+            canvas.style.cursor='grabbing';
+        });
+
+        window.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            lastMouse.x = e.clientX-rect.left;
+            lastMouse.y = e.clientY-rect.top;
+            if(isDragging){
+                const dx=e.clientX-lastMouseX;
+                lastDragDeltaX=dx; rotY+=dx*0.008; lastMouseX=e.clientX;
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            if(isDragging){velocityY=lastDragDeltaX*0.006;lastDragDeltaX=0;}
+            isDragging=false; canvas.style.cursor='grab';
+        });
+
+        let lastTouchX=0;
+        canvas.addEventListener('touchstart', e=>{isDragging=true;lastTouchX=e.touches[0].clientX;velocityY=0;},{passive:true});
+        canvas.addEventListener('touchmove', e=>{
+            if(!isDragging)return;
+            const dx=e.touches[0].clientX-lastTouchX;
+            rotY+=dx*0.008;lastDragDeltaX=dx;lastTouchX=e.touches[0].clientX;
+        },{passive:true});
+        canvas.addEventListener('touchend', ()=>{velocityY=lastDragDeltaX*0.004;isDragging=false;});
+
+        buildParticles(2800);
+        buildRoutes();
+        raf = requestAnimationFrame(draw);
+    })();
+
+    // ════════════════════════════════════════════════════════════
+    // DEMO PANEL
+    // ════════════════════════════════════════════════════════════
+    const DEMOS = {
+        ecommerce: {
+            label: 'E-Commerce / Inventory',
+            period: 'Q4 2024 to present', records: '14,280 rows',
+            problem: 'Stock is tied up in slow movers while fill rate keeps missing target.',
+            kpis: [
+                { val:'94.2%', key:'Fill Rate',       delta:'-1.8pp MoM',    cls:'neg' },
+                { val:'88.7%', key:'OTIF Score',      delta:'vs 92% target', cls:'neg' },
+                { val:'$142K', key:'Capital at Risk',  delta:'overstock',     cls:''    },
+            ],
+            rec: 'Reduce reorder points on 14 over-covered SKUs and free up $142K in working capital within 90 days.',
+            cta: 'synthesis.html?industry=ecommerce',
+            points: [50,56,63,59,66,70,73,68,76,72,80,78],
+        },
+        freight: {
+            label: 'Shipping / Lane Performance',
+            period: 'Jan 2025 to present', records: '9,840 rows',
+            problem: 'Core lanes are slipping out of SLA and threatening high-value revenue.',
+            kpis: [
+                { val:'3.2d',  key:'Avg Delay',       delta:'+0.4d vs prior',  cls:'neg' },
+                { val:'78%',   key:'On-Time Rate',     delta:'target: 85%',     cls:'neg' },
+                { val:'$2.1M', key:'Revenue at Risk',  delta:'impacted lanes',  cls:''    },
+            ],
+            rec: 'Reroute six high-delay lanes through Rotterdam and recover 11 points of on-time performance within 45 days.',
+            cta: 'synthesis.html?industry=shipping_freight',
+            points: [88,84,80,76,73,70,68,72,70,67,71,76],
+        },
+        trucking: {
+            label: 'Trucking / Last Mile',
+            period: 'Feb 2025 to present', records: '22,100 rows',
+            problem: 'Peak-hour delivery misses are climbing while driver capacity is misallocated.',
+            kpis: [
+                { val:'91%',  key:'On-Time Rate',  delta:'+2pp QoQ',   cls:'pos' },
+                { val:'1.4h', key:'Avg Idle Time', delta:'per route',  cls:'neg' },
+                { val:'18%',  key:'SLA Miss Rate', delta:'peak hours', cls:'neg' },
+            ],
+            rec: 'Reassign eight peak-hour routes to underused drivers and cut idle time by 40% in 30 days.',
+            cta: 'synthesis.html?industry=trucking_delivery',
+            points: [60,65,70,68,73,76,74,78,81,84,87,90],
+        },
+        other: {
+            label: 'Custom Industry',
+            period: 'Last 12 months', records: 'Your dataset',
+            problem: 'Decision latency and weak visibility are creating avoidable operational loss.',
+            kpis: [
+                { val:'62%',   key:'Visibility Score',  delta:'below benchmark', cls:'neg' },
+                { val:'4.1d',  key:'Avg Response Time', delta:'+1.2d YoY',       cls:'neg' },
+                { val:'$890K', key:'Avoidable Losses',   delta:'estimated',       cls:''    },
+            ],
+            rec: 'Describe your operation, where decisions are slowing down, and what is at risk. Toji will shape the analysis around that.',
+            cta: 'synthesis.html',
+            points: [40,45,42,48,52,49,55,58,54,60,63,67],
+        },
+        ecommerce2: {
+            label: 'E-Commerce / Returns',
+            period: 'Last 9 months', records: '11,520 rows',
+            problem: 'Returns are rising faster than operations can process, compressing margin.',
+            kpis: [
+                { val:'14.8%', key:'Return Rate',        delta:'+2.2pp QoQ',    cls:'neg' },
+                { val:'$96K',  key:'Reverse Logistics',  delta:'monthly cost',  cls:''    },
+                { val:'78.4%', key:'Refund Cycle SLA',   delta:'target: 92%',   cls:'neg' },
+            ],
+            rec: 'Segment return reasons, tighten SKU quality gates, and cut refund cycle time by 25% in 60 days.',
+            cta: 'synthesis.html?industry=ecommerce',
+            points: [64,62,66,69,67,71,73,72,76,78,80,82],
+        },
+    };
+
+    let activeScenario = 'ecommerce';
+
+    function buildChartPath(pts, W, H) {
+        const pad=4, minP=Math.min(...pts), maxP=Math.max(...pts), range=maxP-minP||1;
+        const xs=pts.map((_,i)=>pad+(i/(pts.length-1))*(W-pad*2));
+        const ys=pts.map(p=>H-pad-((p-minP)/range)*(H-pad*2));
+        const line=xs.map((x,i)=>`${i===0?'M':'L'}${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+        const area=line+` L${xs[xs.length-1].toFixed(1)},${H} L${xs[0].toFixed(1)},${H} Z`;
+        return { line, area };
+    }
+
+    function renderDemoPanel(key) {
+        const d = DEMOS[key];
+        document.getElementById('demoContext').textContent = `${d.period} \u00b7 ${d.records}`;
+        document.getElementById('demoProblem').textContent = d.problem;
+        document.getElementById('demoRec').textContent     = d.rec;
+        document.getElementById('demoCta').href            = d.cta;
+        document.getElementById('demoKpis').innerHTML = d.kpis.map(k=>`
+            <div class="demo-kpi">
+                <div class="demo-kpi-value">${k.val}</div>
+                <div class="demo-kpi-label">${k.key}</div>
+                <div class="demo-kpi-delta ${k.cls}">${k.delta}</div>
+            </div>`).join('');
+        const {line,area} = buildChartPath(d.points,200,48);
+        const lEl=document.getElementById('chartLine'), fEl=document.getElementById('chartFill');
+        lEl.classList.remove('drawn'); fEl.classList.remove('drawn');
+        lEl.setAttribute('d',line); fEl.setAttribute('d',area);
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{lEl.classList.add('drawn');fEl.classList.add('drawn');}));
+    }
+
+    function selectScenario(key, el) {
+        if(key===activeScenario)return;
+        activeScenario=key;
+        document.querySelectorAll('.demo-tab').forEach(s=>s.classList.remove('active'));
+        el.classList.add('active');
+        const stage=document.getElementById('demoStage');
+        stage.classList.add('switching');
+        setTimeout(()=>{renderDemoPanel(key);stage.classList.remove('switching');},200);
+    }
+
+    let stepTimer=null;
+    function activateStep(idx){
+        clearTimeout(stepTimer);
+        document.querySelectorAll('.step').forEach((s,i)=>{
+            s.classList.toggle('active',i===idx);
+            const bar=s.querySelector('.step-bar');
+            if(bar){bar.style.transition='none';bar.style.width='0';void bar.offsetWidth;
+                if(i===idx){bar.style.transition='width 4s linear';bar.style.width='100%';}}
+        });
+        stepTimer=setTimeout(()=>activateStep((idx+1)%3),4200);
+    }
+
+    initTheme();
+    renderDemoPanel('ecommerce');
+    setTimeout(()=>activateStep(0),1000);
+    </script>
+</body>
+</html>

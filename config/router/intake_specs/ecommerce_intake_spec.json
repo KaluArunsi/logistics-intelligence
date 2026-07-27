@@ -1,0 +1,791 @@
+{
+  "industry": "ecommerce",
+  "categories": {
+    "basket_intelligence": {
+      "question_groups": [
+        {
+          "group_id": "department_mix",
+          "columns": ["department"],
+          "question": "What product department or aisle does this basket primarily contain?",
+          "hint": "e.g., produce, dairy eggs, snacks, beverages, frozen",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "department", "label": "Primary department", "type": "categorical", "options": ["produce", "dairy eggs", "snacks", "beverages", "frozen", "pantry", "bakery", "deli", "household", "personal care", "meat seafood", "breakfast", "canned goods", "dry goods pasta", "babies", "international", "alcohol", "pets", "bulk", "other", "missing"], "encoding": "ordinal", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "order_frequency",
+          "columns": ["order_number", "days_since_prior_order"],
+          "question": "How many orders has the typical customer placed, and how many days between their last two orders?",
+          "hint": "e.g., 15 lifetime orders, about 7 days between orders",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "order_number", "label": "Avg lifetime order count", "type": "integer", "min": 1, "max": 200, "default_strategy": "conservative"},
+            {"column": "days_since_prior_order", "label": "Avg days between orders", "type": "float", "min": 0, "max": 365, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "order_timing",
+          "columns": ["order_dow", "order_hour_of_day"],
+          "question": "What day of the week and hour of the day do most orders come in?",
+          "hint": "e.g., Sunday (0), around 10 AM",
+          "input_type": "temporal_context",
+          "auto_derive": true,
+          "fields": [
+            {"column": "order_dow", "label": "Peak order day (0=Sun, 6=Sat)", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"},
+            {"column": "order_hour_of_day", "label": "Peak order hour (0-23)", "type": "integer", "min": 0, "max": 23, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "product_catalog",
+          "columns": ["product_name", "aisle_id"],
+          "question": "What is a representative product name in the basket, and which aisle ID does it belong to?",
+          "hint": "e.g., 'Organic Whole Milk', aisle 84",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "product_name", "label": "Representative product name", "type": "categorical", "options": ["Banana", "Organic Strawberries", "Bag of Organic Bananas", "Organic Baby Spinach", "Organic Hass Avocado", "Organic Whole Milk", "Sparkling Water", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "aisle_id", "label": "Aisle ID", "type": "integer", "min": 1, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transaction_item",
+          "columns": ["transaction", "item"],
+          "question": "What is the average number of transactions per day, and what is the most common item purchased?",
+          "hint": "e.g., about 50 transactions/day, most popular item is 'Coffee'",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "transaction", "label": "Avg daily transaction count", "type": "integer", "min": 1, "max": 100000, "default_strategy": "conservative"},
+            {"column": "item", "label": "Most common basket item", "type": "categorical", "options": ["Coffee", "Bread", "Tea", "Cake", "Pastry", "Sandwich", "Medialuna", "Cookies", "Juice", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["date_time", "period_day"],
+          "question": "What time of day do most basket transactions happen, and what period are you analyzing?",
+          "hint": "e.g., mostly morning purchases, analyzing last 6 months",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    },
+    "catalog_quality": {
+      "question_groups": [
+        {
+          "group_id": "seller_profile",
+          "columns": ["type", "country", "language"],
+          "question": "What type of seller account is this, and what country and language do they primarily operate in?",
+          "hint": "e.g., professional seller, France, French",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "type", "label": "Account type", "type": "categorical", "options": ["Professional", "Individual", "Business"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "country", "label": "Primary country", "type": "categorical", "options": ["France", "United Kingdom", "Germany", "Italy", "Spain", "United States", "Other"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "language", "label": "Primary language", "type": "categorical", "options": ["fr", "en", "de", "it", "es", "Other"], "encoding": "ordinal", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "social_engagement",
+          "columns": ["socialnbfollowers", "socialnbfollows", "socialproductsliked"],
+          "question": "How many social followers, follows, and product likes does the typical seller have?",
+          "hint": "e.g., 120 followers, follows 30 people, 50 products liked",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "socialnbfollowers", "label": "Avg followers", "type": "integer", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "socialnbfollows", "label": "Avg follows", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "socialproductsliked", "label": "Avg products liked", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "listing_activity",
+          "columns": ["productslisted", "productspassrate", "productswished", "productsbought"],
+          "question": "How many products are listed, what is the pass rate, and how many products are wished or bought?",
+          "hint": "e.g., 25 listed, 80% pass rate, 10 wished, 5 bought",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "productslisted", "label": "Avg products listed", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "productspassrate", "label": "Listing pass rate (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "productswished", "label": "Avg products wished", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "productsbought", "label": "Avg products bought", "type": "integer", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "seller_identity",
+          "columns": ["gender", "civilitygenderid", "civilitytitle"],
+          "question": "What is the seller's gender and civility title?",
+          "hint": "e.g., Female, Mrs.",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "gender", "label": "Gender", "type": "categorical", "options": ["Male", "Female", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "civilitygenderid", "label": "Gender ID", "type": "integer", "min": 0, "max": 10, "default_strategy": "conservative"},
+            {"column": "civilitytitle", "label": "Civility title", "type": "categorical", "options": ["Mr", "Mrs", "Miss", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "platform_presence",
+          "columns": ["hasanyapp", "hasandroidapp", "hasiosapp", "hasprofilepicture"],
+          "question": "Does the seller use a mobile app and have a profile picture?",
+          "hint": "e.g., uses iOS app, has profile picture",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "hasanyapp", "label": "Has any app?", "type": "categorical", "options": ["Yes", "No"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "hasandroidapp", "label": "Has Android app?", "type": "categorical", "options": ["Yes", "No"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "hasiosapp", "label": "Has iOS app?", "type": "categorical", "options": ["Yes", "No"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "hasprofilepicture", "label": "Has profile picture?", "type": "categorical", "options": ["Yes", "No"], "encoding": "ordinal", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "account_tenure",
+          "columns": ["dayssincelastlogin", "seniority", "seniorityasmonths", "seniorityasyears"],
+          "question": "How recently did the seller log in, and how long have they been on the platform?",
+          "hint": "e.g., last login 3 days ago, on platform for 2 years",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "dayssincelastlogin", "label": "Days since last login", "type": "integer", "min": 0, "max": 3650, "default_strategy": "conservative"},
+            {"column": "seniority", "label": "Seniority (days)", "type": "integer", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "seniorityasmonths", "label": "Seniority (months)", "type": "float", "min": 0, "max": 300, "default_strategy": "conservative"},
+            {"column": "seniorityasyears", "label": "Seniority (years)", "type": "float", "min": 0, "max": 25, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "review_quality",
+          "columns": ["age", "rating", "positive_feedback_count"],
+          "question": "What is the reviewer's average age, typical product rating, and how much positive feedback do reviews receive?",
+          "hint": "e.g., average reviewer age 35, rating 4.2, 3 positive feedbacks per review",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "age", "label": "Avg reviewer age", "type": "integer", "min": 13, "max": 100, "default_strategy": "conservative"},
+            {"column": "rating", "label": "Avg product rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "positive_feedback_count", "label": "Avg positive feedback count", "type": "integer", "min": 0, "max": 10000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "product_taxonomy",
+          "columns": ["division_name", "department_name", "class_name"],
+          "question": "What product division, department, and class are you analyzing?",
+          "hint": "e.g., General division, Tops department, Knits class",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "division_name", "label": "Division", "type": "categorical", "options": ["General", "General Petite", "Intimates", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "department_name", "label": "Department", "type": "categorical", "options": ["Tops", "Dresses", "Bottoms", "Intimate", "Jackets", "Trend", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "class_name", "label": "Product class", "type": "categorical", "options": ["Dresses", "Knits", "Blouses", "Sweaters", "Pants", "Fine gauge", "Jeans", "Skirts", "Jackets", "Lounge", "Swim", "Outerwear", "Shorts", "Sleep", "Legwear", "Intimates", "Layering", "Casual bottoms", "Chemises", "Trend", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "review_content",
+          "columns": ["title", "review_text"],
+          "question": "Do you have product review titles and full review text available for analysis?",
+          "hint": "e.g., title 'Love this top!', review text describing fit, quality, and style",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "title", "label": "Sample review title", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "review_text", "label": "Review text available?", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "checkout_risk": {
+      "question_groups": [
+        {
+          "group_id": "transaction_amount",
+          "columns": ["amount", "purchase_amount_usd"],
+          "question": "What is the typical transaction or purchase amount?",
+          "hint": "e.g., average transaction is $85",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "amount", "label": "Avg transaction amount ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "purchase_amount_usd", "label": "Avg purchase amount (USD)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "customer_demographics",
+          "columns": ["age", "gender"],
+          "question": "What is the typical customer age and gender distribution?",
+          "hint": "e.g., average age 35, mostly female",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "age", "label": "Avg customer age", "type": "integer", "min": 13, "max": 100, "default_strategy": "conservative"},
+            {"column": "gender", "label": "Primary gender", "type": "categorical", "options": ["Male", "Female", "Non-binary", "Enterprise", "Unknown"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "purchase_category",
+          "columns": ["category", "item_purchased", "size", "color"],
+          "question": "What product category, item type, typical size, and color are most commonly purchased?",
+          "hint": "e.g., Clothing, T-shirt, size M, Black",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "category", "label": "Product category", "type": "categorical", "options": ["Clothing", "Accessories", "Footwear", "Outerwear", "Electronics", "Food", "Health", "Home", "Fashion", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "item_purchased", "label": "Item type", "type": "categorical", "options": ["Shirt", "Dress", "Jeans", "Shoes", "Jacket", "Sneakers", "Hat", "Jewelry", "Handbag", "Sweater", "T-shirt", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "size", "label": "Most common size", "type": "categorical", "options": ["XS", "S", "M", "L", "XL", "XXL"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "color", "label": "Most popular color", "type": "categorical", "options": ["Black", "White", "Blue", "Red", "Gray", "Green", "Brown", "Pink", "Yellow", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "payment_shipping",
+          "columns": ["payment_method", "shipping_type", "discount_applied", "promo_code_used"],
+          "question": "What payment method and shipping type are most common, and how often are discounts or promo codes applied?",
+          "hint": "e.g., Credit Card, Standard shipping, 30% use discounts, 15% use promo codes",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "payment_method", "label": "Primary payment method", "type": "categorical", "options": ["Credit Card", "Debit Card", "PayPal", "Venmo", "Cash", "Bank Transfer"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "shipping_type", "label": "Primary shipping type", "type": "categorical", "options": ["Standard", "Express", "Free Shipping", "Next Day Air", "2-Day Shipping", "Store Pickup"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "discount_applied", "label": "Discount applied?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "promo_code_used", "label": "Promo code used?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fraud_velocity",
+          "columns": ["transactions_last_1h", "transactions_last_24h", "time_since_last_transaction"],
+          "question": "How many transactions has the card seen in the last hour and 24 hours, and how long since the last transaction?",
+          "hint": "e.g., 2 in last hour, 5 in last 24h, 45 minutes since last transaction",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "transactions_last_1h", "label": "Transactions in last hour", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "transactions_last_24h", "label": "Transactions in last 24h", "type": "integer", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "time_since_last_transaction", "label": "Minutes since last transaction", "type": "float", "min": 0, "max": 525600, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fraud_amount_patterns",
+          "columns": ["avg_amount_last_7d_per_card", "std_amount_last_30d_per_card", "night_transaction"],
+          "question": "What is the average transaction amount over the last 7 days, the variability over 30 days, and is this a nighttime transaction?",
+          "hint": "e.g., avg $120 last 7 days, std dev $45 over 30 days, not a night transaction",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "avg_amount_last_7d_per_card", "label": "Avg amount last 7 days ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "std_amount_last_30d_per_card", "label": "Std dev amount last 30 days ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "night_transaction", "label": "Night transaction?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "chargeback_flag",
+          "columns": ["cbk"],
+          "question": "Has this card had a previous chargeback?",
+          "hint": "e.g., No",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "cbk", "label": "Prior chargeback?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "purchase_behavior",
+          "columns": ["previous_purchases", "frequency_of_purchases", "review_rating"],
+          "question": "How many previous purchases has the customer made, how often do they buy, and what is their average review rating?",
+          "hint": "e.g., 12 previous purchases, monthly buyer, avg rating 3.8",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "previous_purchases", "label": "Previous purchase count", "type": "integer", "min": 0, "max": 1000, "default_strategy": "conservative"},
+            {"column": "frequency_of_purchases", "label": "Purchase frequency", "type": "categorical", "options": ["Weekly", "Bi-Weekly", "Fortnightly", "Monthly", "Quarterly", "Every 3 Months", "Annually"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "review_rating", "label": "Avg review rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "location_context",
+          "columns": ["location"],
+          "question": "What is the primary geographic location of your customers?",
+          "hint": "e.g., New York, California, Texas",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "location", "label": "Primary location", "type": "categorical", "options": ["New York", "California", "Texas", "Florida", "Illinois", "Pennsylvania", "Ohio", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "seasonal_context",
+          "columns": ["season", "date"],
+          "question": "What season and time period does this checkout data cover?",
+          "hint": "e.g., Winter, December 2025",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    },
+    "conversion_optimization": {
+      "question_groups": [
+        {
+          "group_id": "page_product",
+          "columns": ["productrelated", "productrelated_duration"],
+          "question": "How many product pages does a typical visitor view per session, and roughly how long do they spend browsing products?",
+          "hint": "e.g., 20 pages, about 10 minutes total",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "productrelated", "label": "Avg product pages viewed", "type": "integer", "min": 0, "max": 200, "default_strategy": "conservative"},
+            {"column": "productrelated_duration", "label": "Avg time on product pages (seconds)", "type": "float", "min": 0, "max": 36000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "page_admin",
+          "columns": ["administrative", "administrative_duration"],
+          "question": "How many admin pages (login, account, settings) does a typical visitor view per session, and how long do they spend there?",
+          "hint": "e.g., 3 pages, about 2 minutes total",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "administrative", "label": "Avg admin pages viewed", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"},
+            {"column": "administrative_duration", "label": "Avg time on admin pages (seconds)", "type": "float", "min": 0, "max": 3600, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "page_info",
+          "columns": ["informational", "informational_duration"],
+          "question": "How many informational pages (FAQ, about us, help center) does a typical visitor view, and how long do they spend?",
+          "hint": "e.g., 2 pages, about 90 seconds",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "informational", "label": "Avg informational pages viewed", "type": "integer", "min": 0, "max": 50, "default_strategy": "conservative"},
+            {"column": "informational_duration", "label": "Avg time on info pages (seconds)", "type": "float", "min": 0, "max": 3600, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "engagement_dropoff",
+          "columns": ["bouncerates", "exitrates", "pagevalues"],
+          "question": "What is your approximate bounce rate, exit rate, and average page value?",
+          "hint": "e.g., bounce rate 35%, exit rate 20%, page value $5.50",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "bouncerates", "label": "Bounce rate (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "exitrates", "label": "Exit rate (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "pagevalues", "label": "Avg page value ($)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "tech_mix",
+          "columns": ["browser", "operatingsystems", "devicetype"],
+          "question": "What is the primary browser, operating system, and device type for your users?",
+          "hint": "e.g., Chrome, Windows, Desktop",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "browser", "label": "Primary browser", "type": "categorical", "options": ["Chrome", "Firefox", "Safari", "Edge", "Opera", "Other"], "encoding": "ordinal"},
+            {"column": "operatingsystems", "label": "Primary OS", "type": "categorical", "options": ["Windows", "macOS", "Linux", "iOS", "Android", "Other"], "encoding": "ordinal"},
+            {"column": "devicetype", "label": "Primary device", "type": "categorical", "options": ["Desktop", "Mobile", "Tablet"], "encoding": "ordinal"}
+          ]
+        },
+        {
+          "group_id": "audience_profile",
+          "columns": ["region", "traffictype", "visitortype"],
+          "question": "Describe your typical audience: what region are they from, how do they find you, and are they mostly new or returning visitors?",
+          "hint": "e.g., North America, organic search, mostly returning visitors",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "region", "label": "Primary region", "type": "categorical", "options": ["North America", "Europe", "UK", "Asia Pacific", "Latin America", "Middle East", "Africa", "Global mix"], "encoding": "ordinal"},
+            {"column": "traffictype", "label": "Main traffic source", "type": "categorical", "options": ["Organic Search", "Paid Ads", "Direct", "Referral", "Email Campaign", "Social Media"], "encoding": "ordinal"},
+            {"column": "visitortype", "label": "Visitor type", "type": "categorical", "options": ["Returning_Visitor", "New_Visitor", "Other"], "encoding": "label"}
+          ]
+        },
+        {
+          "group_id": "checkout_options",
+          "columns": ["paymentmethod", "deliveryoption", "promocodeused"],
+          "question": "What are the most common payment method, delivery option, and how often do customers use promo codes?",
+          "hint": "e.g., Credit Card, Standard Shipping, about 20% use promo codes",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "paymentmethod", "label": "Primary payment method", "type": "categorical", "options": ["Credit Card", "Debit Card", "PayPal", "Apple Pay", "Google Pay", "Bank Transfer", "COD"], "encoding": "ordinal"},
+            {"column": "deliveryoption", "label": "Primary delivery option", "type": "categorical", "options": ["Standard", "Express", "Next-Day", "Store Pickup", "Free Shipping"], "encoding": "ordinal"},
+            {"column": "promocodeused", "label": "Promo code usage (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "monetary",
+          "columns": ["cartvalueestimate"],
+          "question": "What is the estimated average cart value on your site?",
+          "hint": "e.g., $85",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "cartvalueestimate", "label": "Avg cart value ($)", "type": "float", "min": 0, "max": 50000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "privacy",
+          "columns": ["gdprconsent"],
+          "question": "What percentage of your visitors consent to GDPR/privacy tracking?",
+          "hint": "e.g., about 70%",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "gdprconsent", "label": "Consent rate (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["specialday", "weekend", "month"],
+          "question": "What time of year is this analysis for, and does it include special sale events or mostly weekday traffic?",
+          "hint": "e.g., November, includes Black Friday, mix of weekday and weekend",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "journey_attribution",
+          "columns": ["path_id", "path_step", "tp", "campaign", "days_till_key_event", "touchpoints", "conversion_rate", "date_of_key_event"],
+          "question": "Do you track customer journey touchpoints and campaign attribution? If so, what is your average conversion rate and how many touchpoints before conversion?",
+          "hint": "e.g., conversion rate around 3%, about 5 touchpoints, Google Ads campaign",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "conversion_rate", "label": "Conversion rate (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "touchpoints", "label": "Avg touchpoints before conversion", "type": "integer", "min": 1, "max": 100, "default_strategy": "conservative"},
+            {"column": "campaign", "label": "Primary campaign type", "type": "categorical", "options": ["Google Ads", "Facebook Ads", "Email", "Organic", "Referral", "Direct", "Other"], "encoding": "label"},
+            {"column": "days_till_key_event", "label": "Avg days to conversion", "type": "integer", "min": 0, "max": 365, "default_strategy": "conservative"},
+            {"column": "tp", "label": "Touchpoint type", "type": "categorical", "options": ["Click", "View", "Add to Cart", "Purchase", "Other"], "encoding": "label"},
+            {"column": "path_step", "label": "Avg path steps", "type": "integer", "min": 1, "max": 50, "default_strategy": "conservative"},
+            {"column": "path_id", "label": "Path tracking ID", "type": "integer", "min": 1, "max": 999999, "default_strategy": "conservative"},
+            {"column": "date_of_key_event", "label": "Key event date", "type": "date", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "customer_behavior",
+          "columns": ["age", "gender", "city", "product_category", "quantity", "discount_amount", "session_duration_minutes", "pages_viewed", "is_returning_customer", "delivery_time_days", "customer_rating"],
+          "question": "What is the typical customer profile and shopping behavior on your site?",
+          "hint": "e.g., average age 32, 60% female, 3 items per order, 15 min sessions",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "age", "label": "Avg customer age", "type": "integer", "min": 13, "max": 100, "default_strategy": "conservative"},
+            {"column": "gender", "label": "Primary gender", "type": "categorical", "options": ["Male", "Female", "Non-binary", "Mixed"], "encoding": "label"},
+            {"column": "product_category", "label": "Top product category", "type": "categorical", "options": ["Electronics", "Clothing", "Home & Garden", "Books", "Sports", "Beauty", "Food", "Other"], "encoding": "label"},
+            {"column": "quantity", "label": "Avg items per order", "type": "integer", "min": 1, "max": 100, "default_strategy": "conservative"},
+            {"column": "discount_amount", "label": "Avg discount ($)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "session_duration_minutes", "label": "Avg session (minutes)", "type": "float", "min": 0, "max": 480, "default_strategy": "conservative"},
+            {"column": "pages_viewed", "label": "Avg pages per session", "type": "integer", "min": 1, "max": 200, "default_strategy": "conservative"},
+            {"column": "is_returning_customer", "label": "Returning customer (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "delivery_time_days", "label": "Avg delivery time (days)", "type": "integer", "min": 0, "max": 60, "default_strategy": "conservative"},
+            {"column": "customer_rating", "label": "Avg customer rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "demand_signal": {
+      "question_groups": [
+        {
+          "group_id": "geo_customer",
+          "columns": ["customer_pincode", "customer_city", "customer_zip_code_prefix"],
+          "question": "What is the customer's primary geographic area -- city, zip or pin code?",
+          "hint": "e.g., Sao Paulo, zip prefix 01000, pincode 110001",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "customer_pincode", "label": "Customer pin code", "type": "integer", "min": 10000, "max": 999999, "default_strategy": "conservative"},
+            {"column": "customer_city", "label": "Customer city", "type": "categorical", "options": ["Sao Paulo", "Rio de Janeiro", "Belo Horizonte", "Brasilia", "Curitiba", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "customer_zip_code_prefix", "label": "Customer zip prefix", "type": "integer", "min": 1000, "max": 99999, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "geo_seller",
+          "columns": ["seller_zip_code_prefix", "seller_city"],
+          "question": "Where are your sellers primarily located?",
+          "hint": "e.g., Sao Paulo, zip prefix 04000",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "seller_zip_code_prefix", "label": "Seller zip prefix", "type": "integer", "min": 1000, "max": 99999, "default_strategy": "conservative"},
+            {"column": "seller_city", "label": "Seller city", "type": "categorical", "options": ["Sao Paulo", "Curitiba", "Rio de Janeiro", "Belo Horizonte", "Ribeirao Preto", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "geo_coordinates",
+          "columns": ["geolocation_zip_code_prefix", "geolocation_city", "geolocation_lat", "geolocation_lng"],
+          "question": "What are the geographic coordinates and location details for the demand region?",
+          "hint": "e.g., zip prefix 01000, Sao Paulo, lat -23.55, lng -46.63",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "geolocation_zip_code_prefix", "label": "Zip prefix", "type": "integer", "min": 1000, "max": 99999, "default_strategy": "conservative"},
+            {"column": "geolocation_city", "label": "City", "type": "categorical", "options": ["Sao Paulo", "Rio de Janeiro", "Salvador", "Brasilia", "Fortaleza", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "geolocation_lat", "label": "Latitude", "type": "float", "min": -90, "max": 90, "default_strategy": "conservative"},
+            {"column": "geolocation_lng", "label": "Longitude", "type": "float", "min": -180, "max": 180, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "visitor_events",
+          "columns": ["timestamp", "visitorid", "itemid"],
+          "question": "How many unique visitors and items are involved, and what is the analysis time window?",
+          "hint": "e.g., 50,000 visitors, 10,000 items, last 30 days of events",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "timestamp", "label": "Event timestamp", "type": "date", "default_strategy": "conservative"},
+            {"column": "visitorid", "label": "Avg unique visitors", "type": "integer", "min": 1, "max": 10000000, "default_strategy": "conservative"},
+            {"column": "itemid", "label": "Avg unique items tracked", "type": "integer", "min": 1, "max": 10000000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "seller_marketplace",
+          "columns": ["country", "sex", "nbsellers", "meanproductssold", "meanproductslisted"],
+          "question": "What marketplace country and seller demographics are you analyzing, and what are the average products sold and listed?",
+          "hint": "e.g., France, mixed gender sellers, 50 sellers, avg 20 sold, 45 listed",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "country", "label": "Marketplace country", "type": "categorical", "options": ["France", "United Kingdom", "Germany", "Italy", "Spain", "United States", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "sex", "label": "Seller gender", "type": "categorical", "options": ["Male", "Female", "Unknown", "Mixed"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "nbsellers", "label": "Number of sellers", "type": "integer", "min": 1, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "meanproductssold", "label": "Avg products sold per seller", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "meanproductslisted", "label": "Avg products listed per seller", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "retail_transaction",
+          "columns": ["productid", "price", "totalamount", "paymentmethod", "storelocation", "productcategory", "discountapplied"],
+          "question": "What is the typical retail transaction -- product type, price, total, payment method, store location, and discount?",
+          "hint": "e.g., Electronics, $50 unit price, $150 total, Credit Card, Downtown store, 10% discount",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "productid", "label": "Product ID/type", "type": "categorical", "options": ["A", "B", "C", "D", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "price", "label": "Avg unit price ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "totalamount", "label": "Avg total amount ($)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "paymentmethod", "label": "Payment method", "type": "categorical", "options": ["Credit Card", "Debit Card", "PayPal", "Cash", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "storelocation", "label": "Store location", "type": "categorical", "options": ["Downtown", "Suburban", "Mall", "Online", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "productcategory", "label": "Product category", "type": "categorical", "options": ["Electronics", "Clothing", "Books", "Home Decor", "Food", "Sports", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "discountapplied", "label": "Discount applied (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weather_demand",
+          "columns": ["temp", "isholiday", "weather_condition_id"],
+          "question": "What is the local temperature, is it a holiday period, and what are the weather conditions?",
+          "hint": "e.g., 72F, not a holiday, clear skies",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "temp", "label": "Temperature (F)", "type": "float", "min": -40, "max": 130, "default_strategy": "conservative"},
+            {"column": "isholiday", "label": "Is holiday?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "weather_condition_id", "label": "Weather condition ID", "type": "integer", "min": 1, "max": 10, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "economic_indicators",
+          "columns": ["weekly_sales", "cpi", "unemployment"],
+          "question": "What are the typical weekly sales, consumer price index, and local unemployment rate?",
+          "hint": "e.g., $50,000 weekly sales, CPI 230, 5.5% unemployment",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "weekly_sales", "label": "Avg weekly sales ($)", "type": "float", "min": 0, "max": 10000000, "default_strategy": "conservative"},
+            {"column": "cpi", "label": "Consumer Price Index", "type": "float", "min": 100, "max": 400, "default_strategy": "conservative"},
+            {"column": "unemployment", "label": "Unemployment rate (%)", "type": "percentage", "min": 0, "max": 30, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["transactiondate", "month", "week_day", "invoicedate"],
+          "question": "What time period, month, and day of week does this demand data cover?",
+          "hint": "e.g., Q4 2025, peak in December, busiest on Fridays",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    },
+    "fulfillment_flow": {
+      "question_groups": [
+        {
+          "group_id": "shipment_weight",
+          "columns": ["charged_weight", "charged_weight_kg", "weight_slab_kg", "order_weight_kg", "package_weight_kg"],
+          "question": "What are the typical shipment weights -- charged weight, order weight, and weight slab?",
+          "hint": "e.g., 2.5 kg charged, 2.0 kg actual, 3.0 kg slab",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "charged_weight", "label": "Charged weight (kg)", "type": "float", "min": 0, "max": 1000, "default_strategy": "conservative"},
+            {"column": "charged_weight_kg", "label": "Charged weight (kg, normalized)", "type": "float", "min": 0, "max": 1000, "default_strategy": "conservative"},
+            {"column": "weight_slab_kg", "label": "Weight slab (kg)", "type": "float", "min": 0, "max": 1000, "default_strategy": "conservative"},
+            {"column": "order_weight_kg", "label": "Order weight (kg)", "type": "float", "min": 0, "max": 1000, "default_strategy": "conservative"},
+            {"column": "package_weight_kg", "label": "Package weight (kg)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "zone_routing",
+          "columns": ["warehouse_pincode", "customer_pincode", "zone", "mapped_zone_l", "zone_match_flag"],
+          "question": "What are the warehouse and customer pin codes, the delivery zone, and does the zone mapping match?",
+          "hint": "e.g., warehouse 110001, customer 400001, zone B, zones match",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "warehouse_pincode", "label": "Warehouse pin code", "type": "integer", "min": 10000, "max": 999999, "default_strategy": "conservative"},
+            {"column": "customer_pincode", "label": "Customer pin code", "type": "integer", "min": 10000, "max": 999999, "default_strategy": "conservative"},
+            {"column": "zone", "label": "Delivery zone", "type": "categorical", "options": ["a", "b", "c", "d", "e"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "mapped_zone_l", "label": "Mapped zone", "type": "categorical", "options": ["a", "b", "c", "d", "e"], "encoding": "ordinal", "default_strategy": "conservative"},
+            {"column": "zone_match_flag", "label": "Zone match?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "shipment_type",
+          "columns": ["type_of_shipment", "shipment_mode"],
+          "question": "What type of shipment and shipping mode is most common?",
+          "hint": "e.g., Forward charges only, standard mode",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "type_of_shipment", "label": "Shipment charge type", "type": "categorical", "options": ["Forward charges", "Forward and RTO charges"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "shipment_mode", "label": "Shipment mode", "type": "categorical", "options": ["forward_only", "forward_and_rto"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "order_quantities",
+          "columns": ["total_order_qty", "distinct_sku_count"],
+          "question": "What is the typical total order quantity and how many distinct SKUs per shipment?",
+          "hint": "e.g., 5 units total, 3 distinct SKUs",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "total_order_qty", "label": "Total order quantity", "type": "integer", "min": 1, "max": 10000, "default_strategy": "conservative"},
+            {"column": "distinct_sku_count", "label": "Distinct SKU count", "type": "integer", "min": 1, "max": 5000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "billing_charges",
+          "columns": ["expected_charge_rs", "billing_amount_rs_num", "delivery_cost"],
+          "question": "What are the expected shipping charge, billed amount, and overall delivery cost?",
+          "hint": "e.g., expected charge 150 Rs, billed 175 Rs, delivery cost $12",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "expected_charge_rs", "label": "Expected charge (Rs)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "billing_amount_rs_num", "label": "Billed amount (Rs)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "delivery_cost", "label": "Delivery cost ($)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "delivery_logistics",
+          "columns": ["delivery_partner", "vehicle_type", "delivery_mode", "region"],
+          "question": "Who is the delivery partner, what vehicle type is used, what delivery mode, and which region?",
+          "hint": "e.g., FedEx, van, express delivery, North region",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "delivery_partner", "label": "Delivery partner", "type": "categorical", "options": ["FedEx", "DHL", "Blue Dart", "Delhivery", "Amazon Logistics", "Ekart", "Ecom Express", "Shadowfax", "XpressBees", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["Bike", "Scooter", "Van", "Truck", "EV Bike", "EV Van", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "delivery_mode", "label": "Delivery mode", "type": "categorical", "options": ["Standard", "Express", "Same Day", "Two Day", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "region", "label": "Delivery region", "type": "categorical", "options": ["North", "South", "East", "West", "Central", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "delivery_performance",
+          "columns": ["distance_km", "delivery_time_hours", "expected_time_hours", "delivery_status", "delivery_rating"],
+          "question": "What is the typical delivery distance, actual vs expected delivery time, status, and customer rating?",
+          "hint": "e.g., 25 km, delivered in 4 hours vs 6 expected, delivered successfully, rating 4.2",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "distance_km", "label": "Delivery distance (km)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "delivery_time_hours", "label": "Actual delivery time (hours)", "type": "float", "min": 0, "max": 720, "default_strategy": "conservative"},
+            {"column": "expected_time_hours", "label": "Expected delivery time (hours)", "type": "float", "min": 0, "max": 720, "default_strategy": "conservative"},
+            {"column": "delivery_status", "label": "Delivery status", "type": "categorical", "options": ["Delivered", "Delayed", "Failed", "In Transit", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "delivery_rating", "label": "Delivery rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "package_weather",
+          "columns": ["package_type", "weather_condition"],
+          "question": "What type of package is being shipped and what are the weather conditions during delivery?",
+          "hint": "e.g., electronics package, clear weather",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "package_type", "label": "Package type", "type": "categorical", "options": ["Electronics", "Clothing", "Documents", "Groceries", "Furniture", "Fragile Items", "Cosmetics", "Pharmacy", "Automobile Parts", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "weather_condition", "label": "Weather condition", "type": "categorical", "options": ["Clear", "Rainy", "Hot", "Cold", "Foggy", "Stormy"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_estimated_delivery_date"],
+          "question": "What are the key fulfillment timestamps -- purchase, approval, carrier handoff, and estimated delivery?",
+          "hint": "e.g., purchased Jan 5, approved Jan 5, carrier picked up Jan 6, estimated delivery Jan 12",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    },
+    "merchandising": {
+      "question_groups": [
+        {
+          "group_id": "sku_catalog",
+          "columns": ["sku", "product_name", "brand"],
+          "question": "What SKU, product name, and brand are you analyzing?",
+          "hint": "e.g., SKU 'WM-KURTA-001', product 'Cotton Kurta Set', brand 'FabIndia'",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "sku", "label": "SKU identifier", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "product_name", "label": "Product name", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "brand", "label": "Brand", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "pricing_structure",
+          "columns": ["discounted_price", "retail_price", "mrp_old", "final_mrp_old"],
+          "question": "What are the product's key price points -- discounted price, retail/MRP, and any legacy MRP?",
+          "hint": "e.g., discounted at $45, retail $60, old MRP $65",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "discounted_price", "label": "Discounted price ($)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "retail_price", "label": "Retail price ($)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "mrp_old", "label": "Old MRP ($)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"},
+            {"column": "final_mrp_old", "label": "Final old MRP ($)", "type": "float", "min": 0, "max": 1000000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "product_ratings",
+          "columns": ["product_rating", "overall_rating", "is_fk_advantage_product"],
+          "question": "What are the product and overall ratings, and is it a marketplace-advantage product?",
+          "hint": "e.g., product rating 4.2, overall 4.0, yes it is an advantage product",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "product_rating", "label": "Product rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "overall_rating", "label": "Overall rating (1-5)", "type": "float", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "is_fk_advantage_product", "label": "Advantage product?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "category_assortment",
+          "columns": ["category", "sub_category", "product_category_tree"],
+          "question": "What product category, sub-category, and full category tree does this item belong to?",
+          "hint": "e.g., Clothing > Women's > Kurtas & Kurtis, sub-category Tops",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "category", "label": "Primary category", "type": "categorical", "options": ["Clothing", "Electronics", "Home & Garden", "Books", "Beauty", "Sports", "Furniture", "Groceries", "Fashion", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "sub_category", "label": "Sub-category", "type": "categorical", "options": ["Phones", "Chairs", "Binders", "Storage", "Accessories", "Tables", "Art", "Envelopes", "Labels", "Furnishings", "Paper", "Copiers", "Bookcases", "Appliances", "Machines", "Supplies", "Fasteners", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "product_category_tree", "label": "Category tree available?", "type": "categorical", "options": ["Provided", "Not available"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "order_details",
+          "columns": ["order_item_id", "qty", "pcs", "freight_value"],
+          "question": "How many items per order, pieces per shipment, and what is the typical freight cost?",
+          "hint": "e.g., 2 items per order, 5 pieces, freight $8.50",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "order_item_id", "label": "Avg items per order", "type": "integer", "min": 1, "max": 100, "default_strategy": "conservative"},
+            {"column": "qty", "label": "Avg quantity", "type": "integer", "min": 1, "max": 10000, "default_strategy": "conservative"},
+            {"column": "pcs", "label": "Avg pieces per shipment", "type": "integer", "min": 1, "max": 10000, "default_strategy": "conservative"},
+            {"column": "freight_value", "label": "Avg freight cost ($)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sales_channel",
+          "columns": ["fulfilment", "sales_channel", "ship_service_level", "b2b"],
+          "question": "What sales channel, fulfillment method, shipping service level, and is it B2B?",
+          "hint": "e.g., Amazon marketplace, Merchant fulfilled, Standard shipping, B2C",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "fulfilment", "label": "Fulfillment type", "type": "categorical", "options": ["Amazon", "Merchant", "3PL", "Self-fulfilled", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "sales_channel", "label": "Sales channel", "type": "categorical", "options": ["Amazon", "Flipkart", "Own Website", "Marketplace", "Non-Amazon", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ship_service_level", "label": "Ship service level", "type": "categorical", "options": ["Standard", "Expedited", "Priority", "Economy", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "b2b", "label": "B2B order?", "type": "categorical", "options": ["Yes", "No"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "marketplace_pricing",
+          "columns": ["tp", "rate", "weight", "catalog"],
+          "question": "What is the transfer price, sell rate, product weight, and catalog collection?",
+          "hint": "e.g., transfer price $25, sell rate $40, weight 0.3 kg, catalog 'Breeze-4'",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "tp", "label": "Transfer price ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "rate", "label": "Sell rate ($)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "weight", "label": "Product weight (kg)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "catalog", "label": "Catalog/collection", "type": "categorical", "options": ["Breeze", "Colors", "Rozana", "Surmaya", "Moments", "Mix", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "geo_shipping",
+          "columns": ["ship_city", "ship_state", "ship_postal_code", "region", "segment"],
+          "question": "Where are orders being shipped and what customer segment?",
+          "hint": "e.g., Mumbai, Maharashtra, 400001, West region, Consumer segment",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "ship_city", "label": "Ship city", "type": "categorical", "options": ["Mumbai", "Delhi", "Bangalore", "New York", "Los Angeles", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ship_state", "label": "Ship state", "type": "categorical", "options": ["Maharashtra", "Karnataka", "Delhi", "California", "New York", "Texas", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "ship_postal_code", "label": "Ship postal code", "type": "integer", "min": 10000, "max": 999999, "default_strategy": "conservative"},
+            {"column": "region", "label": "Region", "type": "categorical", "options": ["East", "West", "Central", "South", "North", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "segment", "label": "Customer segment", "type": "categorical", "options": ["Consumer", "Corporate", "Home Office"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "ship_mode_timing",
+          "columns": ["ship_mode", "order_date", "ship_date", "shipping_limit_date", "date", "months"],
+          "question": "What shipping mode is used, and what are the key order, ship, and deadline dates?",
+          "hint": "e.g., Standard Class, ordered Jan 5, shipped Jan 7, deadline Jan 10",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    }
+  }
+}

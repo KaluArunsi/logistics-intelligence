@@ -1,0 +1,440 @@
+version: 1
+industry: trucking_delivery
+contract:
+  required_category_fields:
+    - business_scope
+    - subproblems
+    - canonical_features
+    - feature_engineering_playbook
+    - leakage_guardrails
+    - data_quality_gates
+    - acceptance_gates
+  required_subproblem_fields:
+    - id
+    - objective
+    - task_type
+    - canonical_targets
+    - inference_outputs
+
+categories:
+  route_eta_reliability:
+    business_scope: "Predict road-delivery ETA reliability and disruption risk."
+    l1_task_type: regression
+    subproblems:
+      - id: eta_signal_numeric
+        objective: "Forecast continuous ETA error and route travel-time drift."
+        task_type: regression
+        canonical_targets: [eta_error_minutes, delay_minutes, travel_time_index, obs_value, value, value1, air_val_yr, week_current]
+        fallback_targets: [eta_error, trip_duration_minutes, route_delay_index]
+        inference_outputs: [eta_error_forecast, route_reliability_index]
+      - id: eta_risk
+        objective: "Classify late-arrival risk and estimate ETA error."
+        task_type: classification
+        canonical_targets: [late_arrival_flag, eta_error_bucket, on_time_delivery]
+        fallback_targets: [delay_flag, on_time_flag]
+        inference_outputs: [delay_probability, eta_risk_band]
+    canonical_features:
+      route: [origin_zone, destination_zone, route_id, planned_distance]
+      temporal: [planned_departure_ts, day_of_week, hour_of_day]
+      context: [traffic_state, weather_state, incident_flag]
+    feature_engineering_playbook: ["rolling route delay windows", "planned-vs-actual lag features", "cyclical time encodings"]
+    leakage_guardrails:
+      forbidden_columns: [actual_arrival_ts, final_delay_minutes]
+      conditional_forbidden_patterns: [".*actual_arrival.*", ".*post_trip.*"]
+      notes: "Only pre-arrival features allowed."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      timestamp_fields: [planned_departure_ts]
+      required_key_hints: [trip_id, route_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  dispatch_capacity_balance:
+    business_scope: "Forecast capacity pressure and dispatch imbalances in road ops."
+    subproblems:
+      - id: capacity_pressure
+        objective: "Predict dispatch backlog and demand/supply pressure."
+        task_type: regression
+        canonical_targets: [dispatch_backlog, unassigned_loads, capacity_pressure_index]
+        fallback_targets: [capacity_index, backlog_count]
+        inference_outputs: [pressure_forecast]
+    canonical_features:
+      demand: [orders_inflow, pickups_due, deliveries_due]
+      supply: [active_vehicles, active_drivers, available_shifts]
+      context: [region, weekday, promo_or_event_flag]
+    feature_engineering_playbook: ["load-supply ratios", "rolling demand windows", "regional demand baselines"]
+    leakage_guardrails:
+      forbidden_columns: [future_assigned_loads]
+      conditional_forbidden_patterns: [".*future.*", ".*next_shift.*"]
+      notes: "No look-ahead dispatch outcomes."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [region, timestamp]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  last_mile_sla:
+    business_scope: "Predict SLA outcomes and failed-delivery events in last-mile operations."
+    l1_target_family: sla_breach
+    subproblems:
+      - id: sla_breach
+        objective: "Classify SLA breach/failed-attempt probability per stop."
+        task_type: classification
+        canonical_targets: [sla_breach_flag, failed_attempt_flag, delivery_exception_flag]
+        fallback_targets: [breach_flag, exception_flag]
+        inference_outputs: [sla_breach_probability]
+    canonical_features:
+      stop: [delivery_zone, stop_sequence, promised_window]
+      ops: [driver_shift, load_size, previous_stop_delay]
+      customer: [address_type, access_difficulty]
+    feature_engineering_playbook: ["stop-sequence lag features", "zone-level priors", "time-window slack features"]
+    leakage_guardrails:
+      forbidden_columns: [actual_delivery_ts, final_exception_code]
+      conditional_forbidden_patterns: [".*actual_delivery.*", ".*resolved.*"]
+      notes: "No post-delivery resolution fields."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.04
+      required_key_hints: [delivery_id, stop_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  driver_safety_compliance:
+    business_scope: "Model driver/carrier safety risk and compliance exposure."
+    subproblems:
+      - id: safety_violation_risk
+        objective: "Classify likelihood of incidents or compliance failures."
+        task_type: classification
+        canonical_targets: [safety_incident_flag, violation_risk_tier, inspection_failure_flag]
+        fallback_targets: [incident_flag, violation_flag]
+        inference_outputs: [safety_risk_probability, compliance_risk_band]
+    canonical_features:
+      actor: [carrier_id, driver_profile, license_class]
+      history: [inspection_count, prior_violations, prior_incidents]
+      operations: [hours_of_service, road_type, trip_length]
+    feature_engineering_playbook: ["rolling safety history", "violation frequency ratios", "exposure normalization"]
+    leakage_guardrails:
+      forbidden_columns: [adjudicated_penalty_amount, post_investigation_outcome]
+      conditional_forbidden_patterns: [".*adjudicat.*", ".*post_investigation.*"]
+      notes: "Exclude post-incident outcomes."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [carrier_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  fleet_utilization:
+    business_scope: "Optimize fleet productivity and idle-time reduction."
+    subproblems:
+      - id: fleet_productivity
+        objective: "Predict utilization and empty-mile exposure per asset pool."
+        task_type: regression
+        canonical_targets: [asset_utilization_pct, idle_hours, empty_mile_ratio]
+        fallback_targets: [utilization_rate, idle_time]
+        inference_outputs: [utilization_forecast]
+    canonical_features:
+      asset: [vehicle_id, vehicle_type, asset_age]
+      trip: [loaded_miles, empty_miles, stops]
+      ops: [dwell_time, shift_assignment, trip_count]
+    feature_engineering_playbook: ["trip-chain features", "asset cohort aggregates", "dwell decomposition"]
+    leakage_guardrails:
+      forbidden_columns: [month_end_utilization_actual]
+      conditional_forbidden_patterns: [".*month_end.*", ".*actual_.*"]
+      notes: "No period-close realized KPIs."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.04
+      required_key_hints: [vehicle_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  vehicle_maintenance_risk:
+    business_scope: "Predict maintenance and breakdown exposure for road fleet."
+    l1_target_family: breakdown_risk
+    subproblems:
+      - id: breakdown_risk
+        objective: "Classify failure/breakdown likelihood by asset and condition profile."
+        task_type: classification
+        canonical_targets: [breakdown_flag, maintenance_due_flag, failure_probability_band]
+        fallback_targets: [fault_flag, breakdown_risk]
+        inference_outputs: [failure_probability]
+    canonical_features:
+      asset: [vehicle_id, mileage, engine_hours]
+      service: [last_service_date, service_interval, fault_code_count]
+      usage: [route_profile, load_weight, idle_time]
+    feature_engineering_playbook: ["time-since-service features", "fault code aggregation", "usage stress indices"]
+    leakage_guardrails:
+      forbidden_columns: [repair_completion_date, final_repair_cost]
+      conditional_forbidden_patterns: [".*completion.*", ".*post_repair.*"]
+      notes: "Exclude post-maintenance outcomes."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.35
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [vehicle_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  fuel_energy_efficiency:
+    business_scope: "Model fuel and energy efficiency for route and asset optimization."
+    subproblems:
+      - id: fuel_efficiency
+        objective: "Forecast fuel burn and route energy intensity."
+        task_type: regression
+        canonical_targets: [fuel_burn_rate, mpg, energy_per_delivery]
+        fallback_targets: [fuel_consumption, fuel_cost]
+        inference_outputs: [fuel_forecast]
+    canonical_features:
+      asset: [vehicle_type, engine_spec]
+      route: [distance, elevation_profile, urban_ratio]
+      load: [payload_weight, stop_count, idle_minutes]
+    feature_engineering_playbook: ["fuel-per-mile features", "payload-normalized burn", "route gradient encodings"]
+    leakage_guardrails:
+      forbidden_columns: [final_trip_fuel_total]
+      conditional_forbidden_patterns: [".*final_trip.*"]
+      notes: "No fully realized trip-end aggregates."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [trip_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  lane_cost_yield:
+    business_scope: "Estimate lane economics and contribution margin stability."
+    l1_target_family: lane_margin
+    subproblems:
+      - id: lane_margin
+        objective: "Predict lane-level cost and yield outcomes."
+        task_type: regression
+        canonical_targets: [cost_per_mile, gross_margin_pct, lane_yield_bucket]
+        fallback_targets: [operating_cost, margin]
+        inference_outputs: [cost_projection, margin_projection]
+    canonical_features:
+      lane: [origin_dest_lane, contracted_rate, distance]
+      market: [fuel_index, demand_pressure, equipment_type]
+      operations: [stops_per_trip, detention_hours]
+    feature_engineering_playbook: ["rate-fuel spread", "distance nonlinearity terms", "lane-market interactions"]
+    leakage_guardrails:
+      forbidden_columns: [settlement_adjustment, post_invoice_corrections]
+      conditional_forbidden_patterns: [".*post_invoice.*", ".*settled.*"]
+      notes: "No settlement-time corrections in feature set."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [lane_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  pickup_dropoff_reliability:
+    business_scope: "Predict pickup/dropoff punctuality and service-time adherence."
+    l1_target_family: stop_reliability
+    subproblems:
+      - id: stop_reliability
+        objective: "Classify stop-level punctuality and missed slot risk."
+        task_type: classification
+        canonical_targets: [missed_slot_flag, stop_delay_bucket, service_time_overrun_flag]
+        fallback_targets: [late_pickup_flag, late_dropoff_flag]
+        inference_outputs: [stop_reliability_score]
+    canonical_features:
+      stop: [stop_id, appointment_window, location_type]
+      trip: [sequence_position, prior_stop_delay, route_density]
+      ops: [driver_shift, handoff_type]
+    feature_engineering_playbook: ["sequence lag features", "appointment slack", "stop-type priors"]
+    leakage_guardrails:
+      forbidden_columns: [actual_departure_from_stop]
+      conditional_forbidden_patterns: [".*actual_departure.*"]
+      notes: "No outcome timestamps from completed stop events."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [stop_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  parcel_exception_risk:
+    business_scope: "Identify parcel exception pathways and claim propensity."
+    l1_target_family: parcel_exception
+    subproblems:
+      - id: parcel_exception
+        objective: "Classify exception and claim probability for parcel legs."
+        task_type: classification
+        canonical_targets: [parcel_exception_flag, claim_filed_flag, damage_severity]
+        fallback_targets: [exception_flag, claim_flag]
+        inference_outputs: [exception_probability]
+    canonical_features:
+      package: [package_type, declared_value, packaging_type]
+      handling: [scan_events, handling_transitions, handoff_count]
+      route: [distance, temperature_exposure, attempts]
+    feature_engineering_playbook: ["event-sequence counts", "handling complexity scores", "value-risk interaction"]
+    leakage_guardrails:
+      forbidden_columns: [claim_resolution_status, reimbursed_amount]
+      conditional_forbidden_patterns: [".*resolution.*", ".*reimburse.*"]
+      notes: "No post-claim outcomes allowed."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [parcel_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  reverse_logistics_returns:
+    business_scope: "Model reverse-logistics throughput and return-cycle performance."
+    subproblems:
+      - id: return_cycle
+        objective: "Forecast return pickup and reintegration times."
+        task_type: regression
+        canonical_targets: [return_cycle_time, return_pickup_delay, restock_time]
+        fallback_targets: [return_days, reverse_flow_time]
+        inference_outputs: [return_cycle_forecast]
+    canonical_features:
+      return: [return_reason, return_channel, item_condition]
+      movement: [pickup_assignment_time, transit_distance, hub_count]
+      operations: [warehouse_backlog, carrier_type]
+    feature_engineering_playbook: ["reason-code embeddings", "return-route lag features", "hub pressure features"]
+    leakage_guardrails:
+      forbidden_columns: [final_refund_date]
+      conditional_forbidden_patterns: [".*final_refund.*", ".*post_return.*"]
+      notes: "No post-resolution fields in training set."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [return_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  cross_border_trucking:
+    business_scope: "Forecast crossing times and throughput at land-border road lanes."
+    l1_target_family: border_wait
+    l1_task_type: regression
+    subproblems:
+      - id: border_wait
+        objective: "Predict crossing queue and clearance duration for trucking lanes."
+        task_type: regression
+        canonical_targets: [crossing_time_hours, queue_delay_minutes, cross_border_volume]
+        fallback_targets: [wait_time, throughput]
+        inference_outputs: [crossing_delay_forecast]
+    canonical_features:
+      lane: [border_port, lane_type, direction]
+      temporal: [date, weekday, holiday_flag]
+      context: [inspection_rate, weather_state, event_flag]
+    feature_engineering_playbook: ["rolling crossing windows", "country-pair effects", "holiday/event flags"]
+    leakage_guardrails:
+      forbidden_columns: [post_clearance_outcome]
+      conditional_forbidden_patterns: [".*post_clearance.*"]
+      notes: "Exclude downstream adjudication fields."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [border_port, date]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  urban_traffic_risk:
+    business_scope: "Model urban congestion and traffic incident risk for delivery routes."
+    subproblems:
+      - id: congestion_risk
+        objective: "Classify traffic disruption risk at city/zone time slices."
+        task_type: classification
+        canonical_targets: [congestion_risk_band, incident_probability_band, route_disruption_flag]
+        fallback_targets: [congestion_flag, incident_flag]
+        inference_outputs: [congestion_probability]
+    canonical_features:
+      geo: [city_zone, corridor_id, road_class]
+      temporal: [timestamp, peak_flag, day_type]
+      context: [weather_state, event_density]
+    feature_engineering_playbook: ["traffic density rolling features", "event interaction terms", "peak-hour encodings"]
+    leakage_guardrails:
+      forbidden_columns: [final_daily_incident_count]
+      conditional_forbidden_patterns: [".*final_daily.*"]
+      notes: "No end-of-day final aggregates."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [zone_id, timestamp]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  cold_chain_last_mile:
+    business_scope: "Detect temperature integrity breakdown in road and final-mile legs."
+    l1_target_family: excursion_detection
+    l1_task_type: regression
+    subproblems:
+      - id: excursion_detection
+        objective: "Classify excursion events and spoilage risk probability."
+        task_type: classification
+        canonical_targets: [temperature_excursion_flag, cold_chain_break_flag, spoilage_risk]
+        fallback_targets: [excursion_flag, integrity_breach]
+        inference_outputs: [excursion_probability]
+    canonical_features:
+      sensors: [temperature_reading, humidity, setpoint]
+      handling: [door_open_count, transfer_events]
+      route: [duration, ambient_weather, stop_count]
+    feature_engineering_playbook: ["sensor lag gradients", "setpoint deviation windows", "door-event burst features"]
+    leakage_guardrails:
+      forbidden_columns: [lab_test_result, claim_resolution]
+      conditional_forbidden_patterns: [".*lab_test.*", ".*resolved.*"]
+      notes: "No post-incident quality assessments in features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [shipment_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  workforce_shift_planning:
+    business_scope: "Forecast staffing coverage and shift risk in delivery operations."
+    subproblems:
+      - id: shift_coverage
+        objective: "Predict shift shortfalls and overtime pressure."
+        task_type: regression
+        canonical_targets: [shift_coverage_gap, overtime_hours, driver_shortage_index]
+        fallback_targets: [coverage_gap, staffing_deficit]
+        inference_outputs: [staffing_pressure_forecast]
+    canonical_features:
+      workforce: [active_drivers, planned_roster, absence_rate]
+      demand: [planned_stops, dispatch_volume]
+      temporal: [shift_start, weekday, holiday_flag]
+    feature_engineering_playbook: ["roster demand deltas", "absence trend windows", "shift-level seasonality"]
+    leakage_guardrails:
+      forbidden_columns: [final_shift_closure_status]
+      conditional_forbidden_patterns: [".*final_shift.*"]
+      notes: "Use only pre-shift or in-shift data available at decision time."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [shift_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5

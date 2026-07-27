@@ -1,0 +1,148 @@
+version: 1
+industry: trucking_delivery
+
+source_policy:
+  official_only: true
+  allow_kaggle: false
+  allow_openml: false
+  allow_huggingface: false
+  trust_tiers: ["official", "government", "multilateral", "enterprise_public"]
+
+regional_intake_targets:
+  us: 50
+  asia: 30
+  europe: 35
+  other: 15
+
+regions:
+  us:
+    priority: 1
+    sources:
+      - id: usdot_data_hub
+        owner: U.S. Department of Transportation
+        type: government
+        access: api_or_download
+        url: "https://data.transportation.gov/"
+        categories_hint: ["route_eta_reliability", "dispatch_capacity_balance", "driver_safety_compliance", "cross_border_trucking"]
+      - id: bts_border_crossing
+        owner: Bureau of Transportation Statistics
+        type: government
+        access: api_or_download
+        url: "https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data"
+        categories_hint: ["cross_border_trucking", "route_eta_reliability"]
+      - id: fmcsa_data_dissemination
+        owner: Federal Motor Carrier Safety Administration
+        type: government
+        access: download
+        url: "https://www.fmcsa.dot.gov/registration/fmcsa-data-dissemination-program"
+        categories_hint: ["driver_safety_compliance", "fleet_utilization", "vehicle_maintenance_risk"]
+      - id: fmcsa_sms_csa
+        owner: Federal Motor Carrier Safety Administration
+        type: government
+        access: download
+        url: "https://ai.fmcsa.dot.gov/SMS/Tools/Downloads.aspx"
+        categories_hint: ["driver_safety_compliance", "fleet_utilization", "vehicle_maintenance_risk"]
+      - id: nhtsa_fars
+        owner: National Highway Traffic Safety Administration
+        type: government
+        access: download
+        url: "https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars"
+        categories_hint: ["driver_safety_compliance", "urban_traffic_risk"]
+      - id: us_census_cbp_border
+        owner: U.S. Customs and Border Protection / Census
+        type: government
+        access: download
+        url: "https://www.cbp.gov/newsroom/stats/cbp-public-data-portal"
+        categories_hint: ["cross_border_trucking", "dispatch_capacity_balance"]
+      - id: bts_cfs
+        owner: Bureau of Transportation Statistics
+        type: government
+        access: download
+        url: "https://www.bts.gov/cfs"
+        categories_hint: ["dispatch_capacity_balance", "lane_cost_yield", "cross_border_trucking"]
+      - id: bts_faf
+        owner: Bureau of Transportation Statistics
+        type: government
+        access: download
+        url: "https://www.bts.gov/faf"
+        categories_hint: ["dispatch_capacity_balance", "route_eta_reliability", "lane_cost_yield"]
+      - id: amazon_last_mile_challenge
+        owner: Amazon Science
+        type: enterprise_public
+        access: public_dataset
+        url: "https://github.com/amzn/amazon-last-mile-challenges"
+        categories_hint: ["route_eta_reliability", "pickup_dropoff_reliability", "last_mile_sla"]
+
+  europe:
+    priority: 2
+    sources:
+      - id: eurostat_road_transport
+        owner: Eurostat
+        type: government
+        access: bulk_download
+        url: "https://ec.europa.eu/eurostat/data/database"
+        categories_hint: ["dispatch_capacity_balance", "fleet_utilization", "route_eta_reliability"]
+      - id: uk_data_gov_transport
+        owner: UK Government Open Data
+        type: government
+        access: api_or_download
+        url: "https://data.gov.uk/"
+        categories_hint: ["driver_safety_compliance", "fleet_utilization", "route_eta_reliability"]
+      - id: uk_dft_road_freight
+        owner: UK Department for Transport
+        type: government
+        access: download
+        url: "https://www.gov.uk/government/statistics/road-freight-statistics-2024"
+        categories_hint: ["lane_cost_yield", "fleet_utilization", "dispatch_capacity_balance"]
+
+  asia:
+    priority: 3
+    sources:
+      - id: hong_kong_open_data_transport
+        owner: Hong Kong SAR Government
+        type: government
+        access: api_or_download
+        url: "https://data.gov.hk/en-data/"
+        categories_hint: ["last_mile_sla", "urban_traffic_risk", "fleet_utilization", "pickup_dropoff_reliability"]
+      - id: singapore_data_gov_transport
+        owner: Singapore Government
+        type: government
+        access: api_or_download
+        url: "https://data.gov.sg/"
+        categories_hint: ["dispatch_capacity_balance", "route_eta_reliability", "workforce_shift_planning"]
+      - id: india_ogd_transport
+        owner: Government of India Open Data Platform
+        type: government
+        access: download
+        url: "https://www.data.gov.in/"
+        categories_hint: ["cross_border_trucking", "urban_traffic_risk", "fleet_utilization"]
+
+  other:
+    priority: 4
+    sources:
+      - id: world_bank_logistics
+        owner: World Bank
+        type: multilateral
+        access: download
+        url: "https://datacatalog.worldbank.org/search/dataset/0038649/Logistics-Performance-Index"
+        categories_hint: ["cross_border_trucking", "lane_cost_yield", "driver_safety_compliance"]
+      - id: oecd_transport_statistics
+        owner: OECD / ITF
+        type: multilateral
+        access: api_or_download
+        url: "https://www.itf-oecd.org/data-statistics"
+        categories_hint: ["dispatch_capacity_balance", "fleet_utilization", "urban_traffic_risk"]
+
+enterprise_benchmark_sources:
+  - id: dhl_public_reports
+    owner: DHL Group
+    type: enterprise_public
+    access: report_download
+    url: "https://www.dhl.com/global-en/home/about-us/investor-relations.html"
+    usage: "Benchmark KPI framing only; do not treat as official government raw feeds."
+  - id: fedex_public_reports
+    owner: FedEx
+    type: enterprise_public
+    access: report_download
+    url: "https://investors.fedex.com/"
+    usage: "Benchmark KPI framing only; do not treat as official government raw feeds."

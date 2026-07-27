@@ -1,0 +1,44 @@
+# Ecommerce Category Definitions
+
+categories:
+  demand_signal:
+    description: "Demand sensing and order-volume forecasting"
+    task_type: regression
+    keywords: ["demand", "forecast", "orders", "volume", "traffic", "seasonality"]
+    metrics: ["mape", "rmse", "r2"]
+
+  conversion_optimization:
+    description: "Conversion propensity and funnel optimization"
+    task_type: classification
+    keywords: ["conversion", "checkout", "funnel", "session", "attribution", "uplift"]
+    metrics: ["f1_score", "accuracy", "roc_auc"]
+
+  merchandising:
+    description: "Merchandising mix and assortment effectiveness"
+    task_type: regression
+    keywords: ["merchandising", "assortment", "sku", "category", "gmv", "margin"]
+    metrics: ["rmse", "mape", "r2"]
+
+  basket_intelligence:
+    description: "Basket behavior and cross-sell propensity"
+    task_type: classification
+    keywords: ["basket", "cart", "cross-sell", "upsell", "bundle", "affinity"]
+    metrics: ["f1_score", "accuracy", "mcc"]
+
+  checkout_risk:
+    description: "Payment/checkout risk and chargeback prediction"
+    task_type: classification
+    keywords: ["checkout", "payment", "chargeback", "fraud", "risk", "decline"]
+    metrics: ["f1_score", "precision", "recall", "mcc"]
+
+  fulfillment_flow:
+    description: "Fulfillment flow and delivery-SLA outcome prediction"
+    task_type: classification
+    keywords: ["fulfillment", "pickpack", "dispatch", "shipment", "sla", "delivery"]
+    metrics: ["f1_score", "accuracy", "mcc"]
+
+  catalog_quality:
+    description: "Catalog/listing quality and discoverability risk"
+    task_type: classification
+    keywords: ["catalog", "listing", "content", "quality", "attributes", "search"]
+    metrics: ["f1_score", "accuracy", "roc_auc"]

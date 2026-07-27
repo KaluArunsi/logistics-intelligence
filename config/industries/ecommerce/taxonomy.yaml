@@ -1,0 +1,285 @@
+version: 1
+industry: ecommerce
+contract:
+  required_category_fields:
+    - business_scope
+    - subproblems
+    - canonical_features
+    - feature_engineering_playbook
+    - leakage_guardrails
+    - data_quality_gates
+    - acceptance_gates
+  required_subproblem_fields:
+    - id
+    - objective
+    - task_type
+    - canonical_targets
+    - inference_outputs
+
+categories:
+  demand_signal:
+    business_scope: "Forecast near-term and medium-term demand at sku/site/channel granularity."
+    subproblems:
+      - id: short_horizon_units
+        objective: "Predict units sold in next 1-7 days."
+        task_type: regression
+        canonical_targets: [units_next_day, units_next_week]
+        fallback_targets: [daily_orders, quantity]
+        inference_outputs: [point_forecast, prediction_interval]
+      - id: long_horizon_volume
+        objective: "Predict weekly/monthly demand for planning."
+        task_type: regression
+        canonical_targets: [units_next_month, weekly_volume]
+        fallback_targets: [gmv_next_period]
+        inference_outputs: [volume_forecast]
+    canonical_features:
+      temporal: [order_date, dow, week_of_year, month, holiday_flag]
+      traffic: [sessions, pageviews, source_channel]
+      promo: [discount_rate, campaign_flag, campaign_spend]
+      catalog: [sku_id, product_type, lifecycle_stage]
+    feature_engineering_playbook:
+      - rolling windows: [7d_mean, 28d_mean, 7d_std]
+      - lags: [lag_1, lag_7, lag_28]
+      - cyclic encodings: [dow_sin_cos, month_sin_cos]
+      - interaction terms: [promo_x_channel]
+    leakage_guardrails:
+      forbidden_columns: [future_orders, future_revenue, post_period_returns]
+      conditional_forbidden_patterns: [".*next_.*" , ".*future.*"]
+      notes: "No post-cutoff aggregates in training features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      timestamp_fields: [order_date]
+      required_key_hints: [sku_id, channel]
+    acceptance_gates:
+      l0_regression_min_r2: 0.90
+      l0_regression_max_rmse_normalized: 0.12
+      l1_regression_min_r2: 0.90
+      minimum_unique_workers: 3
+
+  conversion_optimization:
+    business_scope: "Predict purchase conversion and optimize checkout funnel outcomes."
+    subproblems:
+      - id: session_conversion
+        objective: "Predict whether a browsing session converts."
+        task_type: classification
+        canonical_targets: [converted]
+        fallback_targets: [purchase_completed]
+        inference_outputs: [conversion_probability, calibrated_risk_band]
+      - id: checkout_abandonment
+        objective: "Predict abandonment at payment or shipping step."
+        task_type: classification
+        canonical_targets: [checkout_abandoned]
+        fallback_targets: [cart_abandonment]
+        inference_outputs: [abandonment_probability]
+    canonical_features:
+      session: [session_id, pages_viewed, dwell_time_sec, entry_page]
+      user: [new_vs_returning, device_type, geo_region]
+      offer: [coupon_used, shipping_fee, total_cart_value]
+    feature_engineering_playbook:
+      - funnel depth scores
+      - recency-frequency features
+      - cart value bucketization
+    leakage_guardrails:
+      forbidden_columns: [order_id, payment_success_timestamp, final_order_value]
+      conditional_forbidden_patterns: [".*success.*", ".*completed_at.*"]
+      notes: "Do not include outcome-generated fields from payment gateway logs."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.03
+      timestamp_fields: [session_start_ts]
+      required_key_hints: [session_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.90
+      l0_classification_min_roc_auc: 0.90
+      l1_classification_min_f1: 0.90
+      minimum_unique_workers: 3
+
+  merchandising:
+    business_scope: "Optimize assortment, placement, and margin/GMV outcomes."
+    subproblems:
+      - id: sku_margin_prediction
+        objective: "Predict margin performance by sku and assortment mix."
+        task_type: regression
+        canonical_targets: [margin, contribution_margin]
+        fallback_targets: [gmv, net_revenue]
+        inference_outputs: [expected_margin]
+      - id: assortment_effectiveness
+        objective: "Predict assortment contribution under campaign context."
+        task_type: regression
+        canonical_targets: [assortment_uplift]
+        fallback_targets: [sell_through]
+        inference_outputs: [uplift_score]
+    canonical_features:
+      catalog: [sku_id, category_id, brand, price_band]
+      commercial: [discount_rate, ad_spend, placement_slot]
+      inventory: [on_hand, days_of_cover]
+    feature_engineering_playbook:
+      - price elasticity features
+      - promo interaction features
+      - category-level aggregate priors
+    leakage_guardrails:
+      forbidden_columns: [final_margin_post_adjustment, closed_month_finance_values]
+      conditional_forbidden_patterns: [".*post_.*", ".*actualized.*"]
+      notes: "Finance close-out values must not be included when predicting live decisions."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [sku_id, category_id]
+    acceptance_gates:
+      l0_regression_min_r2: 0.90
+      l1_regression_min_r2: 0.90
+      minimum_unique_workers: 3
+
+  basket_intelligence:
+    business_scope: "Model multi-item affinity and cross-sell/upsell propensity."
+    subproblems:
+      - id: cross_sell_acceptance
+        objective: "Predict acceptance of recommended add-on items."
+        task_type: classification
+        canonical_targets: [cross_sell_success]
+        fallback_targets: [add_on_purchase]
+        inference_outputs: [acceptance_probability]
+      - id: bundle_affinity
+        objective: "Predict if item bundle is likely to be purchased together."
+        task_type: classification
+        canonical_targets: [bundle_acceptance]
+        fallback_targets: [co_purchase]
+        inference_outputs: [affinity_score]
+    canonical_features:
+      basket: [cart_items, cart_size, basket_value]
+      behavioral: [view_to_cart_events, recency_days]
+      catalog: [sku_similarity, category_overlap]
+    feature_engineering_playbook:
+      - co-occurrence embeddings
+      - item-pair frequency priors
+      - sequence-derived recency features
+    leakage_guardrails:
+      forbidden_columns: [future_co_purchase_count, post_checkout_items]
+      conditional_forbidden_patterns: [".*future.*", ".*after_checkout.*"]
+      notes: "Use only pre-decision cart/session state."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [session_id, cart_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.90
+      l1_classification_min_f1: 0.90
+      minimum_unique_workers: 3
+
+  checkout_risk:
+    business_scope: "Detect payment risk, transaction abuse, and chargeback likelihood."
+    subproblems:
+      - id: payment_fraud
+        objective: "Predict fraudulent checkout attempts."
+        task_type: classification
+        canonical_targets: [is_fraud]
+        fallback_targets: [fraud_label]
+        inference_outputs: [fraud_probability, action_recommendation]
+      - id: chargeback_risk
+        objective: "Predict chargeback probability post-authorization."
+        task_type: classification
+        canonical_targets: [chargeback]
+        fallback_targets: [dispute_flag]
+        inference_outputs: [chargeback_probability]
+    canonical_features:
+      payment: [payment_method, avs_result, cvv_result]
+      identity: [device_fingerprint, ip_country, account_age_days]
+      velocity: [orders_last_24h, cards_last_24h, amount_zscore]
+    feature_engineering_playbook:
+      - velocity windows [1h, 24h, 7d]
+      - geo/device mismatch flags
+      - robust scaling on amount features
+    leakage_guardrails:
+      forbidden_columns: [manual_review_outcome, chargeback_resolution_status]
+      conditional_forbidden_patterns: [".*resolution.*", ".*investigation.*"]
+      notes: "No downstream investigation outcomes in model features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.20
+      max_duplicate_row_ratio: 0.02
+      required_key_hints: [transaction_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.90
+      l0_classification_min_recall: 0.90
+      l1_classification_min_f1: 0.90
+      minimum_unique_workers: 3
+
+  fulfillment_flow:
+    business_scope: "Predict SLA outcomes and fulfillment exceptions end-to-end."
+    subproblems:
+      - id: late_delivery
+        objective: "Predict whether shipment breaches promised delivery SLA."
+        task_type: classification
+        canonical_targets: [late_delivery, sla_breach]
+        fallback_targets: [delivery_delayed]
+        inference_outputs: [sla_breach_probability]
+      - id: fulfillment_exception
+        objective: "Predict pick-pack-ship exception events."
+        task_type: classification
+        canonical_targets: [fulfillment_exception]
+        fallback_targets: [shipment_exception]
+        inference_outputs: [exception_probability]
+    canonical_features:
+      warehouse: [warehouse_id, queue_depth, picker_utilization]
+      shipping: [carrier_service, zone, cut_off_hour]
+      order: [order_priority, item_count, package_weight]
+    feature_engineering_playbook:
+      - promised vs expected delta features
+      - route/service-level categorical encodings
+      - event-time bucketing
+    leakage_guardrails:
+      forbidden_columns: [actual_delivery_timestamp, final_exception_code]
+      conditional_forbidden_patterns: [".*actual_.*", ".*resolved.*"]
+      notes: "Use only information available before dispatch decision point."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.03
+      timestamp_fields: [order_created_ts, promised_delivery_ts]
+      required_key_hints: [order_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.90
+      l1_classification_min_f1: 0.90
+      minimum_unique_workers: 3
+
+  catalog_quality:
+    business_scope: "Detect listing quality and discoverability defects that hurt conversion."
+    subproblems:
+      - id: listing_quality_risk
+        objective: "Predict whether listing violates quality threshold."
+        task_type: classification
+        canonical_targets: [listing_quality_risk]
+        fallback_targets: [quality_flag]
+        inference_outputs: [quality_risk_probability]
+      - id: search_suppression
+        objective: "Predict if listing is likely to be suppressed in search/ranking."
+        task_type: classification
+        canonical_targets: [search_suppression]
+        fallback_targets: [discoverability_risk]
+        inference_outputs: [suppression_probability]
+    canonical_features:
+      content: [title_length, description_completeness, bullet_count, image_count]
+      taxonomy: [category_match_score, attribute_fill_rate]
+      quality_signals: [return_rate, defect_rate]
+    feature_engineering_playbook:
+      - text quality scoring
+      - completeness ratios
+      - attribute consistency checks
+    leakage_guardrails:
+      forbidden_columns: [manual_moderation_outcome, post_publish_penalty_reason]
+      conditional_forbidden_patterns: [".*moderation.*", ".*penalty.*"]
+      notes: "Do not train on post-action enforcement outputs."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [listing_id, sku_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.90
+      l1_classification_min_f1: 0.90
+      minimum_unique_workers: 3
+
+industry_completion_gates:
+  min_unique_l0_workers: 30
+  min_categories: 5
+  min_workers_per_category: 3
+  require_all_l0_passed: true
+  require_all_l1_passed: true

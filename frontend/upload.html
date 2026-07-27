@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload your business data and start a focused analysis with Toji.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23155E40'/><text x='7' y='24' font-size='20' fill='white' font-weight='700'>T</text></svg>">
+    <title>Upload Data - Logistics Intelligence</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+        main {
+            max-width: 860px;
+            margin: 56px auto 100px;
+            padding: 0 28px;
+        }
+
+        .page-eyebrow {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            line-height: 1.08;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 640px;
+            line-height: 1.7;
+        }
+
+        /* ── Single form container ──────────────────────────── */
+        .upload-form {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-block {
+            padding: 28px 32px;
+        }
+
+        .form-divider {
+            height: 1px;
+            background: var(--border);
+        }
+
+        .block-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* ── Industry select ────────────────────────────────── */
+        .industry-select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 13px 15px;
+            background: rgba(247,247,243,0.94);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s;
+            -webkit-appearance: none;
+        }
+
+        .industry-select:focus { border-color: var(--accent); }
+
+        .industry-custom {
+            display: none;
+            margin-top: 8px;
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 13px 15px;
+            background: rgba(247,247,243,0.94);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s;
+            box-sizing: border-box;
+        }
+
+        .industry-custom:focus { border-color: var(--accent); }
+        .industry-custom::placeholder { font-style: italic; }
+
+        .industry-primer {
+            display: none;
+            margin-top: 10px;
+            border: 1px solid var(--border);
+            background: rgba(247,247,243,0.9);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+        }
+
+        .industry-primer.active { display: block; }
+
+        .industry-primer-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 7px;
+            letter-spacing: -0.01em;
+        }
+
+        .industry-primer-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .suggest-chip {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color 0.12s, color 0.12s;
+            letter-spacing: -0.01em;
+        }
+
+        .suggest-chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── Drop zone ──────────────────────────────────────── */
+        .upload-zone {
+            display: block;
+            border: 1.5px dashed rgba(21, 94, 64, 0.18);
+            border-radius: var(--radius-lg);
+            padding: 56px 28px;
+            text-align: center;
+            cursor: pointer;
+            background:
+                radial-gradient(circle at top center, rgba(21, 94, 64, 0.06), transparent 40%),
+                rgba(247,247,243,0.86);
+            transition: border-color 0.15s, background 0.15s, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 6%, rgba(247,247,243,0.92));
+            box-shadow: var(--shadow-md);
+        }
+
+        .upload-icon {
+            margin: 0 auto 14px;
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+        }
+
+        .upload-icon svg { width: 40px; height: 40px; }
+
+        .upload-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .upload-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ── File info row ──────────────────────────────────── */
+        .file-info {
+            display: none;
+            margin-top: 14px;
+            padding: 14px 16px;
+            background: rgba(247,247,243,0.92);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .file-info.active { display: flex; }
+
+        .file-meta { flex: 1; min-width: 0; }
+
+        .file-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-details {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* ── Progress ───────────────────────────────────────── */
+        .progress {
+            display: none;
+            margin-top: 14px;
+        }
+
+        .progress.active { display: block; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(222, 217, 207, 0.9);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* ── Form footer (guidance) ─────────────────────────── */
+        .form-footer {
+            padding: 24px 32px 28px;
+            background: linear-gradient(180deg, rgba(247,247,243,0.76), rgba(242,240,234,0.7));
+        }
+
+        .guidance-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .guidance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .guidance-item {
+            background: rgba(255,255,255,0.82);
+            padding: 16px 16px 18px;
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-md);
+        }
+
+        .guidance-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+
+        .guidance-desc {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        @media (max-width: 680px) {
+            .guidance-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            main {
+                margin: 36px auto 64px;
+                padding: 0 16px;
+            }
+
+            h1 { font-size: 28px; }
+
+            .subtitle { font-size: 15px; }
+
+            .form-block { padding: 18px 16px; }
+
+            .form-footer { padding: 16px; }
+
+            .upload-zone { padding: 32px 16px; }
+
+            /* File info row: stack vertically */
+            .file-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .file-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .file-actions .btn {
+                width: 100%;
+                min-height: 44px;
+                justify-content: center;
+            }
+
+            .suggest-chip {
+                min-height: 40px;
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">T</div>
+                Logistics Intelligence
+            </a>
+            <nav>
+                <a href="synthesis.html">Describe a problem</a>
+                <a href="chat.html" target="_blank">Ask Toji</a>
+                <a href="index.html" class="back-link">&larr; Back</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <p class="page-eyebrow">Upload &amp; Analyze</p>
+        <h1>Analyze your data.</h1>
+        <p class="subtitle">Upload a structured dataset. Our bespoke AI, Toji, returns executive visuals, benchmark position, and a clear recommendation.</p>
+
+        <div class="upload-form">
+
+            <!-- Industry block -->
+            <div class="form-block">
+                <div class="block-label">Industry</div>
+                <select id="industrySelect" class="industry-select">
+                    <option value="ecommerce">E-Commerce &amp; Retail</option>
+                    <option value="shipping_freight">Shipping &amp; Freight</option>
+                    <option value="trucking_delivery">Trucking &amp; Delivery</option>
+                    <option value="__custom__">Other (Type Industry)</option>
+                </select>
+                <input
+                    id="industryCustom"
+                    class="industry-custom"
+                    type="text"
+                    placeholder="e.g., aviation, healthcare supply, manufacturing"
+                />
+                <div class="industry-primer" id="industryPrimer">
+                    <div class="industry-primer-label">Try examples:</div>
+                    <div class="industry-primer-chips" id="industryPrimerChips">
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('restaurant')">restaurant</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('coffee shop')">coffee shop</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('pharmacy')">pharmacy</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('clinic')">clinic</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('auto repair')">auto repair</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('salon')">salon</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('wholesale distributor')">wholesale distributor</button>
+                        <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('construction subcontractor')">construction subcontractor</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Upload block -->
+            <div class="form-block">
+                <div class="block-label">Dataset</div>
+                <label class="upload-zone" id="uploadZone" for="fileInput">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="10" width="28" height="22" rx="3"/>
+                            <path d="M14 18l6-6 6 6"/>
+                            <path d="M20 12v14"/>
+                        </svg>
+                    </div>
+                    <div class="upload-title">Drop your file here</div>
+                    <p class="upload-description">or click to browse. PDF, CSV, XLS, XLSX, JSON, or TXT, max 50 MB</p>
+                    <span class="btn" style="pointer-events: none;">Choose file</span>
+                </label>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,.csv,.xls,.xlsx,.json,.txt" />
+
+                <div class="file-info" id="fileInfo">
+                    <div class="file-meta">
+                        <div class="file-name" id="fileName"></div>
+                        <div class="file-details" id="fileDetails"></div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn" id="analyzeBtn" onclick="analyzeFile()">Analyze now &rarr;</button>
+                        <button class="btn btn-secondary" onclick="clearFile()">Remove</button>
+                    </div>
+                </div>
+
+                <div class="progress" id="progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Initializing...</div>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+            </div>
+
+            <div class="form-divider"></div>
+
+            <!-- Guidance footer -->
+            <div class="form-footer">
+                <div class="guidance-label">What works well</div>
+                <div class="guidance-grid">
+                    <div class="guidance-item">
+                        <div class="guidance-name">E-Commerce &amp; Retail</div>
+                        <div class="guidance-desc">Orders, catalog, traffic, conversion, returns, fulfillment</div>
+                    </div>
+                    <div class="guidance-item">
+                        <div class="guidance-name">Shipping &amp; Freight</div>
+                        <div class="guidance-desc">Lanes, ETAs, throughput, port events, delays, compliance</div>
+                    </div>
+                    <div class="guidance-item">
+                        <div class="guidance-name">Trucking &amp; Delivery</div>
+                        <div class="guidance-desc">Routes, stops, OTIF/SLA, dispatch logs, last-mile outcomes</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="shared.js"></script>
+    <script>
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const progress = document.getElementById('progress');
+        const industrySelectEl = document.getElementById('industrySelect');
+        const industryCustomEl = document.getElementById('industryCustom');
+        let currentFile = null;
+
+        function resolveIndustrySelection() {
+            const selected = String(industrySelectEl.value || '').trim();
+            if (selected === '__custom__') {
+                const customRaw = String(industryCustomEl.value || '').trim();
+                if (!customRaw) {
+                    throw new Error('Type an industry name before analysis.');
+                }
+                setSelectedIndustry('other_industry');
+                return {
+                    industryInput: customRaw,
+                    normalizedIndustry: 'other_industry',
+                    customIndustryName: customRaw
+                };
+            }
+            const normalized = _normalizeIndustryValue(selected);
+            setSelectedIndustry(normalized);
+            return {
+                industryInput: normalized,
+                normalizedIndustry: normalized,
+                customIndustryName: null
+            };
+        }
+
+        function syncIndustryControls() {
+            const selected = String(industrySelectEl.value || '').trim();
+            const customMode = selected === '__custom__';
+            const primer = document.getElementById('industryPrimer');
+            industryCustomEl.style.display = customMode ? 'block' : 'none';
+            if (primer) primer.classList.toggle('active', customMode);
+            if (!customMode) {
+                industryCustomEl.value = '';
+            }
+        }
+
+        function applyIndustryPrimer(value) {
+            industrySelectEl.value = '__custom__';
+            industryCustomEl.value = String(value || '');
+            syncIndustryControls();
+            setSelectedIndustry('other_industry');
+        }
+
+        industrySelectEl.addEventListener('change', () => {
+            syncIndustryControls();
+            const selected = String(industrySelectEl.value || '').trim();
+            if (selected !== '__custom__') {
+                setSelectedIndustry(selected);
+            }
+        });
+        industryCustomEl.addEventListener('blur', () => {
+            if (String(industrySelectEl.value || '') !== '__custom__') return;
+            const normalized = _normalizeIndustryValue(industryCustomEl.value);
+            if (normalized) setSelectedIndustry(normalized);
+        });
+
+        function onDragOver(e) {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        }
+
+        function onDragLeave() {
+            uploadZone.classList.remove('dragover');
+        }
+
+        function onDrop(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+        }
+
+        uploadZone.addEventListener('dragover', onDragOver);
+        uploadZone.addEventListener('dragleave', onDragLeave);
+        uploadZone.addEventListener('drop', onDrop);
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (!['pdf', 'csv', 'xls', 'xlsx', 'json', 'txt'].includes(ext)) {
+                showError('Please upload a PDF, CSV, XLS, XLSX, JSON, or TXT file.');
+                return;
+            }
+            // Client-side size limit (#6)
+            if (file.size > MAX_UPLOAD_BYTES) {
+                showError('File exceeds the 50 MB size limit. Please upload a smaller file.');
+                return;
+            }
+
+            currentFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileDetails').textContent = `${(file.size / 1024).toFixed(2)} KB`;
+            fileInfo.classList.add('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function clearFile() {
+            currentFile = null;
+            fileInput.value = '';
+            fileInfo.classList.remove('active');
+            progress.classList.remove('active');
+            document.getElementById('errorMessage').classList.remove('show');
+        }
+
+        function showError(msg) {
+            const err = document.getElementById('errorMessage');
+            // Use textContent to prevent XSS (#9)
+            err.textContent = '';
+            const strong = document.createElement('strong');
+            strong.textContent = 'Analysis Failed';
+            strong.style.display = 'block';
+            strong.style.marginBottom = '4px';
+            err.appendChild(strong);
+            err.appendChild(document.createTextNode(msg));
+            err.classList.add('show');
+        }
+
+        async function analyzeFile() {
+            if (!currentFile) return;
+
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('analyzeBtn').textContent = 'Analyzing...';
+            progress.classList.add('active');
+            document.getElementById('errorMessage').classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('file', currentFile);
+
+            try {
+                await ensureSession();
+                const uploadRes = await fetch(`${API_BASE}/intake/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const uploadJson = await uploadRes.json();
+                if (!uploadRes.ok) {
+                    throw new Error(extractError(uploadJson, 'Upload failed'));
+                }
+
+                const selection = resolveIndustrySelection();
+                const tellUsRes = await fetch(`${API_BASE}/intake/tell-us`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        industry: selection.industryInput,
+                        problem_statement: 'I uploaded a dataset and want Toji to analyze it immediately, show me the dashboard first, then ask me 10 follow-up questions one by one to sharpen the analysis.',
+                        context: {
+                            entrypoint: 'upload',
+                            post_dashboard_intake_required: true,
+                            upload_artifact_uri: uploadJson.artifact_uri,
+                            upload_schema: uploadJson.upload_schema || null,
+                            custom_industry_name: selection.customIndustryName,
+                            file_name: currentFile.name,
+                        }
+                    })
+                });
+                const tellUsJson = await tellUsRes.json();
+                if (!tellUsRes.ok) {
+                    throw new Error(extractError(tellUsJson, 'Tell-Us initialization failed'));
+                }
+
+                sessionStorage.setItem('upload_artifact_uri', uploadJson.artifact_uri);
+                sessionStorage.setItem('selectedIndustry', selection.normalizedIndustry || 'other_industry');
+                if (selection.customIndustryName) {
+                    sessionStorage.setItem('customIndustryName', selection.customIndustryName);
+                } else {
+                    sessionStorage.removeItem('customIndustryName');
+                }
+                document.querySelector('.progress-fill').style.width = '35%';
+                document.querySelector('.progress-text').textContent = 'Upload received. Building your dashboard...';
+
+                const predictRes = await fetch(`${API_BASE}/run/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        industry: selection.industryInput,
+                        artifact_uri: uploadJson.artifact_uri
+                    })
+                });
+                const predictJson = await predictRes.json();
+                if (!predictRes.ok) {
+                    throw new Error(extractError(predictJson, 'Analysis failed'));
+                }
+
+                const report = await waitForReport(predictJson.task_id, {
+                    onProgress(status) {
+                        const pct = Math.round(35 + (Math.max(0, Math.min(1, Number(status.progress) || 0)) * 65));
+                        document.querySelector('.progress-fill').style.width = `${pct}%`;
+                        const state = String(status.state || '').toLowerCase();
+                        if (state.includes('analysis') || state.includes('dashboard')) {
+                            document.querySelector('.progress-text').textContent = 'Generating visuals and validating charts...';
+                        } else if (state.includes('report')) {
+                            document.querySelector('.progress-text').textContent = 'Preparing dashboard...';
+                        } else {
+                            document.querySelector('.progress-text').textContent = 'Analyzing your dataset...';
+                        }
+                    }
+                });
+
+                sessionStorage.setItem('analysisResults', JSON.stringify({ report_id: report.report_id, report }));
+                document.querySelector('.progress-fill').style.width = '100%';
+                document.querySelector('.progress-text').textContent = 'Dashboard ready. Opening now...';
+                window.location.href = `dashboard.html?report_id=${encodeURIComponent(report.report_id)}`;
+
+            } catch (error) {
+                showError(error.message);
+                document.getElementById('analyzeBtn').disabled = false;
+                document.getElementById('analyzeBtn').textContent = 'Analyze now \u2192';
+                progress.classList.remove('active');
+            }
+        }
+
+        initTheme();
+        const initial = getSelectedIndustry();
+        if (isKnownIndustry(initial)) {
+            industrySelectEl.value = initial;
+        } else {
+            industrySelectEl.value = '__custom__';
+            industryCustomEl.value = initial.replace(/_/g, ' ');
+        }
+        syncIndustryControls();
+        setSelectedIndustry(initial);
+    </script>
+</body>
+</html>

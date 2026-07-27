@@ -1,0 +1,986 @@
+{
+  "version": 1,
+  "industry": "shipping_freight",
+  "updated_at": "2026-02-24T03:39:13.812270+00:00",
+  "targets": [
+    {
+      "target_column": "region",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "customs_compliance"
+      ],
+      "worker_model_ids": [
+        "l0_asia__hong_kong__hk_b28fa391_73ce8f30_traffic_snapshot_images_traffic_camera_locations_english_csv"
+      ],
+      "worker_dataset_ids": [
+        "asia__hong_kong__hk_b28fa391_73ce8f30_traffic_snapshot_images_traffic_camera_locations_english_csv"
+      ],
+      "feature_evidence": [
+        "key",
+        "district_Central & Western",
+        "district_Eastern",
+        "district_Islands",
+        "district_Kowloon City",
+        "district_Kwai Tsing",
+        "district_Kwun Tong",
+        "district_North",
+        "district_Sai Kung",
+        "district_Sha Tin",
+        "district_Sham Shui Po",
+        "district_Southern"
+      ],
+      "distribution_summary": {
+        "n": 993,
+        "dtype": "String",
+        "n_unique": 3
+      },
+      "historical_summary": {
+        "runs": 11,
+        "prediction_mean_avg": 144.532353,
+        "prediction_mean_abs_avg": 144.532353,
+        "confidence_avg": 0.933758,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-23T08:16:08.646573+00:00",
+      "last_seen": "2026-02-24T02:02:31.599861+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "ton_band",
+      "meaning": "operational target metric",
+      "status": "candidate",
+      "confidence": 0.45,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "customs_compliance",
+        "port_terminal_congestion"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_j246_y2rf_cfs_area_file_2012_2022_csv",
+        "l0_us__usdot__usdot_qq62_cjjy_cfs_export_file_2012_2022_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_j246_y2rf_cfs_area_file_2012_2022_csv",
+        "us__usdot__usdot_qq62_cjjy_cfs_export_file_2012_2022_csv"
+      ],
+      "feature_evidence": [
+        "geotype",
+        "st",
+        "geo_id",
+        "geo_ttl_Northeast Region",
+        "geo_ttl_United States",
+        "ddestgeo",
+        "ddestgeo_ttl",
+        "naics",
+        "comm",
+        "comm_ttl",
+        "dmode",
+        "dmode_ttl_Air (includes truck and air)"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 7,
+        "prediction_mean_avg": 157.0,
+        "prediction_mean_abs_avg": 157.0,
+        "confidence_avg": 0.998552,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "fallback:no_signal",
+        "historical:classification_worker",
+        "feature_token_overlap:fuel"
+      ],
+      "first_seen": "2026-02-24T02:52:44.294613+00:00",
+      "last_seen": "2026-02-24T03:39:13.808339+00:00",
+      "hit_count": 8
+    },
+    {
+      "target_column": "value",
+      "meaning": "observed value metric",
+      "status": "candidate",
+      "confidence": 0.6,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "claims_damage_risk",
+        "cross_border_flow",
+        "customs_compliance"
+      ],
+      "worker_model_ids": [
+        "l0_asia__singapore__singstat_m650031_civil_aircraft_arrivals_and_departures_passengers_air_cargo_tonnage_and_mail_changi_airport_monthly_csv",
+        "l0_other__worldbank__worldbank_bx_gsr_ccis_cd_csv",
+        "l0_us__bts__bts_keg4_3bc2_border_crossing_entry_data_csv"
+      ],
+      "worker_dataset_ids": [
+        "asia__singapore__singstat_m650031_civil_aircraft_arrivals_and_departures_passengers_air_cargo_tonnage_and_mail_changi_airport_monthly_csv",
+        "other__worldbank__worldbank_bx_gsr_ccis_cd_csv",
+        "us__bts__bts_keg4_3bc2_border_crossing_entry_data_csv"
+      ],
+      "feature_evidence": [
+        "indicator_id_BX.GSR.CCIS.CD",
+        "country_code",
+        "country_name",
+        "year",
+        "decimal"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Float64",
+        "mean": 23813588074.701206,
+        "min": 82964114.534793,
+        "max": 951214272489.276,
+        "std": 80317696642.8801
+      },
+      "historical_summary": {
+        "runs": 5,
+        "prediction_mean_avg": 134805872.0,
+        "prediction_mean_abs_avg": 134805872.0,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "ambiguous_target_token"
+      ],
+      "first_seen": "2026-02-24T02:52:44.298374+00:00",
+      "last_seen": "2026-02-24T03:39:13.812255+00:00",
+      "hit_count": 10
+    },
+    {
+      "target_column": "trackclass",
+      "meaning": "arrival delay / ETA performance",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "carrier_safety_risk"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_byy5_w977_rail_equipment_accident_incident_data_form_54_subset_unique_train_accidents_not_at_grade_crossings_csv",
+        "l0_us__usdot__usdot_jm8x_ccxs_rail_equipment_accident_incident_data_form_54_6_year_view_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_byy5_w977_rail_equipment_accident_incident_data_form_54_subset_unique_train_accidents_not_at_grade_crossings_csv",
+        "us__usdot__usdot_jm8x_ccxs_rail_equipment_accident_incident_data_form_54_6_year_view_csv"
+      ],
+      "feature_evidence": [
+        "reportingrailroadcode",
+        "year",
+        "accidentnumber",
+        "accidentyear",
+        "accidentmonth",
+        "maintenancerailroadcode",
+        "maintenanceaccidentnumber",
+        "maintenanceaccidentyear",
+        "maintenanceaccidentmonth",
+        "day",
+        "date",
+        "time"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 11
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 131.082993,
+        "prediction_mean_abs_avg": 131.082993,
+        "confidence_avg": 0.995551,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "feature_token_overlap:time",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:58:02.548540+00:00",
+      "last_seen": "2026-02-24T03:00:47.893395+00:00",
+      "hit_count": 3
+    },
+    {
+      "target_column": "totalinjuredform57",
+      "meaning": "arrival delay / ETA performance",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "carrier_safety_risk"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_7wn6_i5b9_highway_rail_grade_crossing_incident_data_form_57_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_7wn6_i5b9_highway_rail_grade_crossing_incident_data_form_57_csv"
+      ],
+      "feature_evidence": [
+        "railroadcode",
+        "year",
+        "incidentnumber",
+        "incidentyear",
+        "incidentmonth",
+        "maintenancerailroadcode",
+        "maintenancerailroadname",
+        "maintainenanceincidentnumber",
+        "maintenanceincidentyear",
+        "maintenanceincidentmonth",
+        "gradecrossingid",
+        "date"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 0.338,
+        "min": 0.0,
+        "max": 7.0,
+        "std": 0.66104
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": -0.002737,
+        "prediction_mean_abs_avg": 0.076602,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "feature_token_overlap:time"
+      ],
+      "first_seen": "2026-02-24T02:58:02.775733+00:00",
+      "last_seen": "2026-02-24T03:00:47.749467+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "obs_value",
+      "meaning": "observed value metric",
+      "status": "candidate",
+      "confidence": 0.6,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "claims_damage_risk",
+        "inland_waterway_flow",
+        "lane_cost_yield"
+      ],
+      "worker_model_ids": [
+        "l0_asia__oecd__oecd_indicators_df_infrastructure_asia_csv",
+        "l0_asia__oecd__oecd_indicators_df_safety_asia_csv",
+        "l0_asia__oecd__oecd_st_df_stfreight_asia_csv",
+        "l0_europe__eurostat__eurostat_iww_go_acsize_csv",
+        "l0_europe__eurostat__eurostat_road_go_ca_c_csv",
+        "l0_europe__oecd__oecd_indicators_df_infrastructure_europe_csv",
+        "l0_europe__oecd__oecd_st_df_stfreight_europe_csv",
+        "l0_europe__oecd__oecd_st_df_stindicators_europe_csv",
+        "l0_other__oecd__oecd_indicators_df_infrastructure_other_csv",
+        "l0_other__oecd__oecd_indicators_df_transportindicators_other_csv"
+      ],
+      "worker_dataset_ids": [
+        "asia__oecd__oecd_indicators_df_infrastructure_asia_csv",
+        "asia__oecd__oecd_indicators_df_safety_asia_csv",
+        "asia__oecd__oecd_st_df_stfreight_asia_csv",
+        "europe__eurostat__eurostat_iww_go_acsize_csv",
+        "europe__eurostat__eurostat_road_go_ca_c_csv",
+        "europe__oecd__oecd_indicators_df_infrastructure_europe_csv",
+        "europe__oecd__oecd_st_df_stfreight_europe_csv",
+        "europe__oecd__oecd_st_df_stindicators_europe_csv",
+        "other__oecd__oecd_indicators_df_infrastructure_other_csv",
+        "other__oecd__oecd_indicators_df_transportindicators_other_csv"
+      ],
+      "feature_evidence": [
+        "ref_area_ALB",
+        "ref_area_AUT",
+        "ref_area_BEL",
+        "ref_area_BGR",
+        "ref_area_BIH",
+        "ref_area_CHE",
+        "ref_area_CZE",
+        "ref_area_DEU",
+        "ref_area_DNK",
+        "ref_area_ESP",
+        "ref_area_EST",
+        "ref_area_FIN"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 1
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 656.493149,
+        "prediction_mean_abs_avg": 656.493149,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "ambiguous_target_token"
+      ],
+      "first_seen": "2026-02-24T02:58:13.457504+00:00",
+      "last_seen": "2026-02-24T03:01:15.009495+00:00",
+      "hit_count": 22
+    },
+    {
+      "target_column": "hazclass",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "cold_chain_integrity"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_dkgi_gbeh_cfs_hazmat_file_2012_2022_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_dkgi_gbeh_cfs_hazmat_file_2012_2022_csv"
+      ],
+      "feature_evidence": [
+        "geotype",
+        "st",
+        "geo_id",
+        "geo_ttl",
+        "ddestgeo",
+        "ddestgeo_ttl",
+        "naics",
+        "naics_ttl_Apparel manufacturing",
+        "naics_ttl_Apparel, piece goods, and notions merchant wholesalers",
+        "naics_ttl_Beer, wine, and distilled alcoholic beverage merchant wholesalers",
+        "naics_ttl_Beverage and tobacco product manufacturing",
+        "naics_ttl_Chemical and allied products merchant wholesalers"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 14.23,
+        "min": 1.0,
+        "max": 90.0,
+        "std": 22.90538
+      },
+      "historical_summary": {
+        "runs": 3,
+        "prediction_mean_avg": 15.710581,
+        "prediction_mean_abs_avg": 15.710581,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:15.141768+00:00",
+      "last_seen": "2026-02-24T03:01:00.034448+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "ton",
+      "meaning": "sales / revenue outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "cold_chain_integrity"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_f3sb_gw7h_cfs_temperature_control_file_2012_2022_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_f3sb_gw7h_cfs_temperature_control_file_2012_2022_csv"
+      ],
+      "feature_evidence": [
+        "geotype",
+        "st",
+        "geo_id",
+        "geo_ttl",
+        "ddestgeo",
+        "ddestgeo_ttl",
+        "naics",
+        "comm",
+        "comm_ttl",
+        "dmode",
+        "dmode_ttl_Air (includes truck and air)",
+        "dmode_ttl_All modes"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 11520.818,
+        "min": 0.0,
+        "max": 804713.0,
+        "std": 54201.985772
+      },
+      "historical_summary": {
+        "runs": 3,
+        "prediction_mean_avg": 1534.043172,
+        "prediction_mean_abs_avg": 1534.043172,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:high_magnitude_target"
+      ],
+      "first_seen": "2026-02-24T02:58:15.146250+00:00",
+      "last_seen": "2026-02-24T03:01:00.027173+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "2024",
+      "meaning": "sales / revenue outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "cross_border_flow"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_3jux_kwvh_annual_passenger_border_crossings_with_michigan_new_york_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_3jux_kwvh_annual_passenger_border_crossings_with_michigan_new_york_csv"
+      ],
+      "feature_evidence": [
+        "bridge_name_Ambassador Bridge",
+        "bridge_name_Blue Water Bridge",
+        "bridge_name_Detroit-Windsor Tunnel",
+        "bridge_name_Lewiston-Queenston Bridge",
+        "bridge_name_Ogdensburg Bridge",
+        "bridge_name_Peace Bridge",
+        "bridge_name_Rainbow Bridge",
+        "bridge_name_Sault Ste. Marie Bridge Authority",
+        "bridge_name_Seaway International Bridge",
+        "bridge_name_Thousand Islands Bridge",
+        "bridge_name_Whirlpool Rapids Bridge",
+        "latitude"
+      ],
+      "distribution_summary": {
+        "n": 11,
+        "dtype": "Int64",
+        "mean": 2205394.363636,
+        "min": 434337.0,
+        "max": 3946009.0,
+        "std": 1263546.822084
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 497422.25,
+        "prediction_mean_abs_avg": 497422.25,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:high_magnitude_target"
+      ],
+      "first_seen": "2026-02-24T02:58:17.595586+00:00",
+      "last_seen": "2026-02-24T03:01:02.373451+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "tt_percentile_75",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "eta_delay_risk"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_d7b8_pmxm_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_time_2022_experimental_csv",
+        "l0_us__usdot__usdot_dggd_bg3y_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2020_experimental_csv",
+        "l0_us__usdot__usdot_mayv_2qfz_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2021_experimental_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_d7b8_pmxm_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_time_2022_experimental_csv",
+        "us__usdot__usdot_dggd_bg3y_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2020_experimental_csv",
+        "us__usdot__usdot_mayv_2qfz_bts_atri_freight_mobility_initiative_county_to_county_truck_travel_times_2021_experimental_csv"
+      ],
+      "feature_evidence": [
+        "orig_county_fips",
+        "orig_state_AK",
+        "orig_state_AL",
+        "orig_state_AR",
+        "orig_state_AZ",
+        "orig_county_name",
+        "dest_county_fips",
+        "dest_state",
+        "dest_county_name",
+        "year",
+        "pair_moves_100K-1M",
+        "pair_moves_10K-100K"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Float64",
+        "mean": 3866.33722,
+        "min": 3.07,
+        "max": 9613.07,
+        "std": 1703.760485
+      },
+      "historical_summary": {
+        "runs": 5,
+        "prediction_mean_avg": 116.344214,
+        "prediction_mean_abs_avg": 116.344214,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:20.361788+00:00",
+      "last_seen": "2026-02-24T03:01:05.146039+00:00",
+      "hit_count": 6
+    },
+    {
+      "target_column": "numberofvehiclesauthorised",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "fleet_utilization"
+      ],
+      "worker_model_ids": [
+        "l0_europe__uk__uk_2a67d1ee_bdaeaae3_traffic_commissioners_goods_and_public_service_vehicle_operator_licence_records_olbslicencer_61f7a2b556"
+      ],
+      "worker_dataset_ids": [
+        "europe__uk__uk_2a67d1ee_bdaeaae3_traffic_commissioners_goods_and_public_service_vehicle_operator_licence_records_olbslicencer_61f7a2b556"
+      ],
+      "feature_evidence": [
+        "geographicregion_North East of England",
+        "licencenumber",
+        "licencetype_Restricted",
+        "licencetype_Standard International",
+        "licencetype_Standard National",
+        "operatorname",
+        "operatortype_Limited Company",
+        "operatortype_Limited Liability Partnership",
+        "operatortype_Other (e.g. public authority, charity, trust, university)",
+        "operatortype_Partnership",
+        "operatortype_Sole Trader",
+        "correspondenceaddress"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 3.125,
+        "min": 1.0,
+        "max": 50.0,
+        "std": 4.624616
+      },
+      "historical_summary": {
+        "runs": 4,
+        "prediction_mean_avg": 6.619009,
+        "prediction_mean_abs_avg": 6.619009,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:21.758009+00:00",
+      "last_seen": "2026-02-24T03:01:06.532954+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "ticket_revenue",
+      "meaning": "sales / revenue outcome",
+      "status": "candidate",
+      "confidence": 0.94,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "lane_cost_yield"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_5kxy_j6hw_2016_national_census_of_ferry_operators_ncfo_csv",
+        "l0_us__bts__bts_w6v2_vk5z_2016_national_census_of_ferry_operators_revised_03_18_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_5kxy_j6hw_2016_national_census_of_ferry_operators_ncfo_csv",
+        "us__bts__bts_w6v2_vk5z_2016_national_census_of_ferry_operators_revised_03_18_csv"
+      ],
+      "feature_evidence": [
+        "operator_id",
+        "op_strcity",
+        "op_strzip",
+        "op_country_United States",
+        "private_contract_revenue",
+        "advertising_revenue",
+        "public_contract_revenue",
+        "federal_funding_revenue",
+        "state_funding_revenue",
+        "local_funding_revenue",
+        "federal_state_local",
+        "pub_fund_type_1"
+      ],
+      "distribution_summary": {
+        "n": 1066,
+        "dtype": "Float64",
+        "mean": 68.225291,
+        "min": 0.0,
+        "max": 100.0,
+        "std": 33.681219
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 62.463802,
+        "prediction_mean_abs_avg": 62.463802,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "target_token:sales_or_revenue",
+        "feature_token_overlap:revenue"
+      ],
+      "first_seen": "2026-02-24T02:58:26.173858+00:00",
+      "last_seen": "2026-02-24T03:01:10.922797+00:00",
+      "hit_count": 4
+    },
+    {
+      "target_column": "hours_band",
+      "meaning": "operational target metric",
+      "status": "candidate",
+      "confidence": 0.45,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "port_terminal_congestion"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_abu9_jbyq_tanker_liquid_bulk_vessel_dwell_times_at_the_top_u_s_ports_january_2019_to_june_2023_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_abu9_jbyq_tanker_liquid_bulk_vessel_dwell_times_at_the_top_u_s_ports_january_2019_to_june_2023_csv"
+      ],
+      "feature_evidence": [
+        "month_April",
+        "month_August",
+        "month_December",
+        "month_February",
+        "month_January",
+        "month_July",
+        "month_June",
+        "month_March",
+        "month_May",
+        "month_November",
+        "month_October",
+        "month_September"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 177.0,
+        "prediction_mean_abs_avg": 177.0,
+        "confidence_avg": 0.986667,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "fallback:no_signal",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:58:31.691791+00:00",
+      "last_seen": "2026-02-24T03:01:16.488261+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "hours",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "port_terminal_congestion"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_nfsh_p62e_monthly_average_container_vessel_dwell_times_at_the_top_25_u_s_container_ports_january_2019_to_june_2023_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_nfsh_p62e_monthly_average_container_vessel_dwell_times_at_the_top_25_u_s_container_ports_january_2019_to_june_2023_csv"
+      ],
+      "feature_evidence": [
+        "month_April",
+        "month_August",
+        "month_December",
+        "month_February",
+        "month_January",
+        "month_July",
+        "month_June",
+        "month_March",
+        "month_May",
+        "month_November",
+        "month_October",
+        "month_September"
+      ],
+      "distribution_summary": {
+        "n": 54,
+        "dtype": "Int64",
+        "mean": 30.481481,
+        "min": 26.0,
+        "max": 37.0,
+        "std": 2.982596
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 28.673338,
+        "prediction_mean_abs_avg": 28.673338,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:31.694235+00:00",
+      "last_seen": "2026-02-24T03:01:16.490910+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "latitude",
+      "meaning": "operational target metric",
+      "status": "candidate",
+      "confidence": 0.45,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "rail_intermodal_flow"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_ca7h_i9yt_2020_ncfo_terminals_file_csv",
+        "l0_us__bts__bts_ke6h_ga46_2022_ncfo_terminals_file_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_ca7h_i9yt_2020_ncfo_terminals_file_csv",
+        "us__bts__bts_ke6h_ga46_2022_ncfo_terminals_file_csv"
+      ],
+      "feature_evidence": [
+        "terminal_id",
+        "term_city",
+        "in_operation",
+        "intercity_bus",
+        "intercity_rail",
+        "local_bus",
+        "local_rail",
+        "bike_share",
+        "terminal_name",
+        "terminal_operated_by",
+        "terminal_operation_BOTH",
+        "terminal_operation_PRIVATE"
+      ],
+      "distribution_summary": {
+        "n": 529,
+        "dtype": "Float64",
+        "mean": 40.454664,
+        "min": 17.74766,
+        "max": 61.123855,
+        "std": 8.424617
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 21.683769,
+        "prediction_mean_abs_avg": 21.683769,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "fallback:no_signal",
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:33.043321+00:00",
+      "last_seen": "2026-02-24T03:01:17.792027+00:00",
+      "hit_count": 4
+    },
+    {
+      "target_column": "all_val_yr",
+      "meaning": "sales / revenue outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "trade_volume_mix"
+      ],
+      "worker_model_ids": [
+        "l0_us__census_intltrade__census_timeseries_intltrade_exports_hitech_2024_12_csv",
+        "l0_us__census_intltrade__census_timeseries_intltrade_exports_statenaics_2024_12_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__census_intltrade__census_timeseries_intltrade_exports_hitech_2024_12_csv",
+        "us__census_intltrade__census_timeseries_intltrade_exports_statenaics_2024_12_csv"
+      ],
+      "feature_evidence": [
+        "cty_code",
+        "cty_name",
+        "district",
+        "dist_name_ANCHORAGE, AK",
+        "dist_name_BALTIMORE, MD",
+        "dist_name_BOSTON, MA",
+        "dist_name_BUFFALO, NY",
+        "dist_name_CHARLESTON, SC",
+        "dist_name_CHICAGO, IL",
+        "dist_name_CLEVELAND, OH",
+        "dist_name_COLUMBIA-SNAKE, OR",
+        "dist_name_DALLAS-FORT WORTH, TX"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 8175875683.31,
+        "min": 2650.0,
+        "max": 2061690757601.0,
+        "std": 75361111775.63156
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 13642938.0,
+        "prediction_mean_abs_avg": 13642938.0,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:high_magnitude_target",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:58:34.335359+00:00",
+      "last_seen": "2026-02-24T03:01:19.092143+00:00",
+      "hit_count": 4
+    },
+    {
+      "target_column": "air_val_yr_band",
+      "meaning": "operational target metric",
+      "status": "candidate",
+      "confidence": 0.45,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "trade_volume_mix"
+      ],
+      "worker_model_ids": [
+        "l0_us__census_intltrade__census_timeseries_intltrade_exports_naics_2024_12_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__census_intltrade__census_timeseries_intltrade_exports_naics_2024_12_csv"
+      ],
+      "feature_evidence": [
+        "cty_code",
+        "cty_name",
+        "district",
+        "dist_name_ANCHORAGE, AK",
+        "dist_name_BALTIMORE, MD",
+        "dist_name_BOSTON, MA",
+        "dist_name_BUFFALO, NY",
+        "dist_name_CHARLESTON, SC",
+        "dist_name_CHICAGO, IL",
+        "dist_name_CLEVELAND, OH",
+        "dist_name_COLUMBIA-SNAKE, OR",
+        "dist_name_DALLAS-FORT WORTH, TX"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 157.0,
+        "prediction_mean_abs_avg": 157.0,
+        "confidence_avg": 0.999676,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "fallback:no_signal",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:58:34.344419+00:00",
+      "last_seen": "2026-02-24T03:01:19.087992+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "inv_to_sales",
+      "meaning": "sales / revenue outcome",
+      "status": "candidate",
+      "confidence": 0.94,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "trucking_capacity"
+      ],
+      "worker_model_ids": [
+        "l0_us__bts__bts_bw6n_ddqk_transportation_services_index_and_seasonally_adjusted_transportation_data_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__bts__bts_bw6n_ddqk_transportation_services_index_and_seasonally_adjusted_transportation_data_csv"
+      ],
+      "feature_evidence": [
+        "obs_date",
+        "asm",
+        "asm_d11",
+        "asm_d",
+        "asm_d_d11",
+        "asm_i",
+        "asm_i_d11",
+        "rpm",
+        "rpm_d11",
+        "rpm_d",
+        "rpm_d_d11",
+        "rpm_i"
+      ],
+      "distribution_summary": {
+        "n": 312,
+        "dtype": "Float64",
+        "mean": 1.430128,
+        "min": 1.09,
+        "max": 1.68,
+        "std": 0.11908
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 1.512239,
+        "prediction_mean_abs_avg": 1.512239,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "target_token:sales_or_revenue",
+        "feature_token_overlap:sales"
+      ],
+      "first_seen": "2026-02-24T02:58:36.139984+00:00",
+      "last_seen": "2026-02-24T03:01:20.939290+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "reporting_railroad_class",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "carrier_safety_risk"
+      ],
+      "worker_model_ids": [
+        "l0_us__usdot__usdot_bx7m_yn3v_injury_illness_summary_casualty_data_form_55a_6_year_view_csv"
+      ],
+      "worker_dataset_ids": [
+        "us__usdot__usdot_bx7m_yn3v_injury_illness_summary_casualty_data_form_55a_6_year_view_csv"
+      ],
+      "feature_evidence": [
+        "railroadcode",
+        "incidentnumber",
+        "incidentyear",
+        "incidentmonth",
+        "incidentday",
+        "date",
+        "time",
+        "countycode",
+        "countyname",
+        "statecode",
+        "statename",
+        "typeofpersoncode_A"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 5
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 160.962997,
+        "prediction_mean_abs_avg": 160.962997,
+        "confidence_avg": 0.279667,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T03:00:47.774062+00:00",
+      "last_seen": "2026-02-24T03:00:47.774062+00:00",
+      "hit_count": 1
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: li_backend
+    restart: unless-stopped
+    environment:
+      PYTHONPATH: /app
+      BACKEND_TASK_WORKERS: ${BACKEND_TASK_WORKERS:-2}
+      BACKEND_SESSION_SECRET: ${BACKEND_SESSION_SECRET:-dev-only-secret-rotate-in-production}
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:8080}
+      SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-1}
+      SESSION_COOLDOWN_HOURS: ${SESSION_COOLDOWN_HOURS:-24}
+      LLM_RUNTIME_PROVIDER: ${LLM_RUNTIME_PROVIDER:-ollama}
+      TOJI_FORCE_OLLAMA: ${TOJI_FORCE_OLLAMA:-1}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gpt-oss:120b}
+      OLLAMA_API_KEY: ${OLLAMA_API_KEY:-}
+      OLLAMA_AUTH_HEADER: ${OLLAMA_AUTH_HEADER:-Authorization}
+      OLLAMA_TIMEOUT_SEC: ${OLLAMA_TIMEOUT_SEC:-90}
+      OLLAMA_CHAT_NUM_PREDICT: ${OLLAMA_CHAT_NUM_PREDICT:-180}
+      OLLAMA_DISABLE_THINKING: ${OLLAMA_DISABLE_THINKING:-1}
+      OLLAMA_EMPTY_CONTENT_RETRY: ${OLLAMA_EMPTY_CONTENT_RETRY:-1}
+      TOJI_OLLAMA_CLOUD_ONLY: ${TOJI_OLLAMA_CLOUD_ONLY:-0}
+      TOJI_OLLAMA_ALLOW_LOCAL_WITH_KEY: ${TOJI_OLLAMA_ALLOW_LOCAL_WITH_KEY:-0}
+      TOJI_INTAKE_FAST_MODE: ${TOJI_INTAKE_FAST_MODE:-1}
+      RATE_UPLOAD_LIMIT: ${RATE_UPLOAD_LIMIT:-20}
+      RATE_UPLOAD_WINDOW_SEC: ${RATE_UPLOAD_WINDOW_SEC:-600}
+      RATE_TELLUS_LIMIT: ${RATE_TELLUS_LIMIT:-40}
+      RATE_TELLUS_WINDOW_SEC: ${RATE_TELLUS_WINDOW_SEC:-3600}
+      RATE_PREDICT_LIMIT: ${RATE_PREDICT_LIMIT:-12}
+      RATE_PREDICT_WINDOW_SEC: ${RATE_PREDICT_WINDOW_SEC:-3600}
+      RATE_CHAT_LIMIT: ${RATE_CHAT_LIMIT:-60}
+      RATE_CHAT_WINDOW_SEC: ${RATE_CHAT_WINDOW_SEC:-3600}
+      RETENTION_SWEEP_INTERVAL_SEC: ${RETENTION_SWEEP_INTERVAL_SEC:-900}
+      CHAT_TTL_HOURS: ${CHAT_TTL_HOURS:-168}
+      REPORT_TTL_HOURS: ${REPORT_TTL_HOURS:-336}
+      INTAKE_TTL_HOURS: ${INTAKE_TTL_HOURS:-72}
+      STATE_TTL_HOURS: ${STATE_TTL_HOURS:-72}
+      DEBUG_TTL_HOURS: ${DEBUG_TTL_HOURS:-48}
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./config:/app/config
+      - ./exports:/app/exports
+      - ./frontend:/app/frontend
+    command: ["python", "tools/run_backend.py", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    profiles: ["app"]
+
+  frontend:
+    image: python:3.12-alpine
+    container_name: li_frontend
+    restart: unless-stopped
+    working_dir: /ui
+    volumes:
+      - ./frontend:/ui
+    command: ["python", "-m", "http.server", "8080", "--bind", "0.0.0.0"]
+    ports:
+      - "8080:8080"
+    profiles: ["app"]
+
+  redis:
+    image: redis:7-alpine
+    container_name: li_redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles: ["infra"]
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: li_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-logistics}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-logistics_local}
+      POSTGRES_DB: ${POSTGRES_DB:-logistics_intelligence}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-logistics} -d ${POSTGRES_DB:-logistics_intelligence}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles: ["infra"]
+
+  minio:
+    image: minio/minio:latest
+    container_name: li_minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    command: ["server", "/data", "--console-address", ":9001"]
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    profiles: ["infra"]
+
+  model-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: li_model_runner
+    restart: "no"
+    environment:
+      INDUSTRY: ${INDUSTRY:-ecommerce}
+      MIN_WORKERS: ${MIN_WORKERS:-30}
+      MIN_WORKERS_PER_CATEGORY: ${MIN_WORKERS_PER_CATEGORY:-3}
+      MIN_L1_CATEGORIES: ${MIN_L1_CATEGORIES:-5}
+      MAX_ROWS: ${MAX_ROWS:-200000}
+      L1_METHOD: ${L1_METHOD:-deep}
+      LLM_PROVIDER_MODE: ${LLM_PROVIDER_MODE:-oss_only}
+      ALLOW_PAID_FALLBACK: ${ALLOW_PAID_FALLBACK:-false}
+      ALLOW_PAID_LLM: ${ALLOW_PAID_LLM:-false}
+      ALLOW_PAID_DATASTORES: ${ALLOW_PAID_DATASTORES:-false}
+      ALLOW_PAID_OBSERVABILITY: ${ALLOW_PAID_OBSERVABILITY:-false}
+      STRICT_ZERO_BUDGET: ${STRICT_ZERO_BUDGET:-true}
+      PYTHONPATH: /app
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./config:/app/config
+      - ./exports:/app/exports
+    command:
+      [
+        "python",
+        "tools/run_industry_pipeline.py",
+        "--industry",
+        "${INDUSTRY:-ecommerce}",
+        "--min-workers",
+        "${MIN_WORKERS:-30}",
+        "--min-workers-per-category",
+        "${MIN_WORKERS_PER_CATEGORY:-3}",
+        "--min-l1-categories",
+        "${MIN_L1_CATEGORIES:-5}",
+        "--max-rows",
+        "${MAX_ROWS:-200000}",
+        "--l1-method",
+        "${L1_METHOD:-deep}"
+      ]
+    profiles: ["train"]
+
+volumes:
+  redis_data:
+  postgres_data:
+  minio_data:

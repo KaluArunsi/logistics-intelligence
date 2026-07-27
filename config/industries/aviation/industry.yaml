@@ -1,0 +1,267 @@
+# Aviation Industry Configuration
+
+industry: aviation
+display_name: "Aviation & Airlines"
+
+# Optional per-dataset category overrides
+dataset_category_overrides:
+  kaggle_flight_price_with_booking: pricing
+  twitter_airline_sentiment: customer
+  kaggle_airline_passenger_satisfaction: customer
+  kaggle_airplane_crashes: safety
+  openflights_routes: network
+  openflights_airlines: network
+  openflights_airports: network
+  bts_air_carrier_safety: safety
+  bts_commuter_airline_safety: safety
+  ntsb_aviation_accidents: safety
+  skytrax_airline_reviews: customer
+  skytrax_airport_reviews: customer
+  skytrax_lounge_reviews: customer
+  skytrax_seat_reviews: customer
+  mendeley_airline_reviews_sentiment: customer
+  mendeley_airline_reviews_titles: customer
+  mendeley_airline_reviews_summaries: customer
+  kaggle_airline_reviews: customer
+  bts_db1b_fares: pricing
+  kaggle_airline_fares: pricing
+
+# External datasets (download and place into data/raw/aviation/external with exact filenames)
+external_datasets:
+  - id: openflights_airports
+    name: OpenFlights Airports
+    category: network
+    filename: openflights_airports.csv
+    source: openflights
+    url: https://openflights.org/data/airports.dat
+
+  - id: bts_air_carrier_safety
+    name: BTS Air Carrier Safety Data
+    category: safety
+    filename: air_carrier_safety.xlsx
+    source: bts
+    url: https://data.bts.gov/api/views/viir-jaqe/files/2247ded2-7ae0-4d41-ab43-64e188af854c?download=true&filename=Air%20Carrier%20Safety%20Data.xlsx
+
+  - id: bts_commuter_airline_safety
+    name: BTS Commuter Airline Safety Data
+    category: safety
+    filename: commuter_airline_safety.xlsx
+    source: bts
+    url: https://data.bts.gov/api/views/r52y-g6ud/files/1aa2fd4d-a3b7-495e-99fa-5b8f6c6fe6c3?download=true&filename=Commuter%20Airline%20Safety%20Data.xlsx
+
+  - id: ntsb_aviation_accidents
+    name: NTSB Aviation Accident Database (AVALL)
+    category: safety
+    filename: ntsb_avall.zip
+    source: ntsb
+    url: https://data.ntsb.gov/avdata/avall.zip
+
+  - id: skytrax_airline_reviews
+    name: Skytrax Airline Reviews
+    category: customer
+    filename: skytrax_airline_reviews.csv
+    source: github
+    url: https://raw.githubusercontent.com/quankiquanki/skytrax-reviews-dataset/master/data/airline.csv
+
+  - id: skytrax_airport_reviews
+    name: Skytrax Airport Reviews
+    category: customer
+    filename: skytrax_airport_reviews.csv
+    source: github
+    url: https://raw.githubusercontent.com/quankiquanki/skytrax-reviews-dataset/master/data/airport.csv
+
+  - id: skytrax_lounge_reviews
+    name: Skytrax Lounge Reviews
+    category: customer
+    filename: skytrax_lounge_reviews.csv
+    source: github
+    url: https://raw.githubusercontent.com/quankiquanki/skytrax-reviews-dataset/master/data/lounge.csv
+
+  - id: skytrax_seat_reviews
+    name: Skytrax Seat Reviews
+    category: customer
+    filename: skytrax_seat_reviews.csv
+    source: github
+    url: https://raw.githubusercontent.com/quankiquanki/skytrax-reviews-dataset/master/data/seat.csv
+
+  - id: mendeley_airline_reviews_sentiment
+    name: Mendeley Airline Reviews (Sentiment)
+    category: customer
+    filename: mendeley_annotated_sentiment.csv
+    source: mendeley
+    url: https://data.mendeley.com/datasets/pc6fxc95h5/1
+
+  - id: mendeley_airline_reviews_titles
+    name: Mendeley Airline Reviews (Titles)
+    category: customer
+    filename: mendeley_review_titles.csv
+    source: mendeley
+    url: https://data.mendeley.com/datasets/pc6fxc95h5/1
+
+  - id: mendeley_airline_reviews_summaries
+    name: Mendeley Airline Reviews (Summaries)
+    category: customer
+    filename: mendeley_annotated_abs_summ.csv
+    source: mendeley
+    url: https://data.mendeley.com/datasets/pc6fxc95h5/1
+
+  - id: kaggle_airline_reviews
+    name: Kaggle Airline Reviews
+    category: customer
+    filename: kaggle_airline_reviews.csv
+    source: kaggle
+    url: https://www.kaggle.com/datasets/sujalsuthar/airlines-reviews
+
+  - id: bts_db1b_fares
+    name: BTS DB1B Origin and Destination Survey (Fares)
+    category: pricing
+    filename: bts_db1b_fares.zip
+    source: bts
+    url: https://www.transtats.bts.gov/Databases.asp?20=H
+
+  - id: kaggle_airline_fares
+    name: Kaggle Airline Fares 2018
+    category: pricing
+    filename: kaggle_airline_fares.csv
+    source: kaggle
+    url: https://www.kaggle.com/datasets/rohitgupta145/flight-fare-prediction
+
+# Data sources for this industry
+data_sources:
+  kaggle:
+    enabled: true
+    search_tags:
+      - aviation
+      - airline
+      - flight
+      - airport
+    max_datasets: 50
+
+  bts:
+    enabled: true
+    base_url: "https://www.transtats.bts.gov"
+    datasets:
+      - on_time_performance
+      - airline_traffic
+      - fuel_consumption
+
+  nasa:
+    enabled: true
+    datasets:
+      - cmapss  # Turbofan engine degradation
+
+  opensky:
+    enabled: false  # Requires registration
+    note: "Enable after OpenSky API registration"
+
+  faa:
+    enabled: true
+    datasets:
+      - incident_data
+      - aircraft_registry
+
+# Category-specific configurations for aviation
+categories:
+  demand:
+    target_datasets: 5
+    typical_targets:
+      - passenger_count
+      - bookings
+      - load_factor
+    feature_hints:
+      - seasonality (day_of_week, month, holiday)
+      - route_popularity
+      - historical_demand
+
+  maintenance:
+    target_datasets: 3
+    typical_targets:
+      - remaining_useful_life
+      - failure_probability
+      - health_indicator
+    feature_hints:
+      - sensor_readings
+      - operating_cycles
+      - maintenance_history
+    benchmark_override:
+      accuracy: 0.95
+
+  safety:
+    target_datasets: 3
+    typical_targets:
+      - incident_severity
+      - risk_level
+    feature_hints:
+      - aircraft_type
+      - weather
+      - pilot_experience
+
+  customer:
+    target_datasets: 3
+    typical_targets:
+      - sentiment
+      - rating
+      - recommendation
+    feature_hints:
+      - review_text
+      - service_aspects
+      - flight_details
+
+  operations:
+    target_datasets: 3
+    typical_targets:
+      - fuel_consumption
+      - turnaround_time
+      - gate_utilization
+    feature_hints:
+      - aircraft_type
+      - route_distance
+      - weather
+
+# Domain-specific feature engineering
+feature_engineering:
+  temporal:
+    - hour_of_day
+    - day_of_week
+    - month
+    - quarter
+    - is_weekend
+    - is_holiday
+    - season
+
+  aviation_specific:
+    - departure_airport_congestion
+    - arrival_airport_congestion
+    - route_popularity_score
+    - carrier_delay_history
+    - aircraft_age
+    - distance_group
+
+# Benchmark policy used by trainers for pass/fail gating.
+benchmark_policy:
+  default_classification_min_f1: 0.80
+  default_regression_min_r2: 0.80
+
+training:
+  # Keep large-category scheduler behavior explicitly config-driven.
+  enable_large_category_parallel: true
+  parallel_threshold_workers: 25
+  parallel_max_workers: 4
+  # Keep numeric-like string coercion explicit for aviation datasets.
+  enable_numeric_string_coercion: true
+  # Aviation-specific L1 stabilizers (same framework pattern as ecommerce).
+  l1_config:
+    batch_size: 64
+    learning_rate: 0.0007
+    epochs: 140
+    min_epochs: 24
+    early_stop_patience: 18
+    scheduler_patience: 4
+    scheduler_factor: 0.6
+    gradient_clip_norm: 1.0
+    validation_split: 0.2
+    stratified_split: true
+    use_class_balancing: true
+    label_smoothing: 0.02
+  # Prevent CPU oversubscription when category-level parallelism is active.
+  per_model_n_jobs: 1

@@ -1,0 +1,41 @@
+# Trucking & Delivery Benchmark Thresholds
+
+classification:
+  primary_metric: f1_score
+  minimum:
+    accuracy: 0.85
+    f1_score: 0.85
+    mcc: 0.65
+    roc_auc: 0.85
+  good:
+    accuracy: 0.90
+    f1_score: 0.90
+    mcc: 0.75
+    roc_auc: 0.90
+  excellent:
+    accuracy: 0.94
+    f1_score: 0.94
+    mcc: 0.84
+    roc_auc: 0.95
+
+regression:
+  minimum:
+    r2: 0.85
+    rmse_normalized: 0.16
+    mae_normalized: 0.13
+  good:
+    r2: 0.90
+    rmse_normalized: 0.12
+    mae_normalized: 0.10
+  excellent:
+    r2: 0.94
+    rmse_normalized: 0.08
+    mae_normalized: 0.06
+
+domain:
+  eta:
+    mape: 0.12
+  safety:
+    incident_recall_min: 0.88
+  cold_chain:
+    excursion_recall_min: 0.90

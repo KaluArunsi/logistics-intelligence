@@ -1,0 +1,183 @@
+industry: trucking_delivery
+display_name: "Trucking & Delivery"
+
+# Optional per-dataset category overrides.
+dataset_category_overrides: {}
+
+# Optional external datasets that may be wired into dataset specs.
+external_datasets:
+  - id: dhl_public_kpi_reference
+    source: dhl_public_reports
+    usage: benchmark_only
+  - id: fedex_public_kpi_reference
+    source: fedex_public_reports
+    usage: benchmark_only
+
+# Source connectors used by ingestion workflows.
+data_sources:
+  official:
+    enabled: true
+    priority_order: ["us", "asia", "europe", "other"]
+    allowlist_only: true
+  web:
+    enabled: true
+  kaggle:
+    enabled: false
+  openml:
+    enabled: false
+  huggingface:
+    enabled: false
+
+# Intake quotas for official/trusted sourcing.
+regional_intake_targets:
+  us:
+    min_unique_datasets: 50
+  asia:
+    min_unique_datasets: 30
+  europe:
+    min_unique_datasets: 35
+  other:
+    min_unique_datasets: 15
+
+# Category planning targets for initial industry buildout.
+categories:
+  route_eta_reliability:
+    target_datasets: 8
+    typical_targets: ["late_arrival_flag", "eta_error_minutes", "on_time_delivery"]
+    feature_hints: ["route", "checkpoint_ts", "traffic_state", "planned_arrival"]
+
+  dispatch_capacity_balance:
+    target_datasets: 8
+    typical_targets: ["dispatch_backlog", "unassigned_loads", "capacity_pressure_index"]
+    feature_hints: ["region", "time_bucket", "available_vehicles", "order_volume"]
+
+  last_mile_sla:
+    target_datasets: 8
+    typical_targets: ["sla_breach_flag", "failed_attempt_flag", "delivery_exception_flag"]
+    feature_hints: ["delivery_zone", "stop_sequence", "time_window", "courier_shift"]
+
+  driver_safety_compliance:
+    target_datasets: 8
+    typical_targets: ["safety_incident_flag", "violation_risk_tier", "inspection_failure_flag"]
+    feature_hints: ["driver_profile", "inspection_history", "road_type", "hours_of_service"]
+
+  fleet_utilization:
+    target_datasets: 8
+    typical_targets: ["asset_utilization_pct", "idle_hours", "empty_mile_ratio"]
+    feature_hints: ["vehicle_id", "trip_distance", "dwell_time", "load_factor"]
+
+  vehicle_maintenance_risk:
+    target_datasets: 8
+    typical_targets: ["breakdown_risk", "maintenance_due_flag", "failure_probability"]
+    feature_hints: ["vehicle_age", "mileage", "service_interval", "fault_codes"]
+
+  fuel_energy_efficiency:
+    target_datasets: 8
+    typical_targets: ["fuel_burn_rate", "mpg", "energy_per_delivery"]
+    feature_hints: ["vehicle_type", "load_weight", "traffic_profile", "route_grade"]
+
+  lane_cost_yield:
+    target_datasets: 8
+    typical_targets: ["cost_per_mile", "gross_margin_pct", "lane_yield_bucket"]
+    feature_hints: ["origin_dest_lane", "distance", "fuel_index", "rate_plan"]
+
+  pickup_dropoff_reliability:
+    target_datasets: 8
+    typical_targets: ["missed_slot_flag", "stop_delay_minutes", "service_time_overrun"]
+    feature_hints: ["stop_id", "appointment_window", "arrival_ts", "queue_time"]
+
+  parcel_exception_risk:
+    target_datasets: 8
+    typical_targets: ["parcel_exception_flag", "claim_filed_flag", "damage_severity"]
+    feature_hints: ["package_type", "handling_events", "route_temperature", "delivery_attempts"]
+
+  reverse_logistics_returns:
+    target_datasets: 8
+    typical_targets: ["return_cycle_time", "return_pickup_delay", "restock_time"]
+    feature_hints: ["return_reason", "pickup_date", "carrier_type", "distance"]
+
+  cross_border_trucking:
+    target_datasets: 8
+    typical_targets: ["crossing_time_hours", "queue_delay_minutes", "cross_border_volume"]
+    feature_hints: ["border_port", "country_pair", "lane_type", "inspection_rate"]
+
+  urban_traffic_risk:
+    target_datasets: 8
+    typical_targets: ["congestion_risk_band", "incident_probability", "route_disruption_flag"]
+    feature_hints: ["city_zone", "hour_of_day", "weather", "event_calendar"]
+
+  cold_chain_last_mile:
+    target_datasets: 8
+    typical_targets: ["temperature_excursion_flag", "cold_chain_break_flag", "spoilage_risk"]
+    feature_hints: ["sensor_readings", "setpoint", "door_events", "trip_duration"]
+
+  workforce_shift_planning:
+    target_datasets: 8
+    typical_targets: ["shift_coverage_gap", "overtime_hours", "driver_shortage_index"]
+    feature_hints: ["shift_roster", "demand_forecast", "regional_pool", "absence_rate"]
+
+# Cross-industry pass/fail policy used by L0/L1 trainers.
+benchmark_policy:
+  default_classification_min_f1: 0.85
+  default_regression_min_r2: 0.85
+  category_overrides: {}
+
+goals:
+  min_workers_required: 50
+  min_workers_per_category_required: 5
+  min_l1_categories_required: 8
+  planned_categories: 15
+
+training:
+  # Hard gate: L1 can run only after every trucking_delivery L0 worker is trained and passes policy.
+  l1_requires_all_l0_pass: true
+  # When a dataset spec provides multiple targets, allow ordered fallback attempts.
+  allow_target_fallback: true
+  # If the primary target misses benchmark, attempt listed alternates before final fail.
+  fallback_on_fail: true
+  # Enable category-level parallel scheduling for large worker groups.
+  enable_large_category_parallel: true
+  parallel_threshold_workers: 25
+  parallel_max_workers: 4
+  # Normalize currency and localized numerics during feature prep.
+  enable_numeric_string_coercion: true
+  # Try alternate estimators when a primary model misses policy threshold.
+  enable_model_fallback: true
+  model_fallback_on_policy_fail: true
+  stop_on_first_policy_pass: true
+  use_policy_candidate_order: true
+  strict_candidate_list: true
+  classification_model_candidates: ["lightgbm", "xgboost"]
+  regression_model_candidates: ["lightgbm", "xgboost"]
+  model_max_rows:
+    lightgbm: 80000
+    xgboost: 60000
+  l1_config:
+    batch_size: 64
+    learning_rate: 0.0007
+    epochs: 150
+    min_epochs: 24
+    early_stop_patience: 20
+    scheduler_patience: 4
+    scheduler_factor: 0.6
+    gradient_clip_norm: 1.0
+    validation_split: 0.2
+    stratified_split: true
+    use_class_balancing: true
+    label_smoothing: 0.02
+  # Keep each model single-threaded to avoid CPU oversubscription during category parallelism.
+  per_model_n_jobs: 1
+  # Business-value guardrails: reject metadata/index-like target columns unless explicitly allowed in spec.
+  target_guardrails:
+    enabled: true
+    low_value_exact: ["year", "period", "series_no", "row_labels", "price_base", "unit_mult", "decimal", "decimals", "ranking", "rank", "index"]
+    low_value_patterns: [".*_ranking$", "^rank_.*", "^row_.*", ".*_label(s)?$", "^label(s)?$"]
+    allow_exact: ["obs_value", "value", "hours", "count", "distance", "cost", "revenue", "delay", "capacity", "fuel"]
+  # Exclude structurally non-trainable tables from L0 worker expectations.
+  worker_eligibility:
+    enabled: true
+    target_required: true
+    min_rows: 30
+    min_columns: 2
+    min_feature_columns: 1
+    block_two_column_lookup: false

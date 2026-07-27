@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "router_manifest.schema.json",
+  "title": "Industry Router Manifest",
+  "type": "object",
+  "required": ["version", "generated_at", "industry", "categories"],
+  "properties": {
+    "version": {"type": "integer", "minimum": 1},
+    "generated_at": {"type": "string"},
+    "industry": {"type": "string", "minLength": 1},
+    "alias_registry": {
+      "type": "object",
+      "properties": {
+        "path": {"type": ["string", "null"]},
+        "total_aliases": {"type": "integer", "minimum": 0},
+        "approved_aliases": {"type": "integer", "minimum": 0},
+        "candidate_aliases": {"type": "integer", "minimum": 0},
+        "rejected_aliases": {"type": "integer", "minimum": 0},
+        "canonical_to_aliases": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "task_type", "workers"],
+        "properties": {
+          "category": {"type": "string", "minLength": 1},
+          "task_type": {"type": "string", "minLength": 1},
+          "keywords": {"type": "array", "items": {"type": "string"}},
+          "prepared_worker_count": {"type": "integer", "minimum": 0},
+          "workers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "worker_model_id",
+                "worker_dataset_id",
+                "task_type",
+                "passed_benchmark",
+                "columns"
+              ],
+              "properties": {
+                "worker_model_id": {"type": "string", "minLength": 1},
+                "worker_dataset_id": {"type": "string", "minLength": 1},
+                "task_type": {"type": "string", "minLength": 1},
+                "passed_benchmark": {"type": "boolean"},
+                "target_column": {"type": ["string", "null"]},
+                "n_features": {"type": "integer", "minimum": 0},
+                "paths": {
+                  "type": "object",
+                  "properties": {
+                    "model_path": {"type": ["string", "null"]},
+                    "data_file": {"type": ["string", "null"]},
+                    "feature_metadata_path": {"type": ["string", "null"]}
+                  }
+                },
+                "columns": {
+                  "type": "object",
+                  "required": ["model_feature_columns", "dataset_columns", "feature_metadata"],
+                  "properties": {
+                    "model_feature_columns": {"type": "array", "items": {"type": "string"}},
+                    "dataset_columns": {"type": "array", "items": {"type": "string"}},
+                    "synonyms": {
+                      "type": "object",
+                      "properties": {
+                        "canonical_to_aliases": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                          }
+                        },
+                        "alias_to_canonical": {
+                          "type": "object",
+                          "additionalProperties": {"type": "string"}
+                        }
+                      }
+                    },
+                    "feature_metadata": {
+                      "type": "object",
+                      "properties": {
+                        "kept_columns": {"type": "array", "items": {"type": "string"}},
+                        "dropped_columns": {"type": "array", "items": {"type": "string"}},
+                        "dummy_columns": {"type": "array", "items": {"type": "string"}},
+                        "encoded_columns": {"type": "array", "items": {"type": "string"}},
+                        "text_feature_columns": {"type": "array", "items": {"type": "string"}}
+                      }
+                    }
+                  }
+                },
+                "spec_target": {
+                  "type": "object",
+                  "properties": {
+                    "target_column": {"type": ["string", "null"]},
+                    "target_task_type": {"type": ["string", "null"]},
+                    "derived_target_name": {"type": ["string", "null"]},
+                    "gating": {"type": ["boolean", "null"]}
+                  }
+                }
+              }
+            }
+          },
+          "prepared_workers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["worker_dataset_id", "status", "columns"],
+              "properties": {
+                "worker_dataset_id": {"type": "string", "minLength": 1},
+                "status": {"type": "string", "enum": ["pending", "trained", "skipped"]},
+                "categories": {"type": "array", "items": {"type": "string"}},
+                "target_column": {"type": ["string", "null"]},
+                "target_task_type": {"type": ["string", "null"]},
+                "derived_target_name": {"type": ["string", "null"]},
+                "gating": {"type": ["boolean", "null"]},
+                "skip_training": {"type": "boolean"},
+                "trained_model_id": {"type": ["string", "null"]},
+                "passed_benchmark": {"type": "boolean"},
+                "paths": {
+                  "type": "object",
+                  "properties": {
+                    "data_file": {"type": ["string", "null"]},
+                    "trained_model_path": {"type": ["string", "null"]}
+                  }
+                },
+                "columns": {
+                  "type": "object",
+                  "required": ["dataset_columns"],
+                  "properties": {
+                    "dataset_columns": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

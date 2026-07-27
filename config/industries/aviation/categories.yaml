@@ -1,0 +1,112 @@
+# Industry-Agnostic Category Definitions
+# Each category maps to specific problem types across industries
+
+categories:
+  demand:
+    description: "Forecasting future demand/volume"
+    task_type: regression
+    keywords:
+      - forecast
+      - demand
+      - booking
+      - reservation
+      - traffic
+      - volume
+      - passenger
+      - occupancy
+    metrics:
+      - mape
+      - rmse
+      - r2
+
+  maintenance:
+    description: "Predictive maintenance and equipment health"
+    task_type: regression  # RUL prediction
+    keywords:
+      - maintenance
+      - failure
+      - degradation
+      - rul
+      - remaining
+      - health
+      - sensor
+      - telemetry
+    metrics:
+      - rmse
+      - accuracy
+      - r2
+
+  safety:
+    description: "Safety incidents, risk, and anomaly detection"
+    task_type: classification
+    keywords:
+      - safety
+      - incident
+      - accident
+      - crash
+      - fatality
+      - risk
+      - anomaly
+      - fraud
+      - security
+    metrics:
+      - f1_score
+      - precision
+      - recall
+
+  pricing:
+    description: "Dynamic pricing and revenue optimization"
+    task_type: regression
+    keywords:
+      - price
+      - fare
+      - revenue
+      - yield
+      - cost
+      - optimization
+    metrics:
+      - rmse
+      - mape
+      - r2
+
+  customer:
+    description: "Customer sentiment and satisfaction"
+    task_type: classification
+    keywords:
+      - review
+      - sentiment
+      - satisfaction
+      - rating
+      - feedback
+      - nps
+      - complaint
+    metrics:
+      - f1_score
+      - accuracy
+
+  operations:
+    description: "Operational efficiency and optimization"
+    task_type: mixed
+    keywords:
+      - route
+      - schedule
+      - optimization
+      - efficiency
+      - utilization
+      - resource
+    metrics:
+      - varies
+
+  network:
+    description: "Network flow and traffic patterns"
+    task_type: mixed
+    keywords:
+      - network
+      - flow
+      - traffic
+      - congestion
+      - capacity
+      - hub
+      - route
+    metrics:
+      - varies

@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chat with Toji, our bespoke AI for logistics intelligence.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23155E40'/><text x='7' y='24' font-size='20' fill='white' font-weight='700'>T</text></svg>">
+    <title>Toji Chat - Logistics Intelligence</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ── Chat page — Claude-inspired minimal layout ── */
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+        body {
+            overflow: hidden;
+            background:
+                radial-gradient(circle at left top, rgba(21, 94, 64, 0.10), transparent 22%),
+                linear-gradient(180deg, #FBFBF8 0%, var(--bg-primary) 100%);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 256px 1fr;
+            height: 100vh;
+            padding: 14px;
+            gap: 14px;
+        }
+
+        /* ── Sidebar ─────────────────────────────────── */
+        .sidebar {
+            background: rgba(255,255,255,0.88);
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sidebar-top {
+            padding: 20px 18px 16px;
+            border-bottom: 1px solid rgba(222, 217, 207, 0.9);
+            flex-shrink: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1B7B53 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            padding: 4px 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+            background: rgba(247,247,243,0.86);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .sidebar-body {
+            padding: 16px 18px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .meta {
+            display: grid;
+            gap: 8px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .meta strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .sidebar-section-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .sidebar-actions {
+            display: grid;
+            gap: 4px;
+        }
+
+        .sidebar-actions .nav-item {
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-align: left;
+            background: rgba(247,247,243,0.68);
+            padding: 10px 12px;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
+
+        .sidebar-actions .nav-item:hover {
+            background: rgba(255,255,255,0.94);
+            color: var(--text-primary);
+        }
+
+        .sidebar-note {
+            margin-top: 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding: 12px;
+            background: rgba(247,247,243,0.86);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        /* ── Main chat ───────────────────────────────── */
+        .main {
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            height: 100vh;
+            overflow: hidden;
+            background: rgba(255,255,255,0.88);
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .topbar {
+            background: rgba(255,255,255,0.62);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(222, 217, 207, 0.9);
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .topbar h1 {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .chip {
+            font-size: 11.5px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            background: rgba(247,247,243,0.88);
+        }
+
+        /* Pipeline progress bar */
+        .pipeline-progress {
+            width: 100%;
+        }
+        .pipeline-progress .progress-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .pipeline-progress .progress-track {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .pipeline-progress .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+        .pipeline-progress .progress-pct {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+        .pipeline-progress .progress-eta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        /* Status banner */
+        .status-banner {
+            padding: 10px 28px;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: rgba(247,247,243,0.82);
+            border-bottom: 1px solid rgba(222, 217, 207, 0.9);
+            font-weight: 500;
+        }
+
+        /* ── Messages ────────────────────────────────── */
+        .messages {
+            overflow-y: auto;
+            padding: 36px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            min-height: 0;
+        }
+
+        /* Toji (assistant) — left-aligned bubble with label */
+        .msg-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 6px 28px;
+            max-width: calc(72ch + 56px);
+        }
+
+        .msg-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 5px;
+            padding-left: 4px;
+        }
+
+        .msg-bubble {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: 12px 16px 16px 16px;
+            padding: 14px 18px;
+            font-size: 15px;
+            line-height: 1.78;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .msg-bubble p { margin: 0 0 10px; }
+        .msg-bubble p:last-child { margin-bottom: 0; }
+        .msg-bubble ul { margin: 8px 0 10px 18px; padding: 0; display: grid; gap: 6px; }
+        .msg-bubble ul:last-child { margin-bottom: 0; }
+        .msg-bubble li { line-height: 1.65; }
+        .msg-bubble strong { font-weight: 600; color: var(--text-primary); }
+        .msg-bubble ol { margin: 8px 0 10px 22px; padding: 0; display: grid; gap: 6px; }
+        .msg-bubble ol:last-child { margin-bottom: 0; }
+        .msg-bubble ol li { line-height: 1.65; }
+        .msg-bubble h4 { font-size: 14px; font-weight: 600; margin: 14px 0 6px; color: var(--text-primary); }
+        .msg-bubble h4:first-child { margin-top: 0; }
+        .msg-bubble table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 13px; }
+        .msg-bubble table th,
+        .msg-bubble table td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+        .msg-bubble table th { background: var(--bg-secondary, #F5F5F3); font-weight: 600; }
+        .msg-bubble table tr:nth-child(even) td { background: var(--bg-secondary, #F5F5F3); }
+        .msg-bubble .msg-actions { margin-top: 10px; display: flex; gap: 8px; }
+        .msg-bubble .msg-action-btn {
+            border: 1px solid var(--accent);
+            background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
+            color: var(--accent);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .msg-bubble .msg-action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .msg-wrap.typing .msg-bubble {
+            color: var(--text-muted);
+            font-style: italic;
+            background: transparent;
+            border-color: transparent;
+        }
+
+        /* User — right-aligned and visibly distinct */
+        .msg-wrap.user {
+            margin-left: auto;
+            align-items: flex-end;
+        }
+
+        .msg-wrap.user .msg-label {
+            color: color-mix(in srgb, var(--accent) 75%, #0f172a);
+        }
+
+        .msg-wrap.user .msg-bubble {
+            background: linear-gradient(135deg, rgba(21, 94, 64, 0.16), rgba(21, 94, 64, 0.08));
+            border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+            border-radius: 16px 16px 12px 16px;
+            color: #0f172a;
+            white-space: pre-wrap;
+        }
+
+        /* ── Composer ────────────────────────────────── */
+        .composer {
+            border-top: 1px solid rgba(222, 217, 207, 0.9);
+            background: rgba(255,255,255,0.56);
+            padding: 18px 28px 22px;
+            flex-shrink: 0;
+        }
+
+        .composer-box {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .input-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            transition: border-color 0.15s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .input-wrap:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+
+        .input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            min-height: 24px;
+            max-height: 200px;
+            resize: none;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.55;
+            outline: none;
+            box-shadow: none !important;
+        }
+
+        .input::placeholder { color: var(--text-muted); }
+        .input:focus { box-shadow: none !important; }
+
+        .send {
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 9px 16px;
+            background: var(--accent);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            font-family: inherit;
+            flex-shrink: 0;
+            transition: opacity 0.15s;
+            align-self: flex-end;
+        }
+
+        .send:hover { opacity: 0.82; }
+        .send:disabled { opacity: 0.32; cursor: not-allowed; }
+
+        .composer-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding: 0 2px;
+        }
+
+        .hint {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .char-count {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ── Mobile toggle ───────────────────────────── */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 200;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        @media (max-width: 860px) {
+            .layout { grid-template-columns: 1fr; padding: 0; gap: 0; }
+            .sidebar {
+                display: none;
+                position: fixed;
+                top: 12px; left: 12px;
+                width: 260px;
+                height: calc(100vh - 24px);
+                z-index: 150;
+                box-shadow: 8px 0 32px rgba(0,0,0,0.15);
+            }
+            .sidebar.open { display: flex; }
+            .sidebar-toggle { display: block; }
+        }
+
+        @media (max-width: 480px) {
+            .topbar { padding: 10px 16px; }
+            .topbar h1 { font-size: 14px; }
+            .status-banner { padding: 7px 16px; font-size: 11.5px; }
+            .msg-wrap { padding: 6px 16px; }
+            .msg-wrap.user { max-width: calc(100% - 24px); }
+            .msg-wrap.user .msg-bubble {
+                background: color-mix(in srgb, var(--accent) 18%, var(--bg-card));
+                border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+            }
+            .composer { padding: 12px 16px 16px; }
+            .hint { display: none; }
+            .send { min-height: 44px; padding: 8px 18px; }
+            .sidebar-toggle { padding: 10px 14px; min-height: 44px; min-width: 44px; }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 13px;
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            animation: toastIn 0.25s ease, toastOut 0.25s ease 3.5s forwards;
+            max-width: 360px;
+        }
+        .toast.toast-error { border-color: #dc3545; color: #dc3545; }
+        .toast.toast-success { border-color: var(--accent); color: var(--accent); }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand">
+                    <div class="brand-icon">T</div>
+                    Toji
+                </div>
+                <div class="pill">
+                    <div class="dot" id="llmDot"></div>
+                    <span id="llmState">Toji ready</span>
+                </div>
+            </div>
+            <div class="sidebar-body">
+                <div class="meta" id="reportMeta">
+                    <div><strong>Industry: </strong><span id="metaIndustry"></span></div>
+                    <div><strong>Category: </strong><span id="metaCategory"></span></div>
+                    <div><strong>Mode: </strong><span id="metaWorkspace">Chat</span></div>
+                </div>
+                <div class="sidebar-section-label">Navigation</div>
+                <div class="sidebar-actions">
+                    <button class="nav-item" onclick="startNewChat()">New conversation</button>
+                    <button class="nav-item" onclick="openDashboard()">Open dashboard</button>
+                    <button class="nav-item" onclick="goHome()">Home</button>
+                    <button class="nav-item" id="exportBtn" onclick="exportSummary()">Export chat</button>
+                </div>
+                <div class="sidebar-note">Keep messages focused. Toji responds best to specific, operational questions.</div>
+            </div>
+        </aside>
+
+        <section class="main">
+            <div class="topbar">
+                <h1>Toji Chat</h1>
+                <div class="top-actions">
+                    <span class="chip" id="reportChip">Loading context</span>
+                </div>
+            </div>
+            <div class="status-banner" id="statusBanner">Connecting to Toji...</div>
+            <div class="messages" id="messages"></div>
+            <div class="composer">
+                <div class="composer-box">
+                    <div class="input-wrap">
+                        <textarea id="input" class="input" placeholder="Ask Toji about your operations, data, or next action…" maxlength="4000" rows="1"></textarea>
+                        <button class="send" id="sendBtn" onclick="sendMessage()">Send</button>
+                    </div>
+                    <div class="composer-meta">
+                        <span class="hint">⏎ to send &nbsp;·&nbsp; Shift+⏎ for new line &nbsp;·&nbsp; USD standardized</span>
+                        <span class="char-count" id="charCount">0 / 4000</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const stored = JSON.parse(sessionStorage.getItem('analysisResults') || '{}');
+
+        let report = stored.report || stored || {};
+        let reportId = stored.report_id || report.report_id || urlParams.get('report_id');
+        let liveRuntimeEnabled = null;
+        let tojiWorking = false;
+        let pendingSend = false;
+
+        const intakeMode = urlParams.get('intake_mode') === '1';
+        // Validate industry/category URL params against whitelist (security: prevent arbitrary injection)
+        const rawIndustry = String(urlParams.get('industry') || '').trim();
+        const rawCategory = String(urlParams.get('category') || '').trim();
+        let intakeIndustry = '';
+        let intakeCategory = '';
+        try {
+            intakeIndustry = rawIndustry ? (validateIndustry(rawIndustry) || 'other_industry') : '';
+            intakeCategory = rawCategory ? validateCategory(rawCategory, intakeIndustry || 'other_industry') : '';
+        } catch (_e) {
+            // Fallback if shared.js functions aren't available yet
+            intakeIndustry = rawIndustry ? 'other_industry' : '';
+            intakeCategory = rawCategory || '';
+            console.warn('Industry validation fallback:', _e);
+        }
+        const customIndustryName = String(urlParams.get('custom_industry') || '').trim();
+        const intakeMissingFields = (urlParams.get('missing_fields') || '')
+            .split(',')
+            .map((v) => String(v || '').trim())
+            .filter(Boolean)
+            .slice(0, 25);
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast${type === 'error' ? ' toast-error' : type === 'success' ? ' toast-success' : ''}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        function fmt(v) {
+            if (v === null || v === undefined || v === '') return 'Pending';
+            if (typeof v === 'number') return v.toLocaleString(undefined, { maximumFractionDigits: 4 });
+            return String(v);
+        }
+
+        // Lightweight token renderer for streaming: escapes HTML then applies bold and newlines.
+        // Designed for append-safe use — does NOT re-escape already-rendered HTML.
+        function renderToken(token) {
+            const s = String(token || '');
+            // Escape HTML special chars
+            let escaped = s
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            // Newlines → <br>
+            escaped = escaped.replace(/\n/g, '<br>');
+            return escaped;
+        }
+
+        // Build a streaming assistant bubble and return { node, bubble, accumulate, finalize }
+        function createStreamingBubble() {
+            const container = document.getElementById('messages');
+            const node = document.createElement('div');
+            node.className = 'msg-wrap assistant';
+            const label = document.createElement('div');
+            label.className = 'msg-label';
+            label.textContent = 'Toji';
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            node.appendChild(label);
+            node.appendChild(bubble);
+            container.appendChild(node);
+            container.scrollTop = container.scrollHeight;
+            let rawText = '';
+            return {
+                node,
+                accumulate(token) {
+                    rawText += token;
+                    // Re-render the full accumulated text for correct markdown
+                    bubble.innerHTML = renderMarkdown(sanitizeTojiCopy(rawText));
+                    container.scrollTop = container.scrollHeight;
+                },
+                finalize(finalText) {
+                    if (finalText !== undefined) rawText = finalText;
+                    bubble.innerHTML = renderMarkdown(sanitizeTojiCopy(rawText));
+                    container.scrollTop = container.scrollHeight;
+                },
+                getRawText() { return rawText; },
+            };
+        }
+
+        // Progress bar bubble for pipeline stages
+        function createProgressBubble(initialLabel = 'Starting...') {
+            const container = document.getElementById('messages');
+            const node = document.createElement('div');
+            node.className = 'msg-wrap assistant';
+            const label = document.createElement('div');
+            label.className = 'msg-label';
+            label.textContent = 'Toji';
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            const progress = document.createElement('div');
+            progress.className = 'pipeline-progress';
+            progress.innerHTML = `
+                <div class="progress-label">${escapeHtml(initialLabel)}</div>
+                <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+                <div class="progress-pct"></div>
+                <div class="progress-eta"></div>
+            `;
+            bubble.appendChild(progress);
+            node.appendChild(label);
+            node.appendChild(bubble);
+            container.appendChild(node);
+            container.scrollTop = container.scrollHeight;
+            const startedAt = Date.now();
+            let maxPct = 0;
+            let smoothedEta = null;
+            let lastEtaUpdateAt = 0;
+            const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+            const estimateEtaSeconds = (pct, fallbackSeconds = null) => {
+                const normalizedPct = clamp(Number(pct) || 0, 0, 100);
+                if (normalizedPct >= 100) return 0;
+                if (normalizedPct < 6) {
+                    return Number.isFinite(fallbackSeconds) ? Math.max(1, Math.round(fallbackSeconds)) : null;
+                }
+                const elapsedSeconds = Math.max(1, (Date.now() - startedAt) / 1000);
+                const rawEta = elapsedSeconds * ((100 - normalizedPct) / normalizedPct);
+                const now = Date.now();
+                if (smoothedEta === null || (now - lastEtaUpdateAt) > 8000) {
+                    smoothedEta = rawEta;
+                } else {
+                    smoothedEta = (smoothedEta * 0.65) + (rawEta * 0.35);
+                }
+                lastEtaUpdateAt = now;
+                return Math.round(clamp(smoothedEta, 1, 240));
+            };
+            return {
+                node,
+                update(text, pct, etaFallbackSeconds = null) {
+                    maxPct = Math.max(maxPct, Math.round(Number(pct) || 0));
+                    progress.querySelector('.progress-label').textContent = text;
+                    progress.querySelector('.progress-fill').style.width = `${maxPct}%`;
+                    progress.querySelector('.progress-pct').textContent = `${maxPct}%`;
+                    const etaEl = progress.querySelector('.progress-eta');
+                    if (etaEl) {
+                        const etaSeconds = estimateEtaSeconds(maxPct, etaFallbackSeconds);
+                        etaEl.textContent = Number.isFinite(etaSeconds) && etaSeconds > 0
+                            ? `Estimated time left: ${etaSeconds}s`
+                            : (maxPct >= 100 ? 'Wrapping up...' : '');
+                    }
+                    container.scrollTop = container.scrollHeight;
+                },
+                finalize(text) {
+                    bubble.innerHTML = '';
+                    bubble.textContent = text;
+                    container.scrollTop = container.scrollHeight;
+                },
+            };
+        }
+
+        function sanitizeTojiCopy(text) {
+            let out = String(text || '');
+            out = out.replace(/match\s*score/gi, 'coverage estimate');
+            out = out.replace(/risk\s*score/gi, 'risk assessment');
+            out = out.replace(/\bdata\s*fit\b/gi, 'coverage estimate');
+            out = out.replace(/^\s*Part\s*A\s*[:\-]\s*/gim, 'What I want: ');
+            out = out.replace(/^\s*Part\s*B\s*[:\-]\s*/gim, 'How to answer: ');
+            // Normalize escaped newlines from JSON responses
+            out = out.replace(/\\n/g, '\n');
+            // Collapse 3+ consecutive newlines to 2
+            out = out.replace(/\n{3,}/g, '\n\n');
+            return out.trim();
+        }
+
+        function renderMarkdown(raw) {
+            function formatInline(text) {
+                let out = String(text || '');
+                out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                out = out.replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
+                return out;
+            }
+            // Escape HTML first (XSS prevention)
+            const escaped = raw
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Split into paragraphs on double newlines
+            const paragraphs = escaped.split(/\n{2,}/);
+            const parts = paragraphs.map((para) => {
+                const lines = para.split('\n');
+
+                // Table detection: look for | col | col | with separator row
+                const tableLines = lines.filter(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
+                const separatorIdx = lines.findIndex(l => /^\s*\|[\s\-:|]+\|\s*$/.test(l));
+                if (tableLines.length >= 3 && separatorIdx >= 1) {
+                    const parseRow = (line) => line.split('|').slice(1, -1).map(c => c.trim());
+                    const headers = parseRow(lines[separatorIdx - 1]);
+                    const bodyRows = [];
+                    for (let i = separatorIdx + 1; i < lines.length; i++) {
+                        if (lines[i].trim().startsWith('|')) bodyRows.push(parseRow(lines[i]));
+                    }
+                    let html = '<table><thead><tr>';
+                    headers.forEach(h => { html += `<th>${formatInline(h)}</th>`; });
+                    html += '</tr></thead><tbody>';
+                    bodyRows.forEach(row => {
+                        html += '<tr>';
+                        row.forEach(c => { html += `<td>${formatInline(c)}</td>`; });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table>';
+                    return html;
+                }
+
+                // Check for numbered list lines
+                const numberedLines = lines.filter((l) => /^\s*\d+[\.\)]\s/.test(l));
+                const bulletLines = lines.filter((l) => /^\s*[-•]\s/.test(l));
+                const nonEmpty = lines.filter((l) => l.trim().length > 0);
+
+                // Pure numbered list
+                if (numberedLines.length > 0 && numberedLines.length === nonEmpty.length) {
+                    const items = numberedLines.map((l) => {
+                        const text = formatInline(l.replace(/^\s*\d+[\.\)]\s*/, ''));
+                        return `<li>${text}</li>`;
+                    }).join('');
+                    return `<ol>${items}</ol>`;
+                }
+
+                // Pure bullet list
+                if (bulletLines.length > 0 && bulletLines.length === nonEmpty.length) {
+                    const items = bulletLines.map((l) => {
+                        const text = formatInline(l.replace(/^\s*[-•]\s*/, ''));
+                        return `<li>${text}</li>`;
+                    }).join('');
+                    return `<ul>${items}</ul>`;
+                }
+
+                // Mixed: render line by line
+                let html = '';
+                let inUl = false;
+                let inOl = false;
+                lines.forEach((line) => {
+                    // Heading detection
+                    const headingMatch = line.match(/^#{1,4}\s+(.+)/);
+                    if (headingMatch) {
+                        if (inUl) { html += '</ul>'; inUl = false; }
+                        if (inOl) { html += '</ol>'; inOl = false; }
+                        html += `<h4>${formatInline(headingMatch[1])}</h4>`;
+                        return;
+                    }
+                    if (/^\s*\d+[\.\)]\s/.test(line)) {
+                        if (inUl) { html += '</ul>'; inUl = false; }
+                        if (!inOl) { html += '<ol>'; inOl = true; }
+                        const text = formatInline(line.replace(/^\s*\d+[\.\)]\s*/, ''));
+                        html += `<li>${text}</li>`;
+                    } else if (/^\s*[-•]\s/.test(line)) {
+                        if (inOl) { html += '</ol>'; inOl = false; }
+                        if (!inUl) { html += '<ul>'; inUl = true; }
+                        const text = formatInline(line.replace(/^\s*[-•]\s*/, ''));
+                        html += `<li>${text}</li>`;
+                    } else {
+                        if (inUl) { html += '</ul>'; inUl = false; }
+                        if (inOl) { html += '</ol>'; inOl = false; }
+                        const text = formatInline(line);
+                        if (text.trim()) html += `<p>${text}</p>`;
+                    }
+                });
+                if (inUl) html += '</ul>';
+                if (inOl) html += '</ol>';
+                return html;
+            });
+            return parts.join('');
+        }
+
+        function addMessage(text, role) {
+            const container = document.getElementById('messages');
+            const node = document.createElement('div');
+            node.className = role === 'assistant' ? 'msg-wrap assistant' : 'msg-wrap user';
+
+            const label = document.createElement('div');
+            label.className = 'msg-label';
+            label.textContent = role === 'assistant' ? 'Toji' : 'You';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            if (role === 'assistant') {
+                const content = sanitizeTojiCopy(text);
+                bubble.innerHTML = renderMarkdown(content);
+            } else {
+                bubble.textContent = String(text || '');
+            }
+
+            node.appendChild(label);
+            node.appendChild(bubble);
+            container.appendChild(node);
+            container.scrollTop = container.scrollHeight;
+            return node;
+        }
+
+        function addAssistantActionMessage(text, buttonLabel, onClick) {
+            const node = addMessage(text, 'assistant');
+            const bubble = node.querySelector('.msg-bubble');
+            if (!bubble) return node;
+            const actions = document.createElement('div');
+            actions.className = 'msg-actions';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'msg-action-btn';
+            btn.textContent = buttonLabel;
+            btn.onclick = () => onClick(btn);
+            actions.appendChild(btn);
+            bubble.appendChild(actions);
+            return node;
+        }
+
+        function triggerRetryTurn(buttonEl) {
+            if (pendingSend) return;
+            if (buttonEl) buttonEl.disabled = true;
+            const input = document.getElementById('input');
+            if (!input) return;
+            input.value = 'Try again';
+            sendMessage();
+        }
+
+        function updateStatusBanner(message = '') {
+            const banner = document.getElementById('statusBanner');
+            if (!banner) return;
+            if (message) {
+                banner.textContent = message;
+                return;
+            }
+            if (intakeMode) {
+                const i = displayIndustryName(intakeIndustry || 'other_industry', customIndustryName);
+                const c = displayCategoryName(intakeCategory || 'general_operations');
+                banner.textContent = `Toji is asking 10 follow-up questions for ${i} / ${c}, one at a time.`;
+                return;
+            }
+            const runtime = report.llm_runtime || {};
+            const enabled = (liveRuntimeEnabled === null) ? Boolean(runtime.enabled) : Boolean(liveRuntimeEnabled);
+            const reportCustomIndustry = String(
+                report.custom_industry_name
+                || ((report.routing_context || {}).custom_industry_name || '')
+                || ((report.intake_qa || {}).custom_industry_name || '')
+                || customIndustryName
+            ).trim();
+            const i = displayIndustryName(report.industry || 'unknown', reportCustomIndustry);
+            const c = displayCategoryName(report.category || 'unclassified');
+            banner.textContent = enabled
+                ? `Toji is active for ${i} / ${c}.`
+                : `Toji is unavailable for ${i} / ${c}. Please retry in a moment.`;
+        }
+
+        function updateCharCount() {
+            const input = document.getElementById('input');
+            const count = document.getElementById('charCount');
+            if (input && count) {
+                count.textContent = `${input.value.length} / ${MAX_MESSAGE_LENGTH}`;
+            }
+        }
+
+        function setSendEnabled() {
+            const input = document.getElementById('input');
+            const btn = document.getElementById('sendBtn');
+            if (!input || !btn) return;
+            btn.disabled = pendingSend || !input.value.trim() || input.value.length > MAX_MESSAGE_LENGTH;
+        }
+
+        function startNewChat() {
+            const suffix = reportId ? `?report_id=${encodeURIComponent(reportId)}` : '';
+            window.location.href = `chat.html${suffix}`;
+        }
+
+        function openDashboard() {
+            if (report && reportId) {
+                sessionStorage.setItem('analysisResults', JSON.stringify({ report_id: reportId, report }));
+            }
+            const qs = new URLSearchParams();
+            if (reportId) qs.set('report_id', reportId);
+            if (customIndustryName) qs.set('custom_industry', customIndustryName);
+            const suffix = qs.toString() ? `?${qs.toString()}` : '';
+            window.location.href = `dashboard.html${suffix}`;
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        function renderMeta() {
+            const reportCustomIndustry = String(
+                report.custom_industry_name
+                || ((report.routing_context || {}).custom_industry_name || '')
+                || ((report.intake_qa || {}).custom_industry_name || '')
+                || customIndustryName
+            ).trim();
+            const industryLabel = displayIndustryName(report.industry || '', reportCustomIndustry);
+            const categoryLabel = displayCategoryName(report.category || '');
+            document.getElementById('metaIndustry').textContent = fmt(industryLabel || null);
+            document.getElementById('metaCategory').textContent = fmt(categoryLabel || null);
+            const workspace = document.getElementById('metaWorkspace');
+            if (workspace) workspace.textContent = intakeMode ? 'Toji intake' : 'Toji chat';
+
+            document.getElementById('reportChip').textContent = industryLabel ? `${industryLabel} context` : 'Context loaded';
+
+            const llm = report.llm_runtime || {};
+            const enabled = (liveRuntimeEnabled === null) ? Boolean(llm.enabled) : Boolean(liveRuntimeEnabled);
+            document.getElementById('llmState').textContent = enabled ? 'Toji ready' : 'Toji unavailable';
+            document.getElementById('llmDot').style.background = enabled ? 'var(--success)' : 'var(--warning)';
+            if (!tojiWorking) updateStatusBanner();
+        }
+
+        function setTojiWorking(active, detail = '') {
+            tojiWorking = Boolean(active);
+            const chip = document.getElementById('reportChip');
+            const state = document.getElementById('llmState');
+            const dot = document.getElementById('llmDot');
+            if (!chip || !state || !dot) return;
+            if (tojiWorking) {
+                chip.textContent = detail ? `Toji is working: ${detail}` : 'Toji is working';
+                state.textContent = 'Toji is working';
+                dot.style.background = 'var(--warning)';
+                updateStatusBanner(detail ? `Toji is working: ${detail}` : 'Toji is working...');
+                return;
+            }
+            if (intakeMode) {
+                chip.textContent = `${displayIndustryName(intakeIndustry || 'other_industry', customIndustryName)} intake`;
+                state.textContent = 'Toji ready';
+                dot.style.background = 'var(--success)';
+                updateStatusBanner();
+                return;
+            }
+            const reportCustomIndustry = String(
+                report.custom_industry_name
+                || ((report.routing_context || {}).custom_industry_name || '')
+                || ((report.intake_qa || {}).custom_industry_name || '')
+                || customIndustryName
+            ).trim();
+            const industryText = displayIndustryName(report.industry || '', reportCustomIndustry);
+            const llm = report.llm_runtime || {};
+            const enabled = (liveRuntimeEnabled === null) ? Boolean(llm.enabled) : Boolean(liveRuntimeEnabled);
+            chip.textContent = industryText ? `${industryText} context` : 'Context loaded';
+            state.textContent = enabled ? 'Toji ready' : 'Toji unavailable';
+            dot.style.background = enabled ? 'var(--success)' : 'var(--warning)';
+            updateStatusBanner();
+        }
+
+        async function refreshRuntimeAvailability() {
+            try {
+                const res = await fetch(`${API_BASE}/healthz`);
+                if (!res.ok) return;
+                const payload = await res.json();
+                if (typeof payload.llm_enabled === 'boolean') {
+                    liveRuntimeEnabled = payload.llm_enabled;
+                    renderMeta();
+                }
+            } catch (_err) {}
+        }
+
+        async function hydrateReportIfNeeded() {
+            if (!reportId) return;
+            if (report && report.industry) return;
+            try {
+                const res = await fetch(`${API_BASE}/report/${encodeURIComponent(reportId)}`);
+                if (!res.ok) return;
+                report = await res.json();
+                report.report_id = reportId;
+                sessionStorage.setItem('analysisResults', JSON.stringify({ report_id: reportId, report }));
+            } catch (_err) {}
+        }
+
+        async function requestInitialBriefing() {
+            const pending = addMessage('Toji is reviewing your dashboard context...', 'assistant');
+            pending.classList.add('typing');
+            setTojiWorking(true, 'reading report');
+            try {
+                const res = await fetch(`${API_BASE}/chat/brief`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ report_id: reportId })
+                });
+                pending.remove();
+                if (!res.ok) {
+                    const payload = await res.json().catch(() => ({}));
+                    addMessage(payload.detail || payload.error || 'Toji briefing is unavailable right now. Please retry.', 'assistant');
+                    return;
+                }
+                const data = await res.json();
+                addMessage(data.brief || 'Toji briefing is unavailable right now. Please retry.', 'assistant');
+            } catch (_err) {
+                pending.remove();
+                addMessage('Toji briefing is unavailable right now. Please retry.', 'assistant');
+            } finally {
+                setTojiWorking(false);
+            }
+        }
+
+        async function loadHistory() {
+            const container = document.getElementById('messages');
+            container.innerHTML = '';
+            if (!reportId) {
+                addMessage('No report context found. Run an analysis first, then open Toji chat.', 'assistant');
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE}/chat/history?report_id=${encodeURIComponent(reportId)}&limit=50`);
+                if (!res.ok) {
+                    addMessage('Unable to load chat history yet.', 'assistant');
+                    return;
+                }
+                const payload = await res.json();
+                const rows = payload.messages || [];
+                if (!rows.length) {
+                    await requestInitialBriefing();
+                    return;
+                }
+                rows.forEach((row) => {
+                    const role = String(row.role || '') === 'user' ? 'user' : 'assistant';
+                    addMessage(row.content || '', role);
+                });
+            } catch (_err) {
+                addMessage('Network issue while loading history.', 'assistant');
+            }
+        }
+
+        async function requestIntakeTurn(answer = '', reset = false) {
+            await ensureSession();
+            const body = {
+                industry: intakeIndustry || undefined,
+                category: intakeCategory || undefined,
+                max_questions: 10,
+                reset: Boolean(reset),
+                missing_fields: intakeMissingFields
+            };
+            if (String(answer || '').trim()) body.answer = String(answer);
+            const res = await fetch(`${API_BASE}/intake/tell-us/turn`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const payload = await res.json();
+            if (!res.ok) throw new Error(payload.detail || payload.error || 'Toji intake turn failed.');
+            return payload;
+        }
+
+        async function waitForTask(taskId, { onProgress } = {}) {
+            const maxPolls = 240;
+            for (let i = 0; i < maxPolls; i += 1) {
+                const res = await fetch(`${API_BASE}/task/${encodeURIComponent(taskId)}`);
+                const payload = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(payload.detail || payload.error || 'Task polling failed.');
+                if (typeof onProgress === 'function') onProgress(payload);
+                const state = String(payload.state || '').toUpperCase();
+                if (state === 'ERROR') {
+                    throw new Error(payload.error || 'Task failed.');
+                }
+                if (state === 'SYNTH_DATA_READY' || state === 'REPORT_READY') {
+                    return payload;
+                }
+                await new Promise((r) => setTimeout(r, 1500));
+            }
+            throw new Error('Task timed out.');
+        }
+
+        async function runIntakePipeline() {
+            const pb = createProgressBubble('Building your data...');
+            function updatePipeline(text, pct, fallbackEtaSeconds = null) {
+                pb.update(text, pct, fallbackEtaSeconds);
+                setTojiWorking(true, text);
+            }
+            const synthProgressPct = (taskProgress) => Math.round(8 + (Math.max(0, Math.min(1, Number(taskProgress) || 0)) * 48));
+            const reportProgressPct = (taskProgress) => Math.round(58 + (Math.max(0, Math.min(1, Number(taskProgress) || 0)) * 41));
+
+            updatePipeline('Building your data...', 5, 35);
+            try {
+                const finalizeRes = await fetch(`${API_BASE}/intake/tell-us/finalize`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        industry: intakeIndustry || undefined,
+                        category: intakeCategory || undefined,
+                        force: true
+                    })
+                });
+                const finalizePayload = await finalizeRes.json();
+                if (!finalizeRes.ok) throw new Error(finalizePayload.detail || finalizePayload.error || 'Finalize failed.');
+
+                const finalIndustry = String(finalizePayload.industry || intakeIndustry || 'other_industry');
+                const finalCategory = String(finalizePayload.category || intakeCategory || 'unclassified');
+
+                updatePipeline('Building your data...', 8, 32);
+
+                const confirmRes = await fetch(`${API_BASE}/intake/tell-us/confirm-task`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ industry: finalIndustry, use_synthetic: true })
+                });
+                const confirmPayload = await confirmRes.json();
+                if (!confirmRes.ok) throw new Error(confirmPayload.detail || confirmPayload.error || 'Synthetic data generation failed.');
+                const synthTask = await waitForTask(confirmPayload.task_id, {
+                    onProgress(status) {
+                        const state = String(status.state || '').toLowerCase();
+                        const pct = synthProgressPct(status.progress);
+                        if (state.includes('synth_context_building')) {
+                            updatePipeline('Mapping your business context...', Math.max(pct, 12), 28);
+                        } else if (state.includes('synth_data_generating')) {
+                            updatePipeline('Building your data...', Math.max(pct, 20), 24);
+                        } else if (state.includes('synth_artifact_writing')) {
+                            updatePipeline('Finalizing your data...', Math.max(pct, 52), 16);
+                        }
+                    }
+                });
+                const synthResult = synthTask.result || {};
+                if (!synthResult.artifact_uri) throw new Error('Synthetic data generation did not return an artifact.');
+
+                updatePipeline('Synthetic data ready...', 58, 14);
+
+                const runRes = await fetch(`${API_BASE}/run/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        industry: finalIndustry,
+                        category: finalCategory,
+                        artifact_uri: synthResult.artifact_uri
+                    })
+                });
+                const runPayload = await runRes.json();
+                if (!runRes.ok) throw new Error(runPayload.detail || runPayload.error || 'Prediction run failed.');
+
+                updatePipeline('Generating your visuals...', 60, 14);
+
+                const newReport = await waitForReport(runPayload.task_id, {
+                    onProgress(status) {
+                        const state = String(status.state || '').toLowerCase();
+                        const pct = reportProgressPct(status.progress);
+                        if (state.includes('context_building') || state.includes('alignment')) {
+                            updatePipeline('Mapping your dashboard context...', Math.max(pct, 62), 12);
+                        } else if (
+                            state.includes('analysis_running') ||
+                            state.includes('toji_analysis') ||
+                            state.includes('dashboard_markdown_generating')
+                        ) {
+                            updatePipeline('Generating your visuals...', Math.max(pct, 72), 9);
+                        } else if (state.includes('report_building') || state.includes('report_ready')) {
+                            updatePipeline('Preparing dashboard...', Math.max(pct, 90), 4);
+                        }
+                        else if (pct > 0) updatePipeline('Working...', pct, 10);
+                    }
+                });
+                report = newReport;
+                reportId = newReport.report_id;
+                sessionStorage.setItem('analysisResults', JSON.stringify({ report_id: reportId, report }));
+
+                pb.update('Your dashboard is ready!', 100, 0);
+                setTojiWorking(false);
+                await new Promise((r) => setTimeout(r, 800));
+                window.location.href = `dashboard.html?report_id=${encodeURIComponent(reportId)}`;
+            } catch (err) {
+                console.error('Dashboard pipeline error:', err);
+                const detail = String((err && err.message) || '').trim();
+                pb.finalize(detail ? `Couldn\u2019t generate your dashboard: ${detail}` : 'Couldn\u2019t generate your dashboard right now. Please try again in a moment.');
+                addAssistantActionMessage(
+                    'I can rerun the dashboard generation now.',
+                    'Retry dashboard',
+                    (btn) => triggerRetryTurn(btn)
+                );
+            } finally {
+                setTojiWorking(false);
+            }
+        }
+
+        // Global recovery: re-enable chat input if anything goes catastrophically wrong
+        function recoverChatInput() {
+            pendingSend = false;
+            const input = document.getElementById('input');
+            if (input) input.disabled = false;
+            setSendEnabled();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('input');
+            const text = input.value.trim();
+            if (!text || pendingSend) return;
+            if (text.length > MAX_MESSAGE_LENGTH) {
+                showToast(`Message too long. Maximum ${MAX_MESSAGE_LENGTH} characters.`, 'error');
+                return;
+            }
+
+            // Lock immediately to prevent race condition on rapid-fire sends
+            pendingSend = true;
+            input.value = '';
+            input.disabled = true;
+            setSendEnabled();
+            updateCharCount();
+            try { addMessage(text, 'user'); } catch (e) { console.error('addMessage failed:', e); recoverChatInput(); return; }
+
+            if (intakeMode) {
+                const pending = addMessage('Toji is thinking...', 'assistant');
+                pending.classList.add('typing');
+                setTojiWorking(true, 'intake chat');
+                try {
+                    const turn = await requestIntakeTurn(text, false);
+                    pending.remove();
+                    if (turn.assistant_message) addMessage(turn.assistant_message, 'assistant');
+                    if (turn.completed) await runIntakePipeline();
+                } catch (err) {
+                    pending.remove();
+                    console.error('Intake turn error:', err);
+                    addMessage('Something went wrong. Please try sending your message again, or start over.', 'assistant');
+                    showStartOverButton();
+                } finally {
+                    setTojiWorking(false);
+                    pendingSend = false;
+                    document.getElementById('input').disabled = false;
+                    setSendEnabled();
+                }
+                return;
+            }
+
+            if (!reportId) {
+                showToast('No report context found. Run analysis first.', 'error');
+                pendingSend = false;
+                document.getElementById('input').disabled = false;
+                setSendEnabled();
+                return;
+            }
+
+            setTojiWorking(true, 'preparing answer');
+            const streamBubble = createStreamingBubble();
+            streamBubble.node.classList.add('typing');
+            try {
+                const res = await fetch(`${API_BASE}/chat/message/stream`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ report_id: reportId, message: text })
+                });
+                if (!res.ok) {
+                    let errMsg = 'Unable to respond right now.';
+                    try { const j = await res.json(); errMsg = j.detail || j.error || errMsg; } catch (_) {}
+                    streamBubble.node.remove();
+                    addMessage(errMsg, 'assistant');
+                } else {
+                    const reader = res.body.getReader();
+                    const decoder = new TextDecoder();
+                    let sseBuffer = '';
+                    let receivedAny = false;
+                    let streamComplete = false;
+                    try {
+                        while (!streamComplete) {
+                            const { done, value } = await reader.read();
+                            if (done) {
+                                // Flush remaining buffer on stream end
+                                if (sseBuffer.trim()) {
+                                    sseBuffer += '\n\n';
+                                }
+                            } else {
+                                sseBuffer += decoder.decode(value, { stream: true });
+                            }
+                            const lines = sseBuffer.split('\n\n');
+                            sseBuffer = lines.pop(); // keep incomplete last chunk
+                            for (const line of lines) {
+                                if (!line.startsWith('data: ')) continue;
+                                let data;
+                                try { data = JSON.parse(line.slice(6)); } catch (_) { continue; }
+                                if (data.error) {
+                                    streamBubble.finalize(data.error);
+                                    streamComplete = true;
+                                    break;
+                                }
+                                if (data.done) {
+                                    // Append artifact links if any
+                                    const artifacts = data.artifacts || [];
+                                    if (artifacts.length > 0) {
+                                        const links = artifacts.map(a =>
+                                            `- [${a.type.charAt(0).toUpperCase() + a.type.slice(1)} (${a.filename})](${a.uri})`
+                                        ).join('\n');
+                                        streamBubble.finalize(streamBubble.getRawText() + '\n\nI generated files for you:\n' + links);
+                                    }
+                                    streamComplete = true;
+                                    break;
+                                }
+                                if (typeof data.token === 'string') {
+                                    receivedAny = true;
+                                    streamBubble.accumulate(data.token);
+                                }
+                            }
+                            if (done) break;
+                        }
+                    } finally {
+                        try { reader.cancel(); } catch (_) {}
+                    }
+                    if (!receivedAny && !streamBubble.getRawText()) {
+                        streamBubble.finalize('Toji returned an empty response. Please retry.');
+                    }
+                    streamBubble.node.classList.remove('typing');
+                }
+            } catch (_err) {
+                streamBubble.node.remove();
+                addMessage('Network issue while sending message.', 'assistant');
+            } finally {
+                setTojiWorking(false);
+                pendingSend = false;
+                document.getElementById('input').disabled = false;
+                setSendEnabled();
+            }
+        }
+
+        async function exportSummary() {
+            if (!reportId) {
+                showToast('No report found. Run analysis first.', 'error');
+                return;
+            }
+            const btn = document.getElementById('exportBtn');
+            btn.disabled = true;
+            btn.textContent = 'Exporting...';
+            try {
+                const res = await fetch(`${API_BASE}/chat/export-summary`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ report_id: reportId })
+                });
+                const payload = await res.json();
+                if (!res.ok) {
+                    showToast(payload.detail || payload.error || 'Summary export failed.', 'error');
+                    return;
+                }
+                showToast('Chat summary exported and attached to report.', 'success');
+            } catch (_err) {
+                showToast('Network issue while exporting summary.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Export Chat';
+            }
+        }
+
+        function bindHotkeys() {
+            const input = document.getElementById('input');
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            input.addEventListener('input', () => {
+                updateCharCount();
+                setSendEnabled();
+            });
+        }
+
+        function showStartOverButton() {
+            const msg = document.createElement('div');
+            msg.style.cssText = 'text-align:center;margin:12px 0;';
+            msg.innerHTML = '<button onclick="window.location.href=\'synthesis.html\'" style="padding:8px 20px;border-radius:6px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:14px;">Start over</button>';
+            document.getElementById('messages').appendChild(msg);
+            msg.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function initIntakeMode() {
+            const industry = displayIndustryName(intakeIndustry || 'other_industry', customIndustryName);
+            const category = displayCategoryName(intakeCategory || 'general_operations');
+            document.getElementById('metaIndustry').textContent = industry;
+            document.getElementById('metaCategory').textContent = category;
+            const workspace = document.getElementById('metaWorkspace');
+            if (workspace) workspace.textContent = 'Toji intake';
+            document.getElementById('reportChip').textContent = `${industry} intake`;
+            document.getElementById('llmState').textContent = 'Toji ready';
+            document.getElementById('llmDot').style.background = 'var(--success)';
+            updateStatusBanner();
+            document.getElementById('messages').innerHTML = '';
+
+            const pending = addMessage('Preparing your first question — this may take a moment...', 'assistant');
+            pending.classList.add('typing');
+            setTojiWorking(true, 'connecting');
+
+            // Timeout: if intake doesn't respond in 30s, show error + start over
+            const INTAKE_TIMEOUT_MS = 30000;
+            let timedOut = false;
+            const timeoutId = setTimeout(() => {
+                timedOut = true;
+                pending.remove();
+                setTojiWorking(false);
+                document.getElementById('reportChip').textContent = 'Connection timed out';
+                addMessage('Toji is taking too long to respond. This may be a temporary issue — please try again.', 'assistant');
+                showStartOverButton();
+                recoverChatInput();
+            }, INTAKE_TIMEOUT_MS);
+
+            try {
+                const first = await requestIntakeTurn('', true);
+                clearTimeout(timeoutId);
+                if (timedOut) return; // timeout already handled UI
+                pending.remove();
+                if (first.assistant_message) addMessage(first.assistant_message, 'assistant');
+                if (first.completed) await runIntakePipeline();
+            } catch (err) {
+                clearTimeout(timeoutId);
+                if (timedOut) return;
+                pending.remove();
+                console.error('Intake init error:', err);
+                addMessage('Toji is having trouble connecting. Please try again.', 'assistant');
+                showStartOverButton();
+                recoverChatInput();
+            } finally {
+                clearTimeout(timeoutId);
+                setTojiWorking(false);
+            }
+        }
+
+        async function init() {
+            initTheme();
+            bindHotkeys();
+            setSendEnabled();
+            updateCharCount();
+            // Populate sidebar immediately from URL params (before any async work)
+            if (intakeMode) {
+                const i = displayIndustryName(intakeIndustry || 'other_industry', customIndustryName);
+                const c = displayCategoryName(intakeCategory || 'general_operations');
+                document.getElementById('metaIndustry').textContent = i;
+                document.getElementById('metaCategory').textContent = c;
+                document.getElementById('metaWorkspace').textContent = 'Toji intake';
+                document.getElementById('reportChip').textContent = `${i} intake`;
+                document.getElementById('statusBanner').textContent = `Connecting to Toji for ${i}...`;
+                await initIntakeMode();
+                return;
+            }
+            await hydrateReportIfNeeded();
+            renderMeta();
+            await refreshRuntimeAvailability();
+            await loadHistory();
+        }
+
+        init();
+    </script>
+</body>
+</html>

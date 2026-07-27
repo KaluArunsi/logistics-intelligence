@@ -1,0 +1,712 @@
+{
+  "version": 1,
+  "industry": "ecommerce",
+  "updated_at": "2026-02-24T03:59:28.558008+00:00",
+  "targets": [
+    {
+      "target_column": "fraud",
+      "meaning": "rate / probability metric",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__banksim1__bs140513_032310_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__banksim1__bs140513_032310_csv"
+      ],
+      "feature_evidence": [
+        "step",
+        "customer",
+        "age",
+        "gender_'E'",
+        "gender_'F'",
+        "gender_'M'",
+        "gender_'U'",
+        "zipcodeori",
+        "merchant",
+        "zipmerchant",
+        "category_'es_barsandrestaurants'",
+        "category_'es_contents'"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 0.011,
+        "min": 0.0,
+        "max": 1.0,
+        "std": 0.104329
+      },
+      "historical_summary": {
+        "runs": 22,
+        "prediction_mean_avg": 0.0,
+        "prediction_mean_abs_avg": 0.0,
+        "confidence_avg": 0.860481,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "distribution:bounded_ratio_target"
+      ],
+      "first_seen": "2026-02-23T08:16:06.162803+00:00",
+      "last_seen": "2026-02-24T03:39:15.324107+00:00",
+      "hit_count": 16
+    },
+    {
+      "target_column": "isfraud",
+      "meaning": "rate / probability metric",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__paysim1__ps_20174392719_1491204439457_log_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__paysim1__ps_20174392719_1491204439457_log_csv"
+      ],
+      "feature_evidence": [
+        "step",
+        "type_CASH_IN",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "amount",
+        "nameorig",
+        "oldbalanceorg",
+        "newbalanceorig",
+        "namedest",
+        "oldbalancedest"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 0.002,
+        "min": 0.0,
+        "max": 1.0,
+        "std": 0.044688
+      },
+      "historical_summary": {
+        "runs": 13,
+        "prediction_mean_avg": 0.0,
+        "prediction_mean_abs_avg": 0.0,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "distribution:bounded_ratio_target"
+      ],
+      "first_seen": "2026-02-23T08:16:06.194998+00:00",
+      "last_seen": "2026-02-24T02:02:32.573914+00:00",
+      "hit_count": 4
+    },
+    {
+      "target_column": "subscription_status",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__customer_shopping_trends_dataset__shopping_trends_csv",
+        "l0_kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv"
+      ],
+      "feature_evidence": [
+        "age",
+        "gender_Female",
+        "gender_Male",
+        "item_purchased_Backpack",
+        "item_purchased_Belt",
+        "item_purchased_Blouse",
+        "item_purchased_Boots",
+        "item_purchased_Coat",
+        "item_purchased_Dress",
+        "item_purchased_Gloves",
+        "item_purchased_Handbag",
+        "item_purchased_Hat"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 2
+      },
+      "historical_summary": {
+        "runs": 22,
+        "prediction_mean_avg": 161.0,
+        "prediction_mean_abs_avg": 161.0,
+        "confidence_avg": 0.765223,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-23T08:16:06.213587+00:00",
+      "last_seen": "2026-02-24T03:39:15.316255+00:00",
+      "hit_count": 28
+    },
+    {
+      "target_column": "basket_segment_band",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv"
+      ],
+      "feature_evidence": [
+        "department_id",
+        "department_alcohol",
+        "department_babies",
+        "department_bakery",
+        "department_beverages",
+        "department_breakfast",
+        "department_bulk",
+        "department_canned goods",
+        "department_dairy eggs",
+        "department_deli",
+        "department_dry goods pasta",
+        "department_frozen"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 7,
+        "prediction_mean_avg": 22.428571,
+        "prediction_mean_abs_avg": 22.428571,
+        "confidence_avg": 0.132733,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T01:46:36.027515+00:00",
+      "last_seen": "2026-02-24T02:29:52.600571+00:00",
+      "hit_count": 3
+    },
+    {
+      "target_column": "weekday_weekend",
+      "meaning": "transactions processed",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_model_ids": [
+        "l0_openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "worker_dataset_ids": [
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "feature_evidence": [
+        "transaction",
+        "item",
+        "date_time",
+        "period_day_afternoon",
+        "period_day_evening",
+        "period_day_morning",
+        "period_day_night"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 2
+      },
+      "historical_summary": {
+        "runs": 9,
+        "prediction_mean_avg": 133.848556,
+        "prediction_mean_abs_avg": 133.848556,
+        "confidence_avg": 0.977354,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "feature_token_overlap:transaction",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:57:41.965393+00:00",
+      "last_seen": "2026-02-24T03:59:28.557979+00:00",
+      "hit_count": 10
+    },
+    {
+      "target_column": "flow_state",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "catalog_quality"
+      ],
+      "worker_model_ids": [
+        "l0_openml__45968_braidflowsessionlevel__dataset_csv"
+      ],
+      "worker_dataset_ids": [
+        "openml__45968_braidflowsessionlevel__dataset_csv"
+      ],
+      "feature_evidence": [
+        "task_id",
+        "window",
+        "k",
+        "task_braid_ROUND",
+        "task_braid_VBRAID",
+        "task_braid_XBRAID",
+        "task_braid_revolutions",
+        "task_braid_strands",
+        "braiding_statistics_revadvancework",
+        "braiding_statistics_revolutions",
+        "braiding_statistics_revundowork",
+        "braiding_statistics_revwork"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 3
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 241.0,
+        "prediction_mean_abs_avg": 241.0,
+        "confidence_avg": 0.999999,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:57:44.658190+00:00",
+      "last_seen": "2026-02-24T03:00:30.993619+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "recommended_ind",
+      "meaning": "rate / probability metric",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "catalog_quality"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__womens_ecommerce_clothing_reviews__womens_clothing_e_commerce_reviews_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__womens_ecommerce_clothing_reviews__womens_clothing_e_commerce_reviews_csv"
+      ],
+      "feature_evidence": [
+        "age",
+        "rating",
+        "positive_feedback_count",
+        "division_name_General",
+        "division_name_General Petite",
+        "division_name_Initmates",
+        "division_name_unknown",
+        "department_name_Bottoms",
+        "department_name_Dresses",
+        "department_name_Intimate",
+        "department_name_Jackets",
+        "department_name_Tops"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 0.8155,
+        "min": 0.0,
+        "max": 1.0,
+        "std": 0.387988
+      },
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 0.0,
+        "prediction_mean_abs_avg": 0.0,
+        "confidence_avg": 0.981537,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "distribution:bounded_ratio_target"
+      ],
+      "first_seen": "2026-02-24T02:57:44.664949+00:00",
+      "last_seen": "2026-02-24T03:00:31.000646+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "productssold_tier",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "catalog_quality"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__ecommerce_users_of_a_french_c2c_fashion_store__users_6m0xxk_2024_public_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_users_of_a_french_c2c_fashion_store__users_6m0xxk_2024_public_csv"
+      ],
+      "feature_evidence": [
+        "type_user",
+        "countrycode",
+        "country",
+        "language_74",
+        "language_de",
+        "language_en",
+        "language_es",
+        "language_fr",
+        "language_it",
+        "socialnbfollowers",
+        "socialnbfollows",
+        "socialproductsliked"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 1,
+        "prediction_mean_avg": 26.0,
+        "prediction_mean_abs_avg": 26.0,
+        "confidence_avg": 0.999629,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:57:44.669063+00:00",
+      "last_seen": "2026-02-24T03:00:31.005495+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "quoteconversion_flag",
+      "meaning": "rate / probability metric",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_model_ids": [
+        "l0_openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "worker_dataset_ids": [
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "feature_evidence": [
+        "quotenumber",
+        "original_quote_date",
+        "field6_A",
+        "field6_B",
+        "field6_C",
+        "field6_D",
+        "field6_E",
+        "field6_F",
+        "field6_J",
+        "field6_K",
+        "field7",
+        "field8"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Int64",
+        "mean": 0.1735,
+        "min": 0.0,
+        "max": 1.0,
+        "std": 0.378774
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 0.001,
+        "prediction_mean_abs_avg": 0.001,
+        "confidence_avg": 0.964678,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "distribution:bounded_ratio_target"
+      ],
+      "first_seen": "2026-02-24T02:57:53.017694+00:00",
+      "last_seen": "2026-02-24T03:00:39.295333+00:00",
+      "hit_count": 2
+    },
+    {
+      "target_column": "totalproductssold",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "demand_signal"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__ecommerce_users_of_a_french_c2c_fashion_store__comparison_of_sellers_by_gender_and_country_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_users_of_a_french_c2c_fashion_store__comparison_of_sellers_by_gender_and_country_csv"
+      ],
+      "feature_evidence": [
+        "country",
+        "sex_Female",
+        "sex_Male",
+        "sex_unknown",
+        "nbsellers",
+        "meanproductssold",
+        "meanproductslisted",
+        "meansellerpassrate",
+        "totalproductslisted",
+        "meanproductsbought",
+        "meanproductswished",
+        "meanproductsliked"
+      ],
+      "distribution_summary": {
+        "n": 73,
+        "dtype": "Int64",
+        "mean": 494.260274,
+        "min": 0.0,
+        "max": 12027.0,
+        "std": 1809.983142
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 0.0,
+        "prediction_mean_abs_avg": 0.0,
+        "confidence_avg": 0.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:57:56.348073+00:00",
+      "last_seen": "2026-02-24T03:30:23.034338+00:00",
+      "hit_count": 3
+    },
+    {
+      "target_column": "country",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.76,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "demand_signal"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__online_retail_ii_uci__online_retail_ii_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__online_retail_ii_uci__online_retail_ii_csv"
+      ],
+      "feature_evidence": [
+        "stockcode",
+        "quantity",
+        "invoicedate",
+        "price"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "String",
+        "n_unique": 21
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 227.0,
+        "prediction_mean_abs_avg": 227.0,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "target_token:count_or_volume"
+      ],
+      "first_seen": "2026-02-24T02:57:56.371344+00:00",
+      "last_seen": "2026-02-24T03:30:23.069369+00:00",
+      "hit_count": 3
+    },
+    {
+      "target_column": "unitprice_band",
+      "meaning": "operational target metric",
+      "status": "candidate",
+      "confidence": 0.45,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "demand_signal"
+      ],
+      "worker_model_ids": [
+        "l0_uci__online_retail__online_retail_xlsx"
+      ],
+      "worker_dataset_ids": [
+        "uci__online_retail__online_retail_xlsx"
+      ],
+      "feature_evidence": [
+        "stockcode",
+        "quantity",
+        "invoicedate",
+        "country_Australia",
+        "country_Austria",
+        "country_Bahrain",
+        "country_Belgium",
+        "country_Brazil",
+        "country_Canada",
+        "country_Channel Islands",
+        "country_Cyprus",
+        "country_Czech Republic"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 187.0,
+        "prediction_mean_abs_avg": 187.0,
+        "confidence_avg": 0.917927,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "fallback:no_signal",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:57:56.386272+00:00",
+      "last_seen": "2026-02-24T03:30:23.110761+00:00",
+      "hit_count": 3
+    },
+    {
+      "target_column": "late_delivery_flag",
+      "meaning": "arrival delay / ETA performance",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__brazilian_ecommerce__olist_orders_dataset_csv",
+        "l0_kaggle__delivery_logistics_dataset_india_multi_partner__delivery_logistics_csv",
+        "l0_kaggle__delivery_truck_trips_data__delivery_truck_trip_data_xlsx"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__brazilian_ecommerce__olist_orders_dataset_csv",
+        "kaggle__delivery_logistics_dataset_india_multi_partner__delivery_logistics_csv",
+        "kaggle__delivery_truck_trips_data__delivery_truck_trip_data_xlsx"
+      ],
+      "feature_evidence": [
+        "delivery_partner_amazon logistics",
+        "delivery_partner_blue dart",
+        "delivery_partner_delhivery",
+        "delivery_partner_dhl",
+        "delivery_partner_ecom express",
+        "delivery_partner_ekart",
+        "delivery_partner_fedex",
+        "delivery_partner_shadowfax",
+        "delivery_partner_xpressbees",
+        "package_type_automobile parts",
+        "package_type_clothing",
+        "package_type_cosmetics"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 19.0,
+        "prediction_mean_abs_avg": 19.0,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "feature_token_overlap:eta,time",
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:57:58.871537+00:00",
+      "last_seen": "2026-02-24T03:00:43.997249+00:00",
+      "hit_count": 6
+    },
+    {
+      "target_column": "merchandising_band",
+      "meaning": "classification label",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "merchandising"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__b2b_ecommerce_courier_dataset__company_abc_order_report_xlsx",
+        "l0_kaggle__unlock_profits_with_e_commerce_sales_data__amazon_sale_report_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__b2b_ecommerce_courier_dataset__company_abc_order_report_xlsx",
+        "kaggle__unlock_profits_with_e_commerce_sales_data__amazon_sale_report_csv"
+      ],
+      "feature_evidence": [
+        "sku"
+      ],
+      "distribution_summary": {},
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 157.0,
+        "prediction_mean_abs_avg": 157.0,
+        "confidence_avg": 0.931961,
+        "dominant_task_type": "classification"
+      },
+      "evidence": [
+        "historical:classification_worker"
+      ],
+      "first_seen": "2026-02-24T02:58:00.134916+00:00",
+      "last_seen": "2026-02-24T03:00:45.268078+00:00",
+      "hit_count": 4
+    },
+    {
+      "target_column": "gross_amt",
+      "meaning": "volume / count outcome",
+      "status": "candidate",
+      "confidence": 0.35,
+      "source": "target_semantics_resolver",
+      "categories": [
+        "merchandising"
+      ],
+      "worker_model_ids": [
+        "l0_kaggle__unlock_profits_with_e_commerce_sales_data__international_sale_report_csv"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__unlock_profits_with_e_commerce_sales_data__international_sale_report_csv"
+      ],
+      "feature_evidence": [
+        "date",
+        "months",
+        "customer",
+        "style",
+        "sku",
+        "size_1.00",
+        "size_10.00",
+        "size_1000.00",
+        "size_11.00",
+        "size_12.00",
+        "size_15.00",
+        "size_2.00"
+      ],
+      "distribution_summary": {
+        "n": 2000,
+        "dtype": "Float64",
+        "mean": 959.4525,
+        "min": 241.0,
+        "max": 9735.0,
+        "std": 871.41822
+      },
+      "historical_summary": {
+        "runs": 2,
+        "prediction_mean_avg": 163.219135,
+        "prediction_mean_abs_avg": 163.219135,
+        "confidence_avg": 1.0,
+        "dominant_task_type": "regression"
+      },
+      "evidence": [
+        "distribution:non_negative_target"
+      ],
+      "first_seen": "2026-02-24T02:58:00.141420+00:00",
+      "last_seen": "2026-02-24T03:00:45.265462+00:00",
+      "hit_count": 2
+    }
+  ]
+}

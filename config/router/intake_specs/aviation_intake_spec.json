@@ -1,0 +1,696 @@
+{
+  "industry": "aviation",
+  "categories": {
+    "customer": {
+      "question_groups": [
+        {
+          "group_id": "passenger_profile",
+          "columns": ["Gender", "Customer Type", "Age", "Type of Travel"],
+          "question": "Tell us about the passenger: what is their gender, loyalty status, age, and reason for travel?",
+          "hint": "e.g., Female, loyal customer, age 35, business travel",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "Gender", "label": "Passenger gender", "type": "categorical", "options": ["Female", "Male"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "Customer Type", "label": "Loyalty status", "type": "categorical", "options": ["Loyal Customer", "disloyal Customer"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "Age", "label": "Passenger age", "type": "integer", "min": 1, "max": 120, "default_strategy": "conservative"},
+            {"column": "Type of Travel", "label": "Travel purpose", "type": "categorical", "options": ["Business travel", "Personal Travel"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "cabin_and_distance",
+          "columns": ["Class", "Flight Distance"],
+          "question": "What cabin class is the passenger flying, and how far is the flight in miles?",
+          "hint": "e.g., Business class, 1,500 miles",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "Class", "label": "Cabin class", "type": "categorical", "options": ["Business", "Eco", "Eco Plus"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "Flight Distance", "label": "Flight distance (miles)", "type": "integer", "min": 50, "max": 15000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "digital_experience",
+          "columns": ["Inflight wifi service", "Ease of Online booking", "Online boarding"],
+          "question": "How would the passenger rate the digital experience: in-flight Wi-Fi, ease of online booking, and online boarding (1-5 scale)?",
+          "hint": "e.g., Wi-Fi 3, booking ease 4, online boarding 4",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Inflight wifi service", "label": "In-flight Wi-Fi rating (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Ease of Online booking", "label": "Online booking ease (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Online boarding", "label": "Online boarding rating (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "onboard_comfort",
+          "columns": ["Seat comfort", "Leg room service", "Cleanliness", "Food and drink"],
+          "question": "How would the passenger rate onboard comfort: seat comfort, legroom, cleanliness, and food quality (1-5 scale)?",
+          "hint": "e.g., seat comfort 4, legroom 3, cleanliness 4, food 3",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Seat comfort", "label": "Seat comfort (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Leg room service", "label": "Legroom rating (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Cleanliness", "label": "Cleanliness rating (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Food and drink", "label": "Food and drink (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "inflight_services",
+          "columns": ["Inflight entertainment", "Inflight service", "On-board service"],
+          "question": "How would the passenger rate the in-flight entertainment, cabin crew service, and overall onboard service (1-5 scale)?",
+          "hint": "e.g., entertainment 4, inflight service 4, onboard service 3",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Inflight entertainment", "label": "Entertainment rating (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Inflight service", "label": "Inflight service (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "On-board service", "label": "Onboard service (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "ground_services",
+          "columns": ["Departure/Arrival time convenient", "Gate location", "Baggage handling", "Checkin service"],
+          "question": "How does the passenger rate the ground experience: schedule convenience, gate location, baggage handling, and check-in (1-5 scale)?",
+          "hint": "e.g., time convenience 4, gate location 3, baggage 4, check-in 4",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Departure/Arrival time convenient", "label": "Schedule convenience (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Gate location", "label": "Gate location (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Baggage handling", "label": "Baggage handling (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "Checkin service", "label": "Check-in service (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "delays",
+          "columns": ["Departure Delay in Minutes", "Arrival Delay in Minutes"],
+          "question": "Were there any delays? How many minutes was the departure delayed, and how many minutes was the arrival delayed?",
+          "hint": "e.g., 15 minutes departure delay, 10 minutes arrival delay",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Departure Delay in Minutes", "label": "Departure delay (minutes)", "type": "integer", "min": 0, "max": 1440, "default_strategy": "conservative"},
+            {"column": "Arrival Delay in Minutes", "label": "Arrival delay (minutes)", "type": "integer", "min": 0, "max": 1440, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "demand": {
+      "question_groups": [
+        {
+          "group_id": "route_and_season",
+          "columns": ["origin", "destination", "month", "year"],
+          "question": "What route and time period are you forecasting demand for?",
+          "hint": "e.g., JFK to LAX, March 2026",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "origin", "label": "Origin airport (IATA code)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "EWR", "MIA", "BOS", "MSP", "DTW", "PHL", "LGA", "FLL", "BWI", "SLC", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "destination", "label": "Destination airport (IATA code)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "EWR", "MIA", "BOS", "MSP", "DTW", "PHL", "LGA", "FLL", "BWI", "SLC", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "temporal_context",
+          "columns": ["month", "year", "day_of_week"],
+          "question": "What time period is this demand analysis for, and are you looking at a particular day of the week?",
+          "hint": "e.g., June 2026, focusing on Fridays",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "capacity_metrics",
+          "columns": ["available_seats", "load_factor", "frequency"],
+          "question": "What is the current capacity on this route: how many seats are available, what is the typical load factor, and how many weekly flights?",
+          "hint": "e.g., 180 seats per flight, 82% load factor, 14 weekly flights",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "available_seats", "label": "Available seats per flight", "type": "integer", "min": 10, "max": 600, "default_strategy": "conservative"},
+            {"column": "load_factor", "label": "Avg load factor (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"},
+            {"column": "frequency", "label": "Weekly flight frequency", "type": "integer", "min": 1, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "passenger_volume",
+          "columns": ["passenger_count", "booking_lead_days"],
+          "question": "What are the typical passenger volumes and how far in advance do passengers book?",
+          "hint": "e.g., 25,000 passengers per month, average 21 days booking lead time",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "passenger_count", "label": "Monthly passenger volume", "type": "integer", "min": 0, "max": 5000000, "default_strategy": "conservative"},
+            {"column": "booking_lead_days", "label": "Avg booking lead time (days)", "type": "integer", "min": 0, "max": 365, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "market_segment",
+          "columns": ["travel_class", "passenger_type"],
+          "question": "What is the dominant market segment: which cabin class and what type of passengers (business vs leisure)?",
+          "hint": "e.g., Economy class, mostly leisure travelers",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "travel_class", "label": "Primary cabin class", "type": "categorical", "options": ["Economy", "Premium Economy", "Business", "First"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "passenger_type", "label": "Dominant passenger type", "type": "categorical", "options": ["Business", "Leisure", "Visiting Friends/Relatives", "Mixed"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "competition",
+          "columns": ["competing_carriers", "market_share"],
+          "question": "How many competing carriers operate this route, and what is your approximate market share?",
+          "hint": "e.g., 4 competing carriers, 30% market share",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "competing_carriers", "label": "Number of competing carriers", "type": "integer", "min": 0, "max": 20, "default_strategy": "conservative"},
+            {"column": "market_share", "label": "Your market share (%)", "type": "percentage", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "maintenance": {
+      "question_groups": [
+        {
+          "group_id": "equipment_identity",
+          "columns": ["UDI", "Type"],
+          "question": "What is the equipment unit identifier, and what quality tier is it (Low, Medium, or High)?",
+          "hint": "e.g., unit 12345, Medium quality tier",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "UDI", "label": "Unit identifier (UDI)", "type": "integer", "min": 1, "max": 100000, "default_strategy": "conservative"},
+            {"column": "Type", "label": "Product quality tier", "type": "categorical", "options": ["L", "M", "H"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "thermal_readings",
+          "columns": ["Air temperature [K]", "Process temperature [K]"],
+          "question": "What are the current thermal readings: air temperature and process temperature (in Kelvin)?",
+          "hint": "e.g., air temp 300 K (about 27C), process temp 310 K (about 37C)",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Air temperature [K]", "label": "Air temperature (Kelvin)", "type": "float", "min": 250, "max": 350, "default_strategy": "conservative"},
+            {"column": "Process temperature [K]", "label": "Process temperature (Kelvin)", "type": "float", "min": 280, "max": 380, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "mechanical_readings",
+          "columns": ["Rotational speed [rpm]", "Torque [Nm]"],
+          "question": "What are the current mechanical readings: rotational speed (RPM) and applied torque (Newton-meters)?",
+          "hint": "e.g., 1500 RPM, 40 Nm torque",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Rotational speed [rpm]", "label": "Rotational speed (RPM)", "type": "integer", "min": 500, "max": 5000, "default_strategy": "conservative"},
+            {"column": "Torque [Nm]", "label": "Torque (Nm)", "type": "float", "min": 0, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "wear_and_failure",
+          "columns": ["Tool wear [min]", "Failure Type"],
+          "question": "How many minutes of tool wear have accumulated, and has any failure mode been observed?",
+          "hint": "e.g., 120 minutes of wear, no failure observed",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "Tool wear [min]", "label": "Tool wear (minutes)", "type": "integer", "min": 0, "max": 500, "default_strategy": "conservative"},
+            {"column": "Failure Type", "label": "Observed failure mode", "type": "categorical", "options": ["No Failure", "Heat Dissipation Failure", "Power Failure", "Overstrain Failure", "Tool Wear Failure", "Random Failures"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "engine_telemetry",
+          "columns": ["engine_id", "cycle"],
+          "question": "Which engine unit are you monitoring, and how many operational cycles has it completed?",
+          "hint": "e.g., engine 42, 150 cycles since overhaul",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "engine_id", "label": "Engine unit ID", "type": "integer", "min": 1, "max": 1000, "default_strategy": "conservative"},
+            {"column": "cycle", "label": "Operational cycles completed", "type": "integer", "min": 1, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "operating_conditions",
+          "columns": ["setting_1", "setting_2", "setting_3"],
+          "question": "What are the current operational settings for this engine (altitude, Mach number, throttle resolver angle)?",
+          "hint": "e.g., setting 1: -0.002, setting 2: 0.0003, setting 3: 100",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "setting_1", "label": "Operational setting 1 (altitude)", "type": "float", "min": -10, "max": 50, "default_strategy": "conservative"},
+            {"column": "setting_2", "label": "Operational setting 2 (Mach)", "type": "float", "min": -1, "max": 1, "default_strategy": "conservative"},
+            {"column": "setting_3", "label": "Operational setting 3 (TRA)", "type": "float", "min": 0, "max": 200, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sensor_bank_core",
+          "columns": ["sensor_2", "sensor_3", "sensor_4", "sensor_7"],
+          "question": "What are the core engine sensor readings: total temperature at LPC outlet, HPC outlet, and LPT outlet, plus total temperature at fan inlet?",
+          "hint": "e.g., sensor 2: 642, sensor 3: 1590, sensor 4: 1408, sensor 7: 554",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "sensor_2", "label": "Total temp at LPC outlet (R)", "type": "float", "min": 500, "max": 800, "default_strategy": "conservative"},
+            {"column": "sensor_3", "label": "Total temp at HPC outlet (R)", "type": "float", "min": 1000, "max": 2000, "default_strategy": "conservative"},
+            {"column": "sensor_4", "label": "Total temp at LPT outlet (R)", "type": "float", "min": 1000, "max": 1800, "default_strategy": "conservative"},
+            {"column": "sensor_7", "label": "Total temp at fan inlet (R)", "type": "float", "min": 400, "max": 700, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sensor_bank_pressure",
+          "columns": ["sensor_8", "sensor_11", "sensor_12", "sensor_13"],
+          "question": "What are the pressure and ratio sensor readings: total pressure at HPC outlet, static pressure at HPC outlet, fuel/air ratio, and corrected speed?",
+          "hint": "e.g., sensor 8: 2388, sensor 11: 47.5, sensor 12: 521, sensor 13: 2388",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "sensor_8", "label": "Total pressure at HPC outlet", "type": "float", "min": 100, "max": 1000, "default_strategy": "conservative"},
+            {"column": "sensor_11", "label": "Static pressure at HPC outlet", "type": "float", "min": 20, "max": 80, "default_strategy": "conservative"},
+            {"column": "sensor_12", "label": "Fuel-air ratio", "type": "float", "min": 100, "max": 700, "default_strategy": "conservative"},
+            {"column": "sensor_13", "label": "Corrected core speed (rpm)", "type": "float", "min": 2000, "max": 2500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sensor_bank_flow",
+          "columns": ["sensor_9", "sensor_14", "sensor_15", "sensor_17"],
+          "question": "What are the flow-related sensor readings: physical core speed, corrected fan speed, bypass ratio, and bleed enthalpy?",
+          "hint": "e.g., sensor 9: 9065, sensor 14: 8139, sensor 15: 8.45, sensor 17: 393",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "sensor_9", "label": "Physical core speed (rpm)", "type": "float", "min": 7000, "max": 12000, "default_strategy": "conservative"},
+            {"column": "sensor_14", "label": "Corrected fan speed (rpm)", "type": "float", "min": 7000, "max": 10000, "default_strategy": "conservative"},
+            {"column": "sensor_15", "label": "Bypass ratio", "type": "float", "min": 5, "max": 15, "default_strategy": "conservative"},
+            {"column": "sensor_17", "label": "Bleed enthalpy", "type": "float", "min": 300, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "sensor_bank_auxiliary",
+          "columns": ["sensor_20", "sensor_21"],
+          "question": "What are the auxiliary sensor readings: bleed pressure and high-pressure turbine coolant bleed?",
+          "hint": "e.g., sensor 20: 38.9, sensor 21: 23.3",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "sensor_20", "label": "Bleed pressure", "type": "float", "min": 10, "max": 50, "default_strategy": "conservative"},
+            {"column": "sensor_21", "label": "HPT coolant bleed", "type": "float", "min": 10, "max": 30, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "network": {
+      "question_groups": [
+        {
+          "group_id": "airline_identity",
+          "columns": ["name", "iata", "icao", "callsign"],
+          "question": "What airline are you analyzing? Provide the name, IATA code, ICAO code, and radio callsign.",
+          "hint": "e.g., Delta Air Lines, DL, DAL, DELTA",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "name", "label": "Airline name", "type": "categorical", "options": ["American Airlines", "Delta Air Lines", "United Airlines", "Southwest Airlines", "JetBlue Airways", "Alaska Airlines", "Spirit Airlines", "Frontier Airlines", "Hawaiian Airlines", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "iata", "label": "IATA code (2-letter)", "type": "categorical", "options": ["AA", "DL", "UA", "WN", "B6", "AS", "NK", "F9", "HA", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "icao", "label": "ICAO code (3-letter)", "type": "categorical", "options": ["AAL", "DAL", "UAL", "SWA", "JBU", "ASA", "NKS", "FFT", "HAL", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "callsign", "label": "Radio callsign", "type": "categorical", "options": ["AMERICAN", "DELTA", "UNITED", "SOUTHWEST", "JETBLUE", "ALASKA", "SPIRIT LINE", "FRONTIER FLIGHT", "HAWAIIAN", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "airline_country",
+          "columns": ["country"],
+          "question": "In which country is the airline based or registered?",
+          "hint": "e.g., United States, United Kingdom, Germany",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "country", "label": "Country of registration", "type": "categorical", "options": ["United States", "United Kingdom", "Germany", "France", "China", "Japan", "Australia", "Canada", "UAE", "Singapore", "India", "Brazil", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "airport_profile",
+          "columns": ["city", "longitude", "altitude", "timezone"],
+          "question": "Describe the airport: which city is it in, and what are its longitude, altitude (feet), and UTC timezone offset?",
+          "hint": "e.g., New York, longitude -73.78, altitude 13 ft, timezone -5",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "city", "label": "Airport city", "type": "categorical", "options": ["New York", "Los Angeles", "Chicago", "Dallas", "Atlanta", "Denver", "San Francisco", "Seattle", "Miami", "London", "Dubai", "Tokyo", "Singapore", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "longitude", "label": "Longitude (degrees)", "type": "float", "min": -180, "max": 180, "default_strategy": "conservative"},
+            {"column": "altitude", "label": "Airport elevation (feet)", "type": "integer", "min": -1500, "max": 15000, "default_strategy": "conservative"},
+            {"column": "timezone", "label": "UTC timezone offset", "type": "float", "min": -12, "max": 14, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "airport_classification",
+          "columns": ["type", "dst"],
+          "question": "What type of facility is this, and what daylight saving time convention does it follow?",
+          "hint": "e.g., large airport, European DST rules",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "type", "label": "Facility type", "type": "categorical", "options": ["large_airport", "medium_airport", "small_airport", "heliport", "seaplane_base", "closed"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dst", "label": "DST convention", "type": "categorical", "options": ["A", "E", "N", "O", "S", "U", "Z"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "route_endpoints",
+          "columns": ["source_airport", "dest_airport", "airline"],
+          "question": "What route are you analyzing? Provide the origin airport, destination airport, and operating airline (IATA codes).",
+          "hint": "e.g., JFK to LHR operated by BA",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "source_airport", "label": "Origin airport (IATA)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "LHR", "CDG", "FRA", "DXB", "SIN", "HND", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dest_airport", "label": "Destination airport (IATA)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "LHR", "CDG", "FRA", "DXB", "SIN", "HND", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "airline", "label": "Operating airline (IATA)", "type": "categorical", "options": ["AA", "DL", "UA", "WN", "B6", "AS", "NK", "F9", "BA", "LH", "AF", "EK", "SQ", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "route_details",
+          "columns": ["codeshare", "equipment"],
+          "question": "Is this a codeshare route, and what aircraft equipment is typically used?",
+          "hint": "e.g., yes codeshare, Boeing 737-800",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "codeshare", "label": "Codeshare flight?", "type": "categorical", "options": ["Y", "N"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "equipment", "label": "Aircraft equipment type", "type": "categorical", "options": ["738", "320", "319", "321", "77W", "788", "789", "359", "E75", "CRJ", "E90", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "operations": {
+      "question_groups": [
+        {
+          "group_id": "aircraft_identity",
+          "columns": ["Model", "Company", "Engine Type"],
+          "question": "What aircraft are you analyzing? Provide the model designation, manufacturer, and engine type.",
+          "hint": "e.g., 737-800, Boeing, Jet engine",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "Model", "label": "Aircraft model", "type": "categorical", "options": ["737-800", "A320", "777-300ER", "787-9", "A350-900", "A321neo", "767-300", "E175", "CRJ-900", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "Company", "label": "Manufacturer", "type": "categorical", "options": ["Boeing", "Airbus", "Embraer", "Bombardier", "Cessna", "Beechcraft", "Piper", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "Engine Type", "label": "Engine type", "type": "categorical", "options": ["Jet", "Piston", "Propjet"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "aircraft_configuration",
+          "columns": ["Multi Engine", "TP mods"],
+          "question": "Is this a multi-engine aircraft, and does it have turboprop modifications?",
+          "hint": "e.g., yes multi-engine, no TP mods",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Multi Engine", "label": "Multi-engine (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "TP mods", "label": "TP modifications (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "power_specs",
+          "columns": ["THR", "SHP"],
+          "question": "What is the engine's thrust rating (lbs) and shaft horsepower?",
+          "hint": "e.g., 27,000 lbs thrust, 0 SHP for jets; 0 THR, 1,700 SHP for turboprops",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "THR", "label": "Thrust (lbs)", "type": "float", "min": 0, "max": 120000, "default_strategy": "conservative"},
+            {"column": "SHP", "label": "Shaft horsepower", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "dimensions",
+          "columns": ["Length", "Height", "Wing Span"],
+          "question": "What are the aircraft dimensions: length, height, and wingspan (in feet)?",
+          "hint": "e.g., length 130 ft, height 41 ft, wingspan 118 ft",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Length", "label": "Length (feet)", "type": "float", "min": 10, "max": 300, "default_strategy": "conservative"},
+            {"column": "Height", "label": "Height (feet)", "type": "float", "min": 5, "max": 100, "default_strategy": "conservative"},
+            {"column": "Wing Span", "label": "Wingspan (feet)", "type": "float", "min": 10, "max": 300, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weight_specs",
+          "columns": ["FW", "MEW", "AUW"],
+          "question": "What are the weight specifications: fuel weight capacity, manufacturer's empty weight, and all-up weight (in lbs)?",
+          "hint": "e.g., fuel 46,000 lbs, empty 91,000 lbs, all-up 174,000 lbs",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "FW", "label": "Fuel weight (lbs)", "type": "float", "min": 0, "max": 600000, "default_strategy": "conservative"},
+            {"column": "MEW", "label": "Empty weight (lbs)", "type": "float", "min": 500, "max": 900000, "default_strategy": "conservative"},
+            {"column": "AUW", "label": "All-up weight (lbs)", "type": "float", "min": 1000, "max": 1500000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "speed_performance",
+          "columns": ["Vmax", "Vstall"],
+          "question": "What are the key speed parameters: maximum speed and stall speed (in knots)?",
+          "hint": "e.g., Vmax 490 kts, Vstall 115 kts",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Vmax", "label": "Maximum speed (knots)", "type": "float", "min": 50, "max": 700, "default_strategy": "conservative"},
+            {"column": "Vstall", "label": "Stall speed (knots)", "type": "float", "min": 20, "max": 250, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "altitude_climb",
+          "columns": ["Hmax", "Hmax (One)", "ROC", "ROC (One)"],
+          "question": "What are the altitude and climb specs: max ceiling (all engines), ceiling (one engine), rate of climb (all engines), and rate of climb (one engine) in feet/min?",
+          "hint": "e.g., ceiling 41,000 ft, one-engine ceiling 18,000 ft, ROC 2,500 ft/min",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Hmax", "label": "Service ceiling (feet)", "type": "float", "min": 0, "max": 65000, "default_strategy": "conservative"},
+            {"column": "Hmax (One)", "label": "One-engine ceiling (feet)", "type": "float", "min": 0, "max": 40000, "default_strategy": "conservative"},
+            {"column": "ROC", "label": "Rate of climb (ft/min)", "type": "float", "min": 0, "max": 10000, "default_strategy": "conservative"},
+            {"column": "ROC (One)", "label": "One-engine ROC (ft/min)", "type": "float", "min": 0, "max": 5000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "landing_takeoff",
+          "columns": ["Vlo", "Slo", "Vl", "Sl"],
+          "question": "What are the takeoff and landing parameters: liftoff speed, takeoff distance, landing speed, and landing distance?",
+          "hint": "e.g., liftoff at 130 kts over 5,000 ft, landing at 125 kts in 4,500 ft",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Vlo", "label": "Liftoff speed (knots)", "type": "float", "min": 30, "max": 250, "default_strategy": "conservative"},
+            {"column": "Slo", "label": "Takeoff distance (feet)", "type": "float", "min": 100, "max": 15000, "default_strategy": "conservative"},
+            {"column": "Vl", "label": "Landing speed (knots)", "type": "float", "min": 30, "max": 200, "default_strategy": "conservative"},
+            {"column": "Sl", "label": "Landing distance (feet)", "type": "float", "min": 100, "max": 12000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "range_and_efficiency",
+          "columns": ["Range", "power_to_weight", "wing_loading", "fuel_fraction"],
+          "question": "What is the aircraft range (nautical miles) and key efficiency ratios: power-to-weight, wing loading, and fuel fraction?",
+          "hint": "e.g., range 3,000 nm, power-to-weight 0.28, wing loading 125, fuel fraction 0.26",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "Range", "label": "Range (nautical miles)", "type": "float", "min": 50, "max": 12000, "default_strategy": "conservative"},
+            {"column": "power_to_weight", "label": "Power-to-weight ratio", "type": "float", "min": 0, "max": 2, "default_strategy": "conservative"},
+            {"column": "wing_loading", "label": "Wing loading (lbs/sqft)", "type": "float", "min": 1, "max": 300, "default_strategy": "conservative"},
+            {"column": "fuel_fraction", "label": "Fuel fraction", "type": "float", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weather_conditions",
+          "columns": ["drct", "sknt", "p01i", "alti"],
+          "question": "What are the current weather conditions at the airport: wind direction (degrees), wind speed (knots), precipitation (inches), and altimeter setting?",
+          "hint": "e.g., wind from 270 degrees at 15 knots, 0.02 inches precipitation, altimeter 29.92",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "drct", "label": "Wind direction (degrees)", "type": "integer", "min": 0, "max": 360, "default_strategy": "conservative"},
+            {"column": "sknt", "label": "Wind speed (knots)", "type": "integer", "min": 0, "max": 150, "default_strategy": "conservative"},
+            {"column": "p01i", "label": "Precipitation (inches)", "type": "float", "min": 0, "max": 10, "default_strategy": "conservative"},
+            {"column": "alti", "label": "Altimeter setting (inHg)", "type": "float", "min": 27, "max": 32, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "pricing": {
+      "question_groups": [
+        {
+          "group_id": "route_and_airline",
+          "columns": ["airline", "source_city", "destination_city"],
+          "question": "Which airline and route are you pricing? Provide the carrier, origin city, and destination city.",
+          "hint": "e.g., Vistara from Delhi to Mumbai, or United from SFO to JFK",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "airline", "label": "Airline", "type": "categorical", "options": ["AirAsia", "Air_India", "GO_FIRST", "Indigo", "SpiceJet", "Vistara", "American Airlines", "Delta", "United", "Southwest", "JetBlue", "Alaska", "Spirit", "Frontier", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "source_city", "label": "Origin city", "type": "categorical", "options": ["Delhi", "Mumbai", "Bangalore", "Kolkata", "Hyderabad", "Chennai", "New York", "Los Angeles", "Chicago", "Dallas", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "destination_city", "label": "Destination city", "type": "categorical", "options": ["Delhi", "Mumbai", "Bangalore", "Kolkata", "Hyderabad", "Chennai", "New York", "Los Angeles", "Chicago", "Dallas", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "flight_schedule",
+          "columns": ["departure_time", "arrival_time"],
+          "question": "What time of day does the flight depart and arrive?",
+          "hint": "e.g., morning departure, afternoon arrival",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "departure_time", "label": "Departure time of day", "type": "categorical", "options": ["Early_Morning", "Morning", "Afternoon", "Evening", "Night", "Late_Night"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "arrival_time", "label": "Arrival time of day", "type": "categorical", "options": ["Early_Morning", "Morning", "Afternoon", "Evening", "Night", "Late_Night"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "flight_characteristics",
+          "columns": ["stops", "class", "duration"],
+          "question": "How many stops does the flight make, what cabin class, and what is the total flight duration in hours?",
+          "hint": "e.g., nonstop, Economy class, 2.5 hours",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "stops", "label": "Number of stops", "type": "categorical", "options": ["zero", "one", "two_or_more"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "class", "label": "Cabin class", "type": "categorical", "options": ["Economy", "Business"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "duration", "label": "Flight duration (hours)", "type": "float", "min": 0.5, "max": 24, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "booking_timing",
+          "columns": ["days_left"],
+          "question": "How many days before departure is the ticket being purchased?",
+          "hint": "e.g., 30 days before departure",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "days_left", "label": "Days until departure", "type": "integer", "min": 1, "max": 365, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fare_route_market",
+          "columns": ["origin", "dest", "miles"],
+          "question": "What is the origin airport, destination airport (IATA codes), and route distance in miles?",
+          "hint": "e.g., SFO to JFK, 2,586 miles",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "origin", "label": "Origin airport (IATA)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "EWR", "MIA", "BOS", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dest", "label": "Destination airport (IATA)", "type": "categorical", "options": ["ATL", "DFW", "DEN", "ORD", "LAX", "JFK", "SFO", "SEA", "LAS", "MCO", "EWR", "MIA", "BOS", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "miles", "label": "Route distance (miles)", "type": "integer", "min": 50, "max": 15000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "ticket_details",
+          "columns": ["mktcoupons", "quarter", "numticketsordered", "contiguoususa"],
+          "question": "How many fare coupons (segments) are in the itinerary, which quarter of the year, how many tickets, and is it within the contiguous US?",
+          "hint": "e.g., 2 coupons (one connection), Q3, 1 ticket, within contiguous US",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "mktcoupons", "label": "Number of fare coupons", "type": "integer", "min": 1, "max": 10, "default_strategy": "conservative"},
+            {"column": "quarter", "label": "Quarter of year", "type": "categorical", "options": ["1", "2", "3", "4"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "numticketsordered", "label": "Number of tickets", "type": "integer", "min": 1, "max": 50, "default_strategy": "conservative"},
+            {"column": "contiguoususa", "label": "Within contiguous US?", "type": "categorical", "options": ["0", "1"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "airline_carrier",
+          "columns": ["airlinecompany", "mkt_id"],
+          "question": "Which airline carrier is operating and marketing this fare?",
+          "hint": "e.g., AA (American Airlines), or DL (Delta)",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "airlinecompany", "label": "Operating airline (IATA)", "type": "categorical", "options": ["AA", "AS", "B6", "DL", "F9", "G4", "HA", "NK", "SY", "UA", "VX", "WN", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "mkt_id", "label": "Marketing carrier (IATA)", "type": "categorical", "options": ["AA", "AS", "B6", "DL", "F9", "G4", "HA", "NK", "UA", "WN", "OO", "MQ", "9E", "YX", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "safety": {
+      "question_groups": [
+        {
+          "group_id": "incident_time",
+          "columns": ["incident_year", "incident_month", "incident_day"],
+          "question": "When did the incident occur? Provide the year, month, and day.",
+          "hint": "e.g., 2024, July (7), day 15",
+          "input_type": "temporal_context",
+          "auto_derive": true,
+          "fields": [
+            {"column": "incident_year", "label": "Incident year", "type": "integer", "min": 1950, "max": 2030, "default_strategy": "conservative"},
+            {"column": "incident_month", "label": "Incident month (1-12)", "type": "integer", "min": 1, "max": 12, "default_strategy": "conservative"},
+            {"column": "incident_day", "label": "Incident day (1-31)", "type": "integer", "min": 1, "max": 31, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "operator_and_aircraft",
+          "columns": ["operator", "aircraft", "aircraft_type", "aircraft_make", "aircraft_model"],
+          "question": "Who was the operator and what aircraft was involved? Provide the operator name, aircraft designation, type, make, and model.",
+          "hint": "e.g., United Airlines, Boeing 737-800, Airplane (A), Boeing, 737-824",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "operator", "label": "Operator name", "type": "categorical", "options": ["American Airlines", "Delta Air Lines", "United Airlines", "Southwest Airlines", "FedEx", "UPS Airlines", "Private", "Military", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "aircraft", "label": "Aircraft designation", "type": "categorical", "options": ["B-737-800", "A-320-200", "B-777-300ER", "B-787-9", "A-350-900", "CRJ-900", "E-175", "C-172", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "aircraft_type", "label": "Aircraft category", "type": "categorical", "options": ["A", "B", "J"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "aircraft_make", "label": "Aircraft make", "type": "categorical", "options": ["BOEING", "AIRBUS", "EMBRAER", "BOMBARDIER", "CESSNA", "PIPER", "BEECH", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "aircraft_model", "label": "Aircraft model", "type": "categorical", "options": ["737-800", "A320-200", "777-300", "787-9", "ERJ-175", "CRJ-900", "172S", "Other"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "aircraft_specs",
+          "columns": ["aircraft_mass", "engines", "engine_type"],
+          "question": "What are the aircraft specifications: mass class, number of engines, and engine type?",
+          "hint": "e.g., large mass class (4), 2 engines, turbo-fan (D)",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "aircraft_mass", "label": "Aircraft mass class (1-5)", "type": "integer", "min": 1, "max": 5, "default_strategy": "conservative"},
+            {"column": "engines", "label": "Number of engines", "type": "integer", "min": 1, "max": 4, "default_strategy": "conservative"},
+            {"column": "engine_type", "label": "Engine type code", "type": "categorical", "options": ["A", "B", "C", "D", "F"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "location_and_region",
+          "columns": ["airport", "state", "faa_region"],
+          "question": "Where did the incident occur: which airport, state, and FAA region?",
+          "hint": "e.g., John F Kennedy Intl, NY, AEA (Eastern)",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "airport", "label": "Airport name", "type": "categorical", "options": ["JOHN F KENNEDY INTL", "DALLAS/FORT WORTH INTL", "CHICAGO O'HARE INTL", "DENVER INTL", "LOS ANGELES INTL", "HARTSFIELD-JACKSON ATLANTA INTL", "SAN FRANCISCO INTL", "NEWARK LIBERTY INTL", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "state", "label": "US state", "type": "categorical", "options": ["NY", "CA", "TX", "FL", "IL", "CO", "GA", "PA", "WA", "NJ", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "faa_region", "label": "FAA region", "type": "categorical", "options": ["AEA", "ASO", "AGL", "ACE", "ASW", "ANM", "AWP", "ANE", "AAL"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "flight_conditions",
+          "columns": ["flight_phase", "visibility", "precipitation", "warning_issued"],
+          "question": "What were the flight conditions: phase of flight, visibility, precipitation, and was a wildlife warning issued?",
+          "hint": "e.g., on approach, daytime visibility, no precipitation, no warning issued",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "flight_phase", "label": "Phase of flight", "type": "categorical", "options": ["APPROACH", "ARRIVAL", "CLIMB", "DEPARTURE", "DESCENT", "EN ROUTE", "LANDING", "LANDING ROLL", "LOCAL", "PARKED", "TAKEOFF RUN", "TAXI"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "visibility", "label": "Visibility conditions", "type": "categorical", "options": ["DAY", "NIGHT", "DAWN", "DUSK"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "precipitation", "label": "Precipitation", "type": "categorical", "options": ["NONE", "RAIN", "SNOW", "FOG", "FOG, RAIN", "FOG, SNOW", "RAIN, SNOW"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "warning_issued", "label": "Warning issued?", "type": "categorical", "options": ["Y", "N"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "flight_parameters",
+          "columns": ["height", "speed", "distance"],
+          "question": "What were the flight parameters at the time of the incident: altitude (feet AGL), speed (knots), and distance from airport (miles)?",
+          "hint": "e.g., 500 feet AGL, 150 knots, 3 miles from airport",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "height", "label": "Altitude AGL (feet)", "type": "integer", "min": 0, "max": 50000, "default_strategy": "conservative"},
+            {"column": "speed", "label": "Speed (knots)", "type": "integer", "min": 0, "max": 600, "default_strategy": "conservative"},
+            {"column": "distance", "label": "Distance from airport (miles)", "type": "float", "min": 0, "max": 500, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "wildlife_species",
+          "columns": ["species_name", "species_quantity", "flight_impact"],
+          "question": "What wildlife was involved: species name, quantity, and what impact did it have on the flight?",
+          "hint": "e.g., Canada goose, 2-10 birds, precautionary landing",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "species_name", "label": "Species name", "type": "categorical", "options": ["Unknown bird", "Mourning dove", "Barn swallow", "European starling", "Horned lark", "Red-tailed hawk", "Rock pigeon", "Canada goose", "Killdeer", "Ring-billed gull", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "species_quantity", "label": "Quantity of animals", "type": "categorical", "options": ["1", "2-10", "11-100", "Over 100"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "flight_impact", "label": "Impact on flight", "type": "categorical", "options": ["NONE", "ABORTED TAKEOFF", "PRECAUTIONARY LANDING", "ENGINE SHUT DOWN", "OTHER"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "damage_assessment",
+          "columns": ["radome_strike", "windshield_strike", "nose_strike", "engine1_strike"],
+          "question": "Which aircraft components were struck: radome, windshield, nose cone, and/or engine 1?",
+          "hint": "e.g., radome struck but no damage, windshield not struck",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "radome_strike", "label": "Radome struck (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "windshield_strike", "label": "Windshield struck (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "nose_strike", "label": "Nose struck (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "engine1_strike", "label": "Engine 1 struck (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "damage_extent",
+          "columns": ["radome_damage", "windshield_damage", "engine1_damage", "engine_ingested"],
+          "question": "For components that were struck, was there actual damage: radome damaged, windshield damaged, engine 1 damaged, and was wildlife ingested into the engine?",
+          "hint": "e.g., no radome damage, no windshield damage, engine 1 damaged, bird ingested",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "radome_damage", "label": "Radome damaged (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "windshield_damage", "label": "Windshield damaged (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "engine1_damage", "label": "Engine 1 damaged (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"},
+            {"column": "engine_ingested", "label": "Engine ingested wildlife (0=No, 1=Yes)", "type": "integer", "min": 0, "max": 1, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "safety_metrics",
+          "columns": ["metric", "year"],
+          "question": "Which safety metric are you analyzing, and for what year?",
+          "hint": "e.g., Fatal accidents, 2023",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "metric", "label": "Safety metric", "type": "categorical", "options": ["Total accidents", "Fatal accidents", "Fatalities", "Seriously injured persons", "Aircraft departures (thousands)", "Aircraft-miles (millions)", "Flight hours (thousands)"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "year", "label": "Reporting year", "type": "integer", "min": 1975, "max": 2030, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    }
+  }
+}

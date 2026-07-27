@@ -1,0 +1,107 @@
+# Trucking & Delivery Category Definitions
+
+categories:
+  route_eta_reliability:
+    description: "ETA deviation and route delay risk for road deliveries"
+    l1_target_family: route_eta_reliability
+    task_type: classification
+    keywords: ["eta", "delay", "late", "travel time", "route", "on-time", "arrival", "traffic"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  dispatch_capacity_balance:
+    description: "Dispatch demand-supply balancing and load allocation"
+    l1_target_family: dispatch_capacity_balance
+    task_type: regression
+    keywords: ["dispatch", "demand", "capacity", "load", "assignment", "utilization", "throughput"]
+    metrics: ["rmse", "mape", "r2"]
+
+  last_mile_sla:
+    description: "Last-mile SLA breach and delivery attempt outcomes"
+    l1_target_family: last_mile_sla
+    task_type: classification
+    keywords: ["last mile", "delivery", "sla", "attempt", "time window", "dropoff", "courier", "parcel"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  driver_safety_compliance:
+    description: "Driver and carrier safety, violations, and incident exposure"
+    l1_target_family: driver_safety_compliance
+    task_type: classification
+    keywords: ["driver", "carrier", "safety", "violation", "inspection", "incident", "collision", "compliance"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  fleet_utilization:
+    description: "Fleet productivity, idle-time reduction, and asset usage"
+    l1_target_family: fleet_utilization
+    task_type: regression
+    keywords: ["fleet", "vehicle", "utilization", "idle", "asset", "tractor", "van", "truck"]
+    metrics: ["rmse", "mape", "r2"]
+
+  vehicle_maintenance_risk:
+    description: "Maintenance and breakdown risk for vehicle operations"
+    l1_target_family: vehicle_maintenance_risk
+    task_type: classification
+    keywords: ["maintenance", "repair", "breakdown", "downtime", "fault", "equipment", "service"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  fuel_energy_efficiency:
+    description: "Fuel burn and energy efficiency modeling"
+    l1_target_family: fuel_energy_efficiency
+    task_type: regression
+    keywords: ["fuel", "diesel", "consumption", "efficiency", "energy", "mpg", "emission"]
+    metrics: ["rmse", "mape", "r2"]
+
+  lane_cost_yield:
+    description: "Lane-level cost, rate, and contribution margin"
+    l1_target_family: lane_cost_yield
+    task_type: regression
+    keywords: ["lane", "cost", "yield", "margin", "rate", "expense", "revenue", "operating cost"]
+    metrics: ["rmse", "mape", "r2"]
+
+  pickup_dropoff_reliability:
+    description: "Pickup/dropoff punctuality and stop-level reliability"
+    l1_target_family: pickup_dropoff_reliability
+    task_type: classification
+    keywords: ["pickup", "dropoff", "stop", "appointment", "arrival window", "punctual", "service time"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  parcel_exception_risk:
+    description: "Parcel damage/loss/exception event prediction"
+    l1_target_family: parcel_exception_risk
+    task_type: classification
+    keywords: ["parcel", "exception", "damage", "loss", "claim", "failed", "undelivered"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  reverse_logistics_returns:
+    description: "Return flow, reverse logistics timing, and resolution"
+    l1_target_family: reverse_logistics_returns
+    task_type: regression
+    keywords: ["return", "reverse", "rma", "refund", "pickup return", "restock"]
+    metrics: ["rmse", "mape", "r2"]
+
+  cross_border_trucking:
+    description: "Cross-border trucking throughput and crossing-time behavior"
+    l1_target_family: cross_border_trucking
+    task_type: regression
+    keywords: ["border", "crossing", "port of entry", "custom", "transborder", "country", "queue"]
+    metrics: ["rmse", "mape", "r2"]
+
+  urban_traffic_risk:
+    description: "Urban traffic exposure, congestion risk, and route disruptions"
+    l1_target_family: urban_traffic_risk
+    task_type: classification
+    keywords: ["urban", "traffic", "congestion", "jam", "road", "city", "incident", "camera"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  cold_chain_last_mile:
+    description: "Temperature-control integrity in road and last-mile legs"
+    l1_target_family: cold_chain_last_mile
+    task_type: classification
+    keywords: ["cold", "temperature", "reefer", "excursion", "spoilage", "chilled"]
+    metrics: ["f1_score", "accuracy", "roc_auc", "mcc"]
+
+  workforce_shift_planning:
+    description: "Driver workforce planning, shift risk, and staffing balance"
+    l1_target_family: workforce_shift_planning
+    task_type: regression
+    keywords: ["workforce", "shift", "driver hours", "staffing", "roster", "overtime"]
+    metrics: ["rmse", "mape", "r2"]

@@ -1,0 +1,13 @@
+version: 1
+updated_at: "2026-02-16"
+
+deploy_now:
+  - ecommerce
+  - shipping_freight
+
+deploy_next:
+  - trucking_delivery
+
+retconned_non_production:
+  - aviation
+

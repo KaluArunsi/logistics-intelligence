@@ -1,0 +1,49 @@
+# Industry Benchmark Thresholds
+# L0 workers must meet "minimum" to pass
+# L1 experts should target "good" or "excellent"
+#
+# For imbalanced datasets, F1/MCC are preferred over accuracy.
+# Use 'primary_metric' to select which metric determines pass/fail.
+
+classification:
+  # Default primary metric (use 'f1_score' for imbalanced data)
+  primary_metric: f1_score
+  minimum:
+    accuracy: 0.90
+    f1_score: 0.90
+    mcc: 0.75  # Matthews Correlation Coefficient
+    roc_auc: 0.90
+  good:
+    accuracy: 0.90
+    f1_score: 0.88
+    mcc: 0.75
+    roc_auc: 0.92
+  excellent:
+    accuracy: 0.95
+    f1_score: 0.93
+    mcc: 0.85
+    roc_auc: 0.97
+
+regression:
+  minimum:
+    r2: 0.90
+    rmse_normalized: 0.12
+    mae_normalized: 0.10
+  good:
+    r2: 0.85
+    rmse_normalized: 0.12
+    mae_normalized: 0.10
+  excellent:
+    r2: 0.92
+    rmse_normalized: 0.08
+    mae_normalized: 0.06
+
+# Domain-specific benchmarks
+domain:
+  predictive_maintenance:
+    rul_accuracy: 0.95
+    rul_rmse_cycles: 15
+  sentiment:
+    f1_multiclass: 0.85
+  demand_forecasting:
+    mape: 0.10  # Mean Absolute Percentage Error <= 10%

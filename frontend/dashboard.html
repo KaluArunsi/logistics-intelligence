@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Executive dashboard generated from your latest Toji session.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23155E40'/><text x='7' y='24' font-size='20' fill='white' font-weight='700'>T</text></svg>">
+    <title>Toji Dashboard - Logistics Intelligence</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+        body {
+            background:
+                radial-gradient(circle at top left, var(--glow-a), transparent 28%),
+                radial-gradient(circle at 85% 10%, var(--glow-b), transparent 20%),
+                linear-gradient(180deg, #FBFBF8 0%, var(--bg-primary) 100%);
+        }
+
+        .shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 32px 96px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            background: rgba(247, 246, 241, 0.76);
+            border-bottom: 1px solid rgba(222, 217, 207, 0.9);
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+            padding-left: max(32px, env(safe-area-inset-left));
+            padding-right: max(32px, env(safe-area-inset-right));
+        }
+
+        .topbar-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 0;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, #1B7B53 100%);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 10px 22px rgba(21, 94, 64, 0.22);
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.84);
+            color: var(--text-secondary);
+            border-radius: var(--radius-sm);
+            padding: 8px 14px;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+            letter-spacing: -0.01em;
+        }
+
+        .link-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+            background: #fff;
+        }
+
+        .page-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 40px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -0.045em;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            margin: 0;
+            max-width: 720px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .page-stamp {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status {
+            display: none;
+            margin-bottom: 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid color-mix(in srgb, var(--accent-3) 18%, transparent);
+            background: color-mix(in srgb, var(--accent-3) 6%, transparent);
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--accent-3);
+        }
+
+        .intake-banner {
+            display: none;
+            margin-bottom: 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(21, 94, 64, 0.16);
+            background: rgba(255, 255, 255, 0.88);
+            padding: 16px 18px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .intake-banner-copy {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 24px;
+        }
+
+        .section-head {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.2;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .section-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .analysis-hero {
+            display: grid;
+            gap: 14px;
+        }
+
+        .analysis-kicker {
+            font-size: 12px;
+            color: var(--accent);
+            line-height: 1.35;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .analysis-copy {
+            max-width: none;
+            font-size: 18px;
+            line-height: 1.75;
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+            opacity: 0.9;
+        }
+
+        .chart-kicker {
+            font-size: 11px;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0 0 10px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            line-height: 1.25;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin: 0 0 8px;
+        }
+
+        .chart-insight {
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+            margin: 0 0 18px;
+        }
+
+        .chart-frame {
+            flex: 1;
+            min-height: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .chart-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .viz-empty {
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-align: center;
+            max-width: 220px;
+            line-height: 1.6;
+            padding: 24px;
+        }
+
+        .stack-list {
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+            list-style: none;
+        }
+
+        .recommendation-list {
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 14px;
+            list-style: none;
+        }
+
+        .signal-item,
+        .recommendation-item {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 16px 18px;
+            box-shadow: none;
+        }
+
+        .signal-item {
+            list-style: none;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .signal-item::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: transparent;
+            border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+        }
+
+        .signal-item::after {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: 24px;
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: var(--accent);
+        }
+
+        .signal-copy,
+        .recommendation-action,
+        .recommendation-impact {
+            margin: 0;
+        }
+
+        .signal-copy {
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .recommendation-item {
+            display: grid;
+            gap: 10px;
+        }
+
+        .recommendation-action {
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.55;
+            font-weight: 700;
+        }
+
+        .recommendation-impact {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .list-empty {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media print {
+            @page { size: A4 portrait; margin: 12mm; }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .topbar { display: none !important; }
+            html, body { background: #fff !important; }
+            .shell { padding: 0 0 18px; max-width: 100%; }
+            .page-head {
+                margin-bottom: 14px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .section {
+                margin-bottom: 14px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .section-card,
+            .chart-card {
+                box-shadow: none !important;
+                border-color: #D7D1C6 !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .analysis-copy {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+            .analytics-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .chart-card {
+                min-height: auto;
+                padding: 16px;
+            }
+            .chart-title {
+                font-size: 15px;
+                margin-bottom: 4px;
+            }
+            .chart-insight {
+                font-size: 11px;
+                margin-bottom: 10px;
+            }
+            .chart-frame {
+                min-height: 210px;
+                padding: 6px;
+                background: #F7F6F1;
+            }
+            .chart-frame img {
+                max-height: 210px;
+                width: 100%;
+                object-fit: contain;
+            }
+            .signal-copy,
+            .recommendation-action,
+            .recommendation-impact,
+            .list-empty {
+                font-size: 12px;
+                line-height: 1.55;
+            }
+        }
+
+        @media (max-width: 1120px) {
+            .analytics-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 720px) {
+            .shell { padding: 0 16px 64px; }
+            .topbar {
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
+            }
+            .topbar-actions .link-btn:not(:first-child):not(:last-child) { display: none; }
+            .topbar-inner,
+            .page-head { align-items: flex-start; }
+            .page-head { flex-direction: column; }
+            h1 { font-size: 30px; }
+            .section-card, .chart-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="topbar">
+            <div class="topbar-inner">
+                <a href="index.html" class="brand">
+                    <span class="brand-badge">T</span>
+                    Logistics Intelligence
+                </a>
+                <div class="topbar-actions">
+                    <a id="openChatBtn" class="link-btn" href="chat.html" target="_blank">Ask Toji</a>
+                    <button class="link-btn" onclick="exportPDF()">Export PDF</button>
+                    <button class="link-btn" onclick="exportChatSummary()">Export Chat</button>
+                    <a class="link-btn" href="index.html">Home</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-head">
+            <div>
+                <h1 id="title">Executive Dashboard</h1>
+                <p class="subtitle" id="subtitle">Loading your latest run...</p>
+            </div>
+            <div class="page-stamp" id="pageStamp">Decision summary</div>
+        </div>
+        <div id="status" class="status"></div>
+        <div id="intakeBanner" class="intake-banner">
+            <div id="intakeBannerCopy" class="intake-banner-copy"></div>
+            <button type="button" class="link-btn" id="intakeBannerBtn">Continue with Toji</button>
+        </div>
+
+        <section class="section">
+            <div class="section-card analysis-hero">
+                <div class="analysis-kicker">Toji's Analysis</div>
+                <div class="analysis-copy" id="analysisHero">Loading your executive summary...</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-head">
+                <h2>Main Analytics</h2>
+                <span class="section-meta" id="vizMeta"></span>
+            </div>
+            <div class="analytics-grid" id="vizGrid"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-card">
+                <div class="section-head">
+                    <h2>Key Insights</h2>
+                    <span class="section-meta">What changed and why it matters</span>
+                </div>
+                <ul class="stack-list" id="insightsList"></ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-card">
+                <div class="section-head">
+                    <h2>Recommendations</h2>
+                    <span class="section-meta">Immediate strategic moves</span>
+                </div>
+                <ul class="recommendation-list" id="recommendationsList"></ul>
+            </div>
+        </section>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const stored = JSON.parse(sessionStorage.getItem('analysisResults') || '{}');
+        let report = stored.report || stored || {};
+        let reportId = params.get('report_id') || stored.report_id || report.report_id || '';
+
+        function showStatus(message) {
+            const box = document.getElementById('status');
+            box.textContent = String(message || '');
+            box.style.display = message ? 'block' : 'none';
+        }
+
+        function concise(text, fallback = 'No signal yet.') {
+            const raw = String(text || '').trim();
+            if (!raw) return fallback;
+            return raw.length > 280 ? `${raw.slice(0, 277).trim()}...` : raw;
+        }
+
+        function sanitizeTojiCopy(text) {
+            let out = String(text || '');
+            out = out.replace(/match\s*score/gi, 'coverage estimate');
+            out = out.replace(/risk\s*score/gi, 'risk assessment');
+            out = out.replace(/\bdata\s*fit\b/gi, 'coverage estimate');
+            out = out.replace(/—/g, '-');
+            out = out.replace(/\s{2,}/g, ' ');
+            return out.trim();
+        }
+
+        function pctRange(raw, fallback = 0.82) {
+            const v = Number(raw);
+            if (!Number.isFinite(v)) return fallback;
+            return Math.max(0.80, Math.min(0.85, v));
+        }
+
+        function visualAssetUri(visual) {
+            if (!visual || !reportId) return '';
+            const uri = String(visual.uri || '').trim();
+            if (/^https?:\/\//i.test(uri)) return uri;
+            const name = String(uri.split('/').pop() || '').trim();
+            if (!name) return '';
+            return `${API_BASE}/report/${encodeURIComponent(reportId)}/asset/${encodeURIComponent(name)}`;
+        }
+
+        function pickVisuals() {
+            const visuals = Array.isArray(report.visuals) ? report.visuals : [];
+            if (!visuals.length) return [];
+            const primarySlotIds = ['r1c1', 'r1c2', 'r2c1', 'r2c2'];
+            const bySlot = {};
+            const leftovers = [];
+            visuals.forEach((v, idx) => {
+                const slot = String(((v.meta || {}).slot || '')).trim().toLowerCase();
+                if (slot && !bySlot[slot]) bySlot[slot] = v;
+                else leftovers.push(v);
+            });
+            const pool = [...leftovers];
+            const used = new Set();
+
+            function visualKey(visual) {
+                return visual ? `${String(((visual.meta || {}).slot || '')).toLowerCase()}::${String(visual.uri || visual.title || visual.name || '')}` : '';
+            }
+
+            function takeVisual(visual) {
+                const key = visualKey(visual);
+                if (key) used.add(key);
+                return visual;
+            }
+
+            function firstUnused(candidates) {
+                for (const visual of candidates) {
+                    const key = visualKey(visual);
+                    if (!key || used.has(key)) continue;
+                    takeVisual(visual);
+                    return visual;
+                }
+                return null;
+            }
+
+            const selected = primarySlotIds.map((slot) => {
+                const visual = bySlot[slot] || firstUnused(pool) || null;
+                if (visual) takeVisual(visual);
+                return { slot, visual };
+            });
+
+            return selected.map((row, idx) => {
+                const visual = row.visual || firstUnused(pool) || null;
+                const label = visual
+                    ? String(visual.title || visual.name || `Visual ${idx + 1}`)
+                    : `Visual ${idx + 1}`;
+                return {
+                    slot: row.slot,
+                    slotLabel: normalizeChartTitle(label),
+                    visual,
+                };
+            });
+        }
+
+        function toSentenceCase(str) {
+            const s = String(str || '').replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+            if (!s) return '';
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        function titleWords(str) {
+            const acronyms = new Set(['id', 'api', 'sku', 'kpi', 'roi', 'sla', 'otp', 'eta', 'csa', 'hos', 'pdf', 'csv', 'xls', 'xlsx', 'json']);
+            return String(str || '')
+                .replace(/_/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .split(' ')
+                .filter(Boolean)
+                .map((word) => {
+                    const lower = word.toLowerCase();
+                    if (acronyms.has(lower)) return lower.toUpperCase();
+                    return lower.charAt(0).toUpperCase() + lower.slice(1);
+                })
+                .join(' ');
+        }
+
+        function parseCurrencyFromReport() {
+            const blob = JSON.stringify({
+                intake_qa: report.intake_qa || {},
+                llm_summary: report.llm_summary || {},
+                unified_analysis: report.unified_analysis || {},
+            }).toLowerCase();
+            if (/(peso|pesos|php|mxn|\u20b1)/.test(blob)) return { symbol: '₱', name: 'Pesos' };
+            if (/(rupee|rupees|inr|\u20b9)/.test(blob)) return { symbol: '₹', name: 'Rupees' };
+            if (/(yen|jpy|cny|\u00a5)/.test(blob)) return { symbol: '¥', name: 'Yen' };
+            if (/(euro|eur|\u20ac)/.test(blob)) return { symbol: '€', name: 'Euro' };
+            if (/(pound|gbp|\u00a3)/.test(blob)) return { symbol: '£', name: 'Pound' };
+            if (/(dinar|kwd|iqd|bhd|aed)/.test(blob)) return { symbol: 'د.إ', name: 'Dinar' };
+            return { symbol: '$', name: 'US Dollar' };
+        }
+
+        function normalizedIndustryLabel(r) {
+            const industryRaw = String(r.industry || '').trim().toLowerCase();
+            const custom = String(
+                r.custom_industry_name
+                || ((r.routing_context || {}).custom_industry_name || '')
+                || ((r.intake_qa || {}).custom_industry_name || '')
+            ).trim();
+            if (industryRaw === 'other_industry') {
+                if (custom) return `Other Industry: ${titleWords(custom)}`;
+                return 'Other Industry';
+            }
+            return titleWords(industryRaw || 'General operations');
+        }
+
+        function normalizedCategoryLabel(r) {
+            const cat = String(r.category || '').trim();
+            if (!cat || cat === 'unclassified') return 'General operations';
+            return toSentenceCase(cat);
+        }
+
+        function normalizeChartTitle(rawTitle) {
+            let title = String(rawTitle || '').trim();
+            if (!title) return 'Visual';
+            try { title = decodeURIComponent(title); } catch (_err) {}
+            title = title
+                .replace(/^[\d]+\s*[.)-]\s*/g, '')
+                .replace(/%+\$?\d+(?:\.\d+)?\s*usd\)?/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            if (/\((usd|us dollar)\)/i.test(title)) {
+                const c = parseCurrencyFromReport();
+                title = title.replace(/\((usd|us dollar)\)/i, `(${c.symbol} - ${c.name})`);
+            }
+            const lower = title.toLowerCase();
+            const hasUnit = /\([^)]*\)/.test(title);
+            if (!hasUnit) {
+                if (/(rate|share|ratio|percent|%)/.test(lower)) {
+                    title = `${title} (%)`;
+                } else if (/(cost|price|revenue|sales|income|spend|ticket|margin|profit)/.test(lower)) {
+                    const c = parseCurrencyFromReport();
+                    title = `${title} (${c.symbol} - ${c.name})`;
+                } else if (/(hour|hours)\b/.test(lower)) {
+                    title = `${title} (hours)`;
+                } else if (/(day|days)\b/.test(lower)) {
+                    title = `${title} (days)`;
+                }
+            }
+            return toSentenceCase(title);
+        }
+
+        function chartLookupKeys(rawTitle) {
+            const raw = String(rawTitle || '').trim();
+            if (!raw) return [];
+            const base = raw.toLowerCase().replace(/\s+/g, ' ').trim();
+            const variants = new Set([base]);
+            variants.add(base.replace(/^[\d/ -]+day outlook\s*/i, '').trim());
+            variants.add(base.replace(/^[\d/ -]+day view\s*/i, '').trim());
+            variants.add(base.replace(/\b(30|60|90)[/-]?day outlook\b/gi, '').trim());
+
+            const parenMatches = [...base.matchAll(/\(([^)]+)\)/g)];
+            parenMatches.forEach((match) => {
+                const inner = String(match[1] || '').trim();
+                if (inner) variants.add(inner);
+            });
+
+            return Array.from(variants)
+                .map((value) => value.replace(/[^\w%$]+/g, ' ').replace(/\s+/g, ' ').trim())
+                .filter(Boolean);
+        }
+
+        function resolveMarkdownChartVisual(markdownRow, visuals, fallbackIndex) {
+            const pool = Array.isArray(visuals) ? visuals : [];
+            if (!pool.length) return null;
+            const wanted = new Set(chartLookupKeys(markdownRow && markdownRow.title));
+            for (const visual of pool) {
+                const candidates = [
+                    visual && visual.title,
+                    visual && visual.name,
+                    visual && visual.meta && visual.meta.chart_spec && visual.meta.chart_spec.title,
+                ];
+                const keys = candidates.flatMap((value) => chartLookupKeys(value));
+                if (keys.some((key) => wanted.has(key))) return visual;
+                if (keys.some((key) => Array.from(wanted).some((want) => key.includes(want) || want.includes(key)))) {
+                    return visual;
+                }
+            }
+            return pool[fallbackIndex] || null;
+        }
+
+        function parseKpiRowsFromMarkdown(markdown) {
+            const text = String(markdown || '');
+            if (!text) return [];
+            const lines = text.split(/\r?\n/);
+            const start = lines.findIndex((line) => /^##\s*KPI Table\s*$/i.test(String(line).trim()));
+            if (start < 0) return [];
+            const rows = [];
+            for (let i = start + 1; i < lines.length; i += 1) {
+                const line = String(lines[i] || '');
+                if (/^##\s+/.test(line)) break;
+                const trimmed = line.trim();
+                if (!trimmed.startsWith('|') || !trimmed.endsWith('|')) continue;
+                if (/^\|[-:\s|]+\|$/.test(trimmed)) continue;
+                const cells = trimmed.split('|').slice(1, -1).map((cell) => cell.trim());
+                if (cells.length < 4) continue;
+                if (/^kpi$/i.test(cells[0]) && /^current$/i.test(cells[1])) continue;
+                rows.push({
+                    kpi: cells[0],
+                    current: cells[1],
+                    target: cells[2],
+                    signal: cells[3],
+                });
+            }
+            return rows;
+        }
+
+        function parseMarkdownSection(markdown, heading) {
+            const text = String(markdown || '');
+            if (!text) return '';
+            const lines = text.split(/\r?\n/);
+            const pattern = new RegExp(`^##\\s*${String(heading).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'i');
+            const start = lines.findIndex((line) => pattern.test(String(line).trim()));
+            if (start < 0) return '';
+            const out = [];
+            for (let i = start + 1; i < lines.length; i += 1) {
+                const line = String(lines[i] || '');
+                if (/^##\s+/.test(line)) break;
+                out.push(line);
+            }
+            return out.join('\n').trim();
+        }
+
+        function parseMarkdownVisualGrid(markdown) {
+            const text = String(markdown || '');
+            if (!text) return [];
+            const lines = text.split(/\r?\n/);
+            const start = lines.findIndex((line) => /^##\s*Executive Visual Grid\s*$/i.test(String(line).trim()));
+            if (start < 0) return [];
+            const block = [];
+            for (let i = start + 1; i < lines.length; i += 1) {
+                const line = String(lines[i] || '');
+                if (/^##\s+/.test(line)) break;
+                block.push(line);
+            }
+            const section = block.join('\n');
+            const rows = [];
+            const chartRegex = /\*\*(.+?)\*\*[\s\S]*?!\[[^\]]*\]\((https:\/\/quickchart\.io\/chart[^)\s]+)\)/gi;
+            let match;
+            while ((match = chartRegex.exec(section)) !== null) {
+                rows.push({
+                    title: normalizeChartTitle(match[1]),
+                    url: match[2],
+                });
+            }
+            return rows;
+        }
+
+        function topKpiRow() {
+            const rows = parseKpiRowsFromMarkdown(report.dashboard_markdown || '');
+            return rows[0] || null;
+        }
+
+        function compactDisplayLabels(labels) {
+            const clean = Array.isArray(labels) ? labels.map((value) => String(value || '').trim()).filter(Boolean) : [];
+            if (!clean.length) return [];
+            const lower = clean.map((value) => value.toLowerCase());
+            const dateLike = clean.every((value) => !Number.isNaN(Date.parse(value)));
+            if (dateLike) {
+                return clean.map((_, idx) => `W${idx + 1}`);
+            }
+            if (lower.every((value) => /\bweek\b|\bw\d+\b/.test(value))) {
+                return clean.map((_, idx) => `W${idx + 1}`);
+            }
+            if (lower.every((value) => /\bmonth\b|\bm\d+\b|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec/.test(value))) {
+                return clean.map((_, idx) => `M${idx + 1}`);
+            }
+            if (lower.every((value) => /\bday\b|\bd\d+\b/.test(value))) {
+                return clean.map((_, idx) => `D${idx + 1}`);
+            }
+            if (clean.some((value) => value.length > 8)) {
+                return clean.map((_, idx) => `P${idx + 1}`);
+            }
+            return clean;
+        }
+
+        function samplePointIndexes(length, maxPoints = 6) {
+            if (length <= maxPoints) return Array.from({ length }, (_, idx) => idx);
+            const out = new Set([0, length - 1]);
+            const step = (length - 1) / (maxPoints - 1);
+            for (let i = 1; i < maxPoints - 1; i += 1) {
+                out.add(Math.round(step * i));
+            }
+            return Array.from(out).sort((a, b) => a - b).slice(0, maxPoints);
+        }
+
+        function normalizeQuickChartDisplayUrl(url, fallbackTitle = 'Metric') {
+            const raw = String(url || '').trim();
+            if (!raw) return '';
+            try {
+                const parsed = new URL(raw);
+                if (!/quickchart\.io$/i.test(parsed.hostname)) return raw;
+                const chartParam = parsed.searchParams.get('c') || parsed.searchParams.get('chart');
+                if (!chartParam) return raw;
+                let chart = null;
+                try {
+                    chart = JSON.parse(chartParam);
+                } catch (_parseErr) {
+                    chart = JSON.parse(decodeURIComponent(chartParam));
+                }
+                if (!chart || typeof chart !== 'object' || !chart.data || !Array.isArray(chart.data.labels) || !Array.isArray(chart.data.datasets)) {
+                    return raw;
+                }
+
+                const labels = chart.data.labels.map((value) => String(value || '').trim());
+                const pointIndexes = samplePointIndexes(labels.length, 6);
+                const compactLabels = compactDisplayLabels(pointIndexes.map((idx) => labels[idx]));
+                const chartType = String(chart.type || 'line').toLowerCase() === 'bar' ? 'bar' : 'line';
+                const datasets = chart.data.datasets.slice(0, 2).map((dataset, idx) => {
+                    const data = Array.isArray(dataset.data) ? pointIndexes.map((pointIdx) => dataset.data[pointIdx]) : [];
+                    const label = String(dataset.label || fallbackTitle || `Series ${idx + 1}`).trim() || `Series ${idx + 1}`;
+                    const base = {
+                        label,
+                        data,
+                    };
+                    if (chartType === 'bar') {
+                        base.backgroundColor = String(dataset.backgroundColor || dataset.borderColor || '#1F7A63');
+                        base.borderColor = String(dataset.borderColor || base.backgroundColor);
+                        base.borderWidth = 1;
+                    } else {
+                        base.borderColor = String(dataset.borderColor || dataset.backgroundColor || '#1F7A63');
+                        base.fill = false;
+                        base.borderWidth = 2;
+                        base.pointRadius = 2;
+                        base.pointHoverRadius = 3;
+                        base.tension = 0;
+                    }
+                    return base;
+                });
+
+                const normalized = {
+                    type: chartType,
+                    data: {
+                        labels: compactLabels,
+                        datasets,
+                    },
+                };
+
+                const next = new URL('https://quickchart.io/chart');
+                next.searchParams.set('c', JSON.stringify(normalized));
+                next.searchParams.set('width', '560');
+                next.searchParams.set('height', '340');
+                next.searchParams.set('devicePixelRatio', '1');
+                next.searchParams.set('format', 'png');
+                next.searchParams.set('backgroundColor', 'white');
+                return next.toString();
+            } catch (_err) {
+                return raw;
+            }
+        }
+
+        function numericValue(raw) {
+            const cleaned = String(raw || '')
+                .replace(/,/g, '')
+                .replace(/[^\d.+-]/g, ' ')
+                .trim()
+                .match(/[-+]?\d*\.?\d+/);
+            return cleaned ? Number(cleaned[0]) : null;
+        }
+
+        function deriveTrend(row) {
+            const signal = String((row && row.signal) || '').trim();
+            const current = numericValue(row && row.current);
+            const target = numericValue(row && row.target);
+            const signalLower = signal.toLowerCase();
+            if (/declin|drop|down|miss|risk|over|behind|short|eros/i.test(signalLower)) {
+                return { text: signal || 'Needs attention', className: 'trend-down' };
+            }
+            if (/rise|up|gain|above|ahead|improv|lift/i.test(signalLower)) {
+                return { text: signal || 'Improving', className: 'trend-up' };
+            }
+            if (current !== null && target !== null) {
+                const delta = current - target;
+                if (Math.abs(delta) < Math.max(1, Math.abs(target) * 0.02)) {
+                    return { text: 'Near target', className: 'trend-flat' };
+                }
+                return delta > 0
+                    ? { text: `Above target by ${Math.abs(delta).toFixed(delta % 1 ? 1 : 0)}`, className: 'trend-up' }
+                    : { text: `Below target by ${Math.abs(delta).toFixed(delta % 1 ? 1 : 0)}`, className: 'trend-down' };
+            }
+            return { text: signal || 'Tracking now', className: 'trend-flat' };
+        }
+
+        function renderAnalysisHero() {
+            const node = document.getElementById('analysisHero');
+            if (!node) return;
+            const unified = report.unified_analysis || {};
+            const summary = report.llm_summary || {};
+
+            function cleanExecSentence(text) {
+                return sanitizeTojiCopy(String(text || '')
+                    .replace(/\([^)]*_[^)]*\)/g, '')
+                    .replace(/\b[a-z]+_[a-z0-9_]+\b/g, '')
+                    .replace(/\s{2,}/g, ' ')
+                    .trim());
+            }
+
+            const summarySentence = cleanExecSentence(unified.summary || summary.summary || unified.trend);
+            const riskSentence = cleanExecSentence(unified.behaviour || unified.forecast_30d || summary.forecast_30d);
+            const recommendation = Array.isArray(summary.recommendations) && summary.recommendations.length
+                ? cleanExecSentence(typeof summary.recommendations[0] === 'string'
+                    ? summary.recommendations[0]
+                    : String(summary.recommendations[0].action || summary.recommendations[0].description || '').trim())
+                : '';
+
+            const parts = [
+                concise(summarySentence || 'Toji identified the main performance trend and the operating pressure behind it.', ''),
+                concise(riskSentence || 'The main risk remains cost pressure and execution inconsistency during peak periods.', ''),
+                recommendation ? `Priority now: ${recommendation.replace(/[.;:]+$/g, '')}.` : '',
+            ].filter(Boolean);
+            node.textContent = parts.join(' ');
+        }
+
+        function openPostDashboardIntake() {
+            const qs = new URLSearchParams({
+                intake_mode: '1',
+                industry: String(report.industry || 'other_industry'),
+                category: String(report.category || 'unclassified'),
+            });
+            const rawContext = ((report.intake_qa || {}).raw_context || {});
+            const custom = String(report.custom_industry_name || rawContext.custom_industry_name || '').trim();
+            if (custom) qs.set('custom_industry', custom);
+            window.location.href = `chat.html?${qs.toString()}`;
+        }
+
+        function renderPostDashboardIntakeBanner() {
+            const banner = document.getElementById('intakeBanner');
+            const copy = document.getElementById('intakeBannerCopy');
+            const btn = document.getElementById('intakeBannerBtn');
+            if (!banner || !copy || !btn) return;
+            const rawContext = ((report.intake_qa || {}).raw_context || {});
+            const shouldShow = Boolean(report.post_dashboard_intake_required || rawContext.post_dashboard_intake_required);
+            if (!shouldShow) {
+                banner.style.display = 'none';
+                return;
+            }
+            copy.textContent = 'Your dashboard is ready. Toji has 10 follow-up questions to sharpen this analysis, and it will ask them one by one after you review this page.';
+            btn.onclick = openPostDashboardIntake;
+            banner.style.display = 'flex';
+        }
+
+        function buildForecastChart() {
+            const row = topKpiRow();
+            const ua = report.unified_analysis || {};
+            const summary = report.llm_summary || {};
+            const metric = sanitizeTojiCopy(
+                toSentenceCase(
+                    String((row && row.kpi) || ((ua.opportunity_analysis || report.opportunity_analysis || {}).metric || 'Primary KPI'))
+                        .replace(/_/g, ' ')
+                )
+            );
+            const current = numericValue(row && row.current);
+            const target30 = numericValue(row && row.target);
+            const base = current !== null ? current : 100;
+            const day30 = target30 !== null ? target30 : base * 1.08;
+            const day90 = day30 + (day30 - base);
+            const cfg = {
+                type: 'line',
+                data: {
+                    labels: ['Now', '30D', '90D'],
+                    datasets: [{
+                        label: metric,
+                        data: [
+                            Number(base.toFixed(2)),
+                            Number(day30.toFixed(2)),
+                            Number(day90.toFixed(2)),
+                        ],
+                        borderColor: '#1F7A63',
+                        fill: false,
+                        borderWidth: 2,
+                        pointRadius: 2,
+                        pointHoverRadius: 3,
+                        tension: 0,
+                    }],
+                },
+            };
+            const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(cfg))}&width=560&height=340&devicePixelRatio=1&format=png&backgroundColor=white`;
+            return {
+                title: `30/90-Day Outlook (${metric})`,
+                url: chartUrl,
+                insight: sanitizeTojiCopy(
+                    concise(
+                        String(ua.forecast_30d || summary.forecast_30d || 'Direction over the next 30 to 90 days based on the current plan.'),
+                        'Direction over the next 30 to 90 days based on the current plan.'
+                    )
+                ),
+            };
+        }
+
+        function insightCandidates() {
+            const ua = report.unified_analysis || {};
+            const summary = report.llm_summary || {};
+            const visuals = pickVisuals()
+                .map(({ visual }) => visual)
+                .filter(Boolean)
+                .map((visual) => String(((visual.meta || {}).insight || (visual.meta || {}).caption || '')).trim());
+            const problems = Array.isArray(summary.problems)
+                ? summary.problems.map((row) => typeof row === 'string' ? row : String(row.title || row.evidence || '').trim())
+                : [];
+            const risks = Array.isArray(summary.risks) ? summary.risks : [];
+            return [
+                String(ua.trend || '').trim(),
+                String(ua.seasonality || '').trim(),
+                String(ua.forecast_30d || summary.forecast_30d || '').trim(),
+                ...visuals,
+                ...problems,
+                ...risks,
+            ].map((text) => sanitizeTojiCopy(text)).filter(Boolean);
+        }
+
+        function scopeLabel(r) {
+            return normalizedIndustryLabel(r);
+        }
+
+        function pickMarkdownCharts() {
+            const charts = parseMarkdownVisualGrid(report.dashboard_markdown || '');
+            if (!charts.length) return [];
+            const primaryMetric = sanitizeTojiCopy(
+                toSentenceCase(
+                    String(
+                        (parseKpiRowsFromMarkdown(report.dashboard_markdown || '')[0] || {}).kpi
+                        || ((report.unified_analysis || {}).opportunity_analysis || report.opportunity_analysis || {}).metric
+                        || ''
+                    ).replace(/_/g, ' ')
+                )
+            ).toLowerCase();
+            const forecastKeywords = /(30[\s/-]*90|90[\s/-]*day|30[\s/-]*day|forecast|outlook|projection|if you act|scenario)/i;
+            const primaryKeywords = primaryMetric
+                .split(/\s+/)
+                .map((token) => token.trim().toLowerCase())
+                .filter((token) => token.length > 2);
+            const chartTitle = (row) => String((row && row.title) || '').toLowerCase();
+            const titleTheme = (row) => chartTitle(row)
+                .replace(/\([^)]*\)/g, ' ')
+                .replace(/\b(30|60|90)[/-]?\s*day\b/gi, ' ')
+                .replace(/\b(outlook|forecast|projection|scenario|benchmark)\b/gi, ' ')
+                .replace(/[^\w\s]/g, ' ')
+                .replace(/\b(usd|dollar|percent|days|day|hours|hour|rate|index)\b/gi, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            const used = new Set();
+            const usedThemes = new Set();
+            const selected = [];
+
+            let primaryChart = null;
+            if (primaryKeywords.length) {
+                primaryChart = charts.find((row) => primaryKeywords.some((token) => chartTitle(row).includes(token)));
+            }
+            if (!primaryChart) primaryChart = charts[0] || null;
+            if (primaryChart) {
+                selected.push(primaryChart);
+                used.add(primaryChart.url);
+                usedThemes.add(titleTheme(primaryChart));
+            }
+
+            charts.forEach((row) => {
+                if (selected.length >= 4) return;
+                if (!row || used.has(row.url)) return;
+                if (forecastKeywords.test(chartTitle(row))) return;
+                const theme = titleTheme(row);
+                if (theme && usedThemes.has(theme)) return;
+                selected.push(row);
+                used.add(row.url);
+                if (theme) usedThemes.add(theme);
+            });
+
+            if (selected.length < 4) {
+                charts.forEach((row) => {
+                    if (selected.length >= 4) return;
+                    if (!row || used.has(row.url)) return;
+                    if (forecastKeywords.test(chartTitle(row))) return;
+                    selected.push(row);
+                    used.add(row.url);
+                });
+            }
+
+            if (selected.length < 4) {
+                const forecastChart = buildForecastChart();
+                if (forecastChart) selected.push(forecastChart);
+            }
+            return selected.filter(Boolean).slice(0, 4);
+        }
+
+        function setHeader() {
+            const industryLabel = normalizedIndustryLabel(report);
+            const categoryLabel = normalizedCategoryLabel(report);
+            document.getElementById('title').textContent = industryLabel
+                ? `${industryLabel} / ${categoryLabel || 'analysis'}`
+                : 'Toji Dashboard';
+            document.getElementById('subtitle').textContent = report.generated_at
+                ? `Generated ${new Date(report.generated_at).toLocaleString()}`
+                : 'Generated from your latest session.';
+            const stamp = document.getElementById('pageStamp');
+            if (stamp) stamp.textContent = report.generated_at ? 'Executive summary' : 'Live dashboard';
+            const chatBtn = document.getElementById('openChatBtn');
+            if (chatBtn && reportId) {
+                const chatParams = new URLSearchParams({ report_id: reportId });
+                if (report.industry) chatParams.set('industry', report.industry);
+                if (report.category) chatParams.set('category', report.category);
+                chatBtn.href = `chat.html?${chatParams.toString()}`;
+            }
+        }
+
+        function dashboardBundleFromReport() {
+            const bundle = report && typeof report.dashboard_bundle === 'object' ? report.dashboard_bundle : null;
+            if (!bundle || !Array.isArray(bundle.views) || !bundle.views.length) return null;
+            if (!bundle.tables || typeof bundle.tables !== 'object') return null;
+            return bundle;
+        }
+
+        function cloneJSON(value) {
+            try {
+                if (typeof structuredClone === 'function') return structuredClone(value);
+            } catch (_err) {}
+            return JSON.parse(JSON.stringify(value));
+        }
+
+        function bundleChartViews(bundle) {
+            const allViews = Array.isArray(bundle.views) ? bundle.views : [];
+            const charts = allViews.filter(v => String(v && v.type || '').toLowerCase() === 'vega-lite');
+            return charts.slice(0, 4);
+        }
+
+        async function renderBundleVisualGrid(bundle) {
+            if (typeof vegaEmbed !== 'function') {
+                throw new Error('Vega renderer unavailable');
+            }
+            const grid = document.getElementById('vizGrid');
+            const vizMeta = document.getElementById('vizMeta');
+            grid.innerHTML = '';
+            const chartViews = bundleChartViews(bundle);
+            if (!chartViews.length) return false;
+            if (vizMeta) vizMeta.textContent = `${chartViews.length} interactive visuals loaded`;
+
+            for (let idx = 0; idx < chartViews.length; idx += 1) {
+                const view = chartViews[idx] || {};
+                const title = sanitizeTojiCopy(String(view.title || `Visual ${idx + 1}`));
+                const subtitle = sanitizeTojiCopy(String(view.subtitle || ''));
+                const sourceTable = String(view.source_table || 'main');
+                const tableRows = Array.isArray((((bundle.tables || {})[sourceTable] || {}).rows))
+                    ? (((bundle.tables || {})[sourceTable] || {}).rows)
+                    : [];
+                const spec = cloneJSON(view.spec || {});
+                spec.data = { name: sourceTable };
+                spec.datasets = { [sourceTable]: tableRows };
+                spec.width = 'container';
+                spec.autosize = { type: 'fit', contains: 'padding' };
+                if (!spec.height || Number(spec.height) < 180) {
+                    spec.height = 260;
+                }
+
+                const cardEl = document.createElement('article');
+                cardEl.className = 'viz-card';
+                const head = document.createElement('div');
+                head.className = 'viz-head';
+                const lbl = document.createElement('div');
+                lbl.className = 'viz-label';
+                lbl.textContent = 'Interactive View';
+                const titleEl = document.createElement('div');
+                titleEl.className = 'viz-title';
+                titleEl.textContent = title;
+                head.appendChild(lbl);
+                head.appendChild(titleEl);
+
+                const frame = document.createElement('div');
+                frame.className = 'viz-frame';
+                const chartMount = document.createElement('div');
+                chartMount.style.width = '100%';
+                chartMount.style.height = '100%';
+                frame.appendChild(chartMount);
+
+                const foot = document.createElement('div');
+                foot.className = 'viz-foot';
+                foot.textContent = subtitle || 'Drag to zoom and hover to inspect the signal.';
+
+                cardEl.appendChild(head);
+                cardEl.appendChild(frame);
+                cardEl.appendChild(foot);
+                grid.appendChild(cardEl);
+
+                try {
+                    await vegaEmbed(chartMount, spec, { actions: false, renderer: 'canvas' });
+                } catch (embedErr) {
+                    console.error('Vega render failed for view', view.id, embedErr);
+                    chartMount.innerHTML = '<div class=\"viz-empty\">Chart failed to render.</div>';
+                }
+            }
+            return true;
+        }
+
+        async function retryVisuals() {
+            const btn = document.getElementById('retryVisualsBtn');
+            if (btn) { btn.disabled = true; btn.textContent = 'Regenerating charts...'; }
+            try {
+                const res = await fetch(`${API_BASE}/report/${encodeURIComponent(reportId)}/regenerate-visuals`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    console.error('Visual regeneration failed:', err);
+                    if (btn) { btn.disabled = false; btn.textContent = 'Retry Charts'; }
+                    return;
+                }
+                // Reload the report and re-render
+                const reportRes = await fetch(`${API_BASE}/report/${encodeURIComponent(reportId)}`);
+                if (reportRes.ok) {
+                    report = await reportRes.json();
+                    report.report_id = reportId;
+                    await renderVisualGrid();
+                }
+            } catch (err) {
+                console.error('Visual regeneration error:', err);
+                if (btn) { btn.disabled = false; btn.textContent = 'Retry Charts'; }
+            }
+        }
+
+        async function retryVisualSlot(slot) {
+            if (!reportId || !slot) return;
+            try {
+                const res = await fetch(`${API_BASE}/report/${encodeURIComponent(reportId)}/regenerate-visual-slot`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ slot: String(slot) }),
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    showStatus(extractError(err, 'Visual retry failed.'));
+                    return;
+                }
+                const payload = await res.json().catch(() => ({}));
+                const visual = payload.visual || null;
+                if (visual) {
+                    const list = Array.isArray(report.visuals) ? [...report.visuals] : [];
+                    const idx = list.findIndex((v) => String(((v || {}).meta || {}).slot || '').toLowerCase() === String(slot).toLowerCase());
+                    if (idx >= 0) list[idx] = visual;
+                    else list.push(visual);
+                    report.visuals = list;
+                    report.visuals_error = null;
+                    await renderVisualGrid();
+                }
+            } catch (_err) {
+                showStatus('Visual retry failed due to network error.');
+            }
+        }
+
+        async function renderVisualGrid() {
+            const grid = document.getElementById('vizGrid');
+            grid.innerHTML = '';
+            const vizMeta = document.getElementById('vizMeta');
+
+            // Show retry UI if visuals failed
+            const vizError = report.visuals_error;
+            const visuals = Array.isArray(report.visuals) ? report.visuals : [];
+            if (vizError || visuals.length === 0) {
+                if (vizMeta) vizMeta.textContent = 'Charts unavailable';
+                const notice = document.createElement('div');
+                notice.className = 'section-card';
+                notice.style.cssText = 'text-align:center; color:var(--exec-secondary);';
+                notice.innerHTML = `<p style=\"margin-bottom:12px;\">${escapeHtml(vizError || 'Charts are still being prepared.')}</p>`;
+                const btn = document.createElement('button');
+                btn.id = 'retryVisualsBtn';
+                btn.className = 'link-btn';
+                btn.textContent = 'Retry Charts';
+                btn.style.cssText = 'padding:8px 20px; cursor:pointer;';
+                btn.onclick = retryVisuals;
+                notice.appendChild(btn);
+                grid.appendChild(notice);
+                return;
+            }
+
+            const selected = pickVisuals();
+            if (vizMeta) vizMeta.textContent = `${selected.filter(r => r.visual).length} of 4 charts loaded`;
+
+            selected.forEach((row, idx) => {
+                const visual = row.visual || {};
+                const meta = visual.meta || {};
+                const title = normalizeChartTitle(String(visual.title || `Visual ${idx + 1}`).trim());
+                const caption = sanitizeTojiCopy(concise(String(meta.caption || meta.insight || '').trim(), 'Trend update available in the chart below.'));
+
+                const cardEl = document.createElement('article');
+                cardEl.className = 'chart-card';
+                const titleEl = document.createElement('div');
+                titleEl.className = 'chart-title';
+                titleEl.textContent = sanitizeTojiCopy(title);
+                const insightEl = document.createElement('p');
+                insightEl.className = 'chart-insight';
+                insightEl.textContent = caption;
+
+                const frame = document.createElement('div');
+                frame.className = 'chart-frame';
+                const src = visualAssetUri(visual);
+                if (src) {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = title;
+                    img.onerror = () => {
+                        frame.innerHTML = '';
+                        const empty = document.createElement('div');
+                        empty.className = 'viz-empty';
+                        empty.textContent = 'Visual unavailable right now.';
+                        const retry = document.createElement('button');
+                        retry.className = 'link-btn';
+                        retry.style.opacity = '0.72';
+                        retry.style.marginTop = '10px';
+                        retry.textContent = 'Retry visual';
+                        retry.onclick = () => retryVisualSlot(row.slot);
+                        empty.appendChild(document.createElement('br'));
+                        empty.appendChild(retry);
+                        frame.appendChild(empty);
+                    };
+                    frame.appendChild(img);
+                } else {
+                    const empty = document.createElement('div');
+                    empty.className = 'viz-empty';
+                    empty.textContent = 'No visual generated for this slot yet.';
+                    const retry = document.createElement('button');
+                    retry.className = 'link-btn';
+                    retry.style.opacity = '0.72';
+                    retry.style.marginTop = '10px';
+                    retry.textContent = 'Retry visual';
+                    retry.onclick = () => retryVisualSlot(row.slot);
+                    empty.appendChild(document.createElement('br'));
+                    empty.appendChild(retry);
+                    frame.appendChild(empty);
+                }
+
+                cardEl.appendChild(titleEl);
+                cardEl.appendChild(insightEl);
+                cardEl.appendChild(frame);
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function renderInsights() {
+            const wrap = document.getElementById('insightsList');
+            wrap.innerHTML = '';
+            const items = [];
+            insightCandidates().forEach((item) => {
+                if (!item) return;
+                if (items.includes(item)) return;
+                items.push(item);
+            });
+            const display = items.slice(0, 5);
+            if (!display.length) {
+                const li = document.createElement('li');
+                li.className = 'list-empty';
+                li.textContent = 'Key signals will appear here once Toji finishes the analysis pass.';
+                wrap.appendChild(li);
+                return;
+            }
+            display.forEach((item) => {
+                const li = document.createElement('li');
+                li.className = 'signal-item';
+                const copy = document.createElement('p');
+                copy.className = 'signal-copy';
+                copy.textContent = item;
+                li.appendChild(copy);
+                wrap.appendChild(li);
+            });
+        }
+
+        function renderRecommendations() {
+            const summary = report.llm_summary || {};
+            const opp = (report.unified_analysis || {}).opportunity_analysis || report.opportunity_analysis || {};
+            const levers = Array.isArray(opp.top_3_levers) ? opp.top_3_levers : [];
+            const list = document.getElementById('recommendationsList');
+            list.innerHTML = '';
+            const items = [];
+
+            function compactText(text) {
+                return sanitizeTojiCopy(String(text || '').replace(/\s+/g, ' ').trim());
+            }
+
+            if (Array.isArray(summary.recommendations)) {
+                summary.recommendations.forEach((row) => {
+                    if (typeof row === 'string') {
+                        const text = compactText(row);
+                        if (text) items.push({ headline: text, rider: '' });
+                        return;
+                    }
+                    if (row && typeof row === 'object') {
+                        const headline = compactText(row.headline || row.action || row.description || '');
+                        const rider = compactText(row.rider || row.impact || '');
+                        if (headline) items.push({ headline, rider });
+                    }
+                });
+            }
+            if (!items.length && levers.length) {
+                levers.forEach((row) => {
+                    items.push({
+                        headline: compactText(String(row.lever || '').trim()),
+                        rider: compactText(String(row.potential_impact || '').trim()),
+                    });
+                });
+            }
+
+            const display = items.slice(0, 4);
+            if (!display.length) {
+                const li = document.createElement('li');
+                li.className = 'list-empty';
+                li.textContent = 'Recommendations will appear here once Toji returns the strategic action list.';
+                list.appendChild(li);
+                return;
+            }
+            display.forEach((row) => {
+                const li = document.createElement('li');
+                li.className = 'recommendation-item';
+                const action = document.createElement('p');
+                action.className = 'recommendation-action';
+                action.textContent = row.headline;
+                li.appendChild(action);
+                if (row.rider) {
+                    const impact = document.createElement('p');
+                    impact.className = 'recommendation-impact';
+                    impact.textContent = row.rider;
+                    li.appendChild(impact);
+                }
+                list.appendChild(li);
+            });
+        }
+
+        async function exportPDF() {
+            showStatus('Preparing PDF export...');
+            try {
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+                const images = Array.from(document.querySelectorAll('.chart-frame img'));
+                await Promise.all(images.map((img) => {
+                    if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+                    return new Promise((resolve) => {
+                        const done = () => resolve();
+                        img.addEventListener('load', done, { once: true });
+                        img.addEventListener('error', done, { once: true });
+                        setTimeout(resolve, 2500);
+                    });
+                }));
+            } finally {
+                showStatus('');
+            }
+            window.print();
+        }
+
+        async function exportChatSummary() {
+            if (!reportId) {
+                showStatus('No report ID found for chat export.');
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE}/chat/export-summary`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ report_id: reportId }),
+                });
+                const payload = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    showStatus(extractError(payload, 'Chat export failed.'));
+                    return;
+                }
+                showStatus('Chat summary exported and attached to this report.');
+            } catch (_err) {
+                showStatus('Chat export failed due to network error.');
+            }
+        }
+
+        async function hydrateReport() {
+            if (!reportId) return;
+            try {
+                const res = await fetch(`${API_BASE}/report/${encodeURIComponent(reportId)}`, { cache: 'no-store' });
+                if (!res.ok) return;
+                report = await res.json();
+                report.report_id = reportId;
+                sessionStorage.setItem('analysisResults', JSON.stringify({ report_id: reportId, report }));
+            } catch (_err) {}
+        }
+
+        async function resolveReportFallback() {
+            if (reportId) return;
+            try {
+                const res = await fetch(`${API_BASE}/session/status`);
+                if (!res.ok) return;
+                const payload = await res.json();
+                const candidate = String(payload.report_id || '').trim();
+                if (candidate) reportId = candidate;
+            } catch (_err) {}
+        }
+
+        async function init() {
+            initTheme();
+            await resolveReportFallback();
+            await hydrateReport();
+            if (!report || !report.industry) {
+                // If we have a report_id, retry hydration once (handles race with sessionStorage)
+                if (reportId) {
+                    await new Promise((r) => setTimeout(r, 500));
+                    await hydrateReport();
+                }
+            }
+            if (!report || !report.industry) {
+                showStatus('No report is loaded. Run Upload or Tell us first.');
+                return;
+            }
+            setHeader();
+            renderAnalysisHero();
+            renderPostDashboardIntakeBanner();
+            await renderVisualGrid();
+            renderInsights();
+            renderRecommendations();
+        }
+
+        init();
+    </script>
+</body>
+</html>

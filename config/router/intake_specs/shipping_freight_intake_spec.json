@@ -1,0 +1,920 @@
+{
+  "industry": "shipping_freight",
+  "categories": {
+    "carrier_safety_risk": {
+      "question_groups": [
+        {
+          "group_id": "geographic_scope",
+          "columns": ["ref_area"],
+          "question": "Which country or region does this safety data apply to?",
+          "hint": "e.g., Japan, India, South Korea, Turkey",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ref_area", "label": "Country/region code", "type": "categorical", "options": ["ARM", "AZE", "GEO", "IND", "ISR", "JPN", "KAZ", "KOR", "TUR", "UZB"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "safety_measure",
+          "columns": ["measure", "unit_measure"],
+          "question": "What type of safety metric are you tracking, and in what unit?",
+          "hint": "e.g., fatalities measured in persons, or crashes measured in crash count",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "measure", "label": "Safety measure type", "type": "categorical", "options": ["CRASHES", "FATALITIES", "INJURED"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["CRA", "PS"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_context",
+          "columns": ["transport_mode", "vehicle_type", "infrastructure_type"],
+          "question": "What transport mode, vehicle type, and infrastructure does this apply to?",
+          "hint": "e.g., road transport, all vehicle types, all infrastructure",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["ROAD", "RAIL", "AIR", "INLAND_WATER", "SEA"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["_T", "TRUCK", "BUS", "CAR", "MOTORCYCLE"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "infrastructure_type", "label": "Infrastructure type", "type": "categorical", "options": ["_T", "MOTORWAY", "URBAN", "RURAL"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["obs_status", "unit_mult", "decimals"],
+          "question": "What is the observation status and data precision for these records?",
+          "hint": "e.g., normal status, unit multiplier of 0, 1 decimal place",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "obs_status", "label": "Observation status", "type": "categorical", "options": ["A", "B", "E", "P"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_mult", "label": "Unit multiplier", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source",
+          "columns": ["dataflow", "freq"],
+          "question": "What data source and reporting frequency are you working with?",
+          "hint": "e.g., OECD safety trends, annual frequency",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": ["OECD:DF_TRENDSSAFETY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["A", "Q", "M"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["time_period"],
+          "question": "What time period does this safety analysis cover?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    },
+    "claims_damage_risk": {
+      "question_groups": [
+        {
+          "group_id": "dataset_identity",
+          "columns": ["dataset_id", "dataset_name", "table_id"],
+          "question": "Which dataset and table are you pulling claims or damage data from?",
+          "hint": "e.g., dataset M650031, civil aircraft arrivals and departures table",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataset_id", "label": "Dataset ID", "type": "categorical", "options": ["M650031"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dataset_name", "label": "Dataset name", "type": "categorical", "options": ["Civil Aircraft Arrivals And Departures, Passengers, Air Cargo Tonnage And Mail"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "table_id", "label": "Table ID", "type": "categorical", "options": ["M650031"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "subject_classification",
+          "columns": ["theme", "subject", "topic"],
+          "question": "What theme, subject, and topic describe the cargo or transport data you are analyzing?",
+          "hint": "e.g., Transport & Communications, Air Transport, Cargo Tonnage",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "theme", "label": "Theme", "type": "categorical", "options": ["Transport & Communications", "Trade & Investment", "Economy"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "subject", "label": "Subject", "type": "categorical", "options": ["Air Transport", "Sea Transport", "Land Transport"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "topic", "label": "Topic", "type": "categorical", "options": ["Cargo Tonnage", "Passenger Volume", "Aircraft Movements"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_detail",
+          "columns": ["datasource", "series_no"],
+          "question": "What is the data source authority and series number for this data?",
+          "hint": "e.g., Civil Aviation Authority, series 1.1",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "datasource", "label": "Data source authority", "type": "categorical", "options": ["Civil Aviation Authority of Singapore", "Maritime and Port Authority", "Land Transport Authority"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "series_no", "label": "Series number", "type": "categorical", "options": ["1.1", "1.2", "2.1", "2.2", "3.1"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "cargo_description",
+          "columns": ["row_text", "unit"],
+          "question": "What cargo metric or line item are you looking at, and what unit is it measured in?",
+          "hint": "e.g., Total Air Cargo Discharged in tonnes, or Number of Arrivals",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "row_text", "label": "Cargo metric description", "type": "categorical", "options": ["Total Air Cargo Discharged", "Total Air Cargo Loaded", "Total Passengers Arrived", "Total Aircraft Arrivals", "Total Mail Discharged"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit", "label": "Unit of measure", "type": "categorical", "options": ["Tonnes", "Number", "Thousand"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this claims data cover?",
+          "hint": "e.g., 2024-01 for January 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "footnotes",
+          "columns": ["row_footnote"],
+          "question": "Are there any special footnotes or qualifiers that apply to this data?",
+          "hint": "e.g., 'Revised figures' or leave blank if none",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "row_footnote", "label": "Footnote or qualifier", "type": "categorical", "options": ["None", "Revised", "Preliminary", "Estimated"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "cold_chain_integrity": {
+      "question_groups": [
+        {
+          "group_id": "dataset_identity",
+          "columns": ["dataset_id", "dataset_name", "table_id"],
+          "question": "Which sea cargo dataset and table are you using for cold chain analysis?",
+          "hint": "e.g., dataset M651101, Sea Cargo and Shipping Statistics table",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataset_id", "label": "Dataset ID", "type": "categorical", "options": ["M651101"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dataset_name", "label": "Dataset name", "type": "categorical", "options": ["Sea Cargo And Shipping Statistics"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "table_id", "label": "Table ID", "type": "categorical", "options": ["M651101"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "subject_classification",
+          "columns": ["theme", "subject", "topic"],
+          "question": "What theme and subject best describe the cold chain data you are working with?",
+          "hint": "e.g., Transport & Communications, Sea Transport, Cargo by Type",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "theme", "label": "Theme", "type": "categorical", "options": ["Transport & Communications", "Trade & Investment"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "subject", "label": "Subject", "type": "categorical", "options": ["Sea Transport", "Cold Storage", "Perishable Goods"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "topic", "label": "Topic", "type": "categorical", "options": ["Container Throughput", "Cargo Volume", "Vessel Calls"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_detail",
+          "columns": ["datasource", "series_no"],
+          "question": "What data authority publishes this cold chain data, and which series?",
+          "hint": "e.g., Maritime and Port Authority, series 2.1",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "datasource", "label": "Data source authority", "type": "categorical", "options": ["Maritime and Port Authority of Singapore", "Port Authority", "Customs Authority"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "series_no", "label": "Series number", "type": "categorical", "options": ["1.1", "1.2", "2.1", "2.2", "3.1"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "cargo_description",
+          "columns": ["row_text", "unit"],
+          "question": "What specific cargo line item and unit of measure are relevant for this cold chain assessment?",
+          "hint": "e.g., Total Sea Cargo Discharged in thousand freight tonnes",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "row_text", "label": "Cargo metric description", "type": "categorical", "options": ["Total Sea Cargo Discharged", "Total Sea Cargo Loaded", "Container Throughput", "Bunker Sales", "Vessel Arrivals"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit", "label": "Unit of measure", "type": "categorical", "options": ["Thousand Freight Tonnes", "Thousand TEUs", "Number", "Million Tonnes"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this cold chain data cover?",
+          "hint": "e.g., 2024-06 for June 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "footnotes",
+          "columns": ["row_footnote"],
+          "question": "Are there any footnotes or data quality flags for this cold chain data?",
+          "hint": "e.g., 'Includes reefer containers' or leave blank if none",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "row_footnote", "label": "Footnote or qualifier", "type": "categorical", "options": ["None", "Revised", "Preliminary", "Includes Transshipment"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "cross_border_flow": {
+      "question_groups": [
+        {
+          "group_id": "indicator_identity",
+          "columns": ["indicator_id", "indicator_name"],
+          "question": "Which cross-border trade indicator are you analyzing?",
+          "hint": "e.g., IC.CUS.DURS.EX for time to export through customs",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "indicator_id", "label": "Indicator code", "type": "categorical", "options": ["IC.CUS.DURS.EX", "IC.CUS.DURS.IM", "IC.EXP.DOCS", "IC.IMP.DOCS", "IC.EXP.COST.CD", "IC.IMP.COST.CD"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "indicator_name", "label": "Indicator description", "type": "categorical", "options": ["Time to export (days)", "Time to import (days)", "Documents to export (number)", "Documents to import (number)", "Cost to export (USD per container)", "Cost to import (USD per container)"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "country_scope",
+          "columns": ["country_code", "country_name"],
+          "question": "Which country are you evaluating for cross-border trade flow?",
+          "hint": "e.g., USA - United States, CHN - China, DEU - Germany",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "country_code", "label": "Country code (ISO3)", "type": "categorical", "options": ["USA", "CHN", "DEU", "JPN", "GBR", "IND", "BRA", "KOR", "SGP", "NLD"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "country_name", "label": "Country name", "type": "categorical", "options": ["United States", "China", "Germany", "Japan", "United Kingdom", "India", "Brazil", "South Korea", "Singapore", "Netherlands"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["year"],
+          "question": "What year does this cross-border analysis apply to?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_precision",
+          "columns": ["decimal"],
+          "question": "What decimal precision does this data use?",
+          "hint": "e.g., 1 for one decimal place",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "decimal", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "customs_compliance": {
+      "question_groups": [
+        {
+          "group_id": "location_identity",
+          "columns": ["key", "district"],
+          "question": "What is the location key and district for this customs or checkpoint data?",
+          "hint": "e.g., key HK-1001, Kwai Tsing district near the container terminal",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "key", "label": "Location key", "type": "categorical", "options": ["HK-1001", "HK-1002", "HK-1003", "HK-2001", "HK-2002"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "district", "label": "District", "type": "categorical", "options": ["Kwai Tsing", "Tsuen Wan", "Sha Tin", "Yau Tsim Mong", "Central and Western", "Tuen Mun", "North"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "checkpoint_description",
+          "columns": ["description"],
+          "question": "What is the description of this customs checkpoint or monitoring location?",
+          "hint": "e.g., Container Terminal Road near Kwai Chung",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "description", "label": "Location description", "type": "categorical", "options": ["Container Terminal Approach", "Cross-Harbour Tunnel", "Border Crossing Point", "Port Access Road", "Customs Inspection Area"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "coordinates",
+          "columns": ["easting", "northing", "latitude", "longitude"],
+          "question": "What are the geographic coordinates for this checkpoint?",
+          "hint": "e.g., latitude 22.35, longitude 114.12 (Hong Kong area)",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "latitude", "label": "Latitude", "type": "float", "min": -90, "max": 90, "default_strategy": "conservative"},
+            {"column": "longitude", "label": "Longitude", "type": "float", "min": -180, "max": 180, "default_strategy": "conservative"},
+            {"column": "easting", "label": "Easting (HK grid)", "type": "float", "min": 800000, "max": 870000, "default_strategy": "conservative"},
+            {"column": "northing", "label": "Northing (HK grid)", "type": "float", "min": 800000, "max": 850000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "monitoring_url",
+          "columns": ["url"],
+          "question": "Is there a monitoring feed URL associated with this checkpoint?",
+          "hint": "e.g., the URL for a traffic camera feed at this location",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "url", "label": "Monitoring feed URL", "type": "categorical", "options": ["Provided", "Not Available"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "eta_delay_risk": {
+      "question_groups": [
+        {
+          "group_id": "reporting_frequency",
+          "columns": ["freq"],
+          "question": "How frequently is this arrival and transit data reported?",
+          "hint": "e.g., monthly, quarterly, or annually",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["M", "Q", "A"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this delay risk analysis cover?",
+          "hint": "e.g., 2024-Q3 for third quarter 2024, or 2024-09 for September",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "delay_metric",
+          "columns": ["sd_value"],
+          "question": "What is the standard deviation or variability value for this transport metric?",
+          "hint": "e.g., 12.5 indicating moderate schedule variability",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "sd_value", "label": "Variability / std deviation", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "service_type",
+          "columns": ["sv", "svdesc"],
+          "question": "What service category or transport segment does this data describe?",
+          "hint": "e.g., passenger arrivals, transit passengers, cargo flights",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "sv", "label": "Service code", "type": "categorical", "options": ["ARR", "DEP", "TRANS", "CARGO", "MAIL"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "svdesc", "label": "Service description", "type": "categorical", "options": ["Arrival Passengers", "Departure Passengers", "Transit Passengers", "Cargo Tonnage", "Mail Volume"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "fleet_utilization": {
+      "question_groups": [
+        {
+          "group_id": "vehicle_identity",
+          "columns": ["vehicle_make", "vehicle_model"],
+          "question": "What make and model of vehicle are you tracking for fleet utilization?",
+          "hint": "e.g., Isuzu NQR, Hino 300 Series, Mercedes Actros",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "vehicle_make", "label": "Vehicle make", "type": "categorical", "options": ["Isuzu", "Hino", "Mercedes-Benz", "Mitsubishi", "Toyota", "Volvo", "MAN", "Scania", "DAF", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_model", "label": "Vehicle model", "type": "categorical", "options": ["Light Truck", "Medium Truck", "Heavy Truck", "Trailer", "Van", "Tanker", "Flatbed", "Refrigerated"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "fuel_and_engine",
+          "columns": ["fuel_type", "cylinder_capacity_of_engine_c_c"],
+          "question": "What fuel type and engine size does this fleet vehicle use?",
+          "hint": "e.g., diesel, 4,000 cc engine",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "fuel_type", "label": "Fuel type", "type": "categorical", "options": ["Diesel", "Petrol", "Electric", "Hybrid", "LPG", "CNG"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "cylinder_capacity_of_engine_c_c", "label": "Engine capacity (cc)", "type": "integer", "min": 0, "max": 20000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "body_and_status",
+          "columns": ["body_type", "first_registration_vehicle_status"],
+          "question": "What body type is this vehicle, and what was its registration status?",
+          "hint": "e.g., goods vehicle, new registration",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "body_type", "label": "Body type", "type": "categorical", "options": ["Goods Vehicle", "Container Truck", "Tanker", "Tipper", "Flatbed", "Refrigerated Van", "Box Truck", "Other"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "first_registration_vehicle_status", "label": "Registration status", "type": "categorical", "options": ["New", "Second-hand", "Imported", "Re-registered"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "weight_and_capacity",
+          "columns": ["permitted_gross_vehicle_weight", "number_of_passenger_seats"],
+          "question": "What is the permitted gross vehicle weight and seating capacity?",
+          "hint": "e.g., 16,000 kg GVW, 3 seats for a cargo truck",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "permitted_gross_vehicle_weight", "label": "Gross vehicle weight (kg)", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"},
+            {"column": "number_of_passenger_seats", "label": "Passenger seats", "type": "integer", "min": 0, "max": 100, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "value_and_age",
+          "columns": ["taxable_value_hk", "year_of_manufacture"],
+          "question": "What is the taxable value and year of manufacture for this vehicle?",
+          "hint": "e.g., HKD 250,000, manufactured in 2021",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "taxable_value_hk", "label": "Taxable value (HKD)", "type": "float", "min": 0, "max": 50000000, "default_strategy": "conservative"},
+            {"column": "year_of_manufacture", "label": "Year of manufacture", "type": "integer", "min": 1980, "max": 2026, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "inland_waterway_flow": {
+      "question_groups": [
+        {
+          "group_id": "geographic_scope",
+          "columns": ["ref_area"],
+          "question": "Which country or region does this inland waterway data cover?",
+          "hint": "e.g., Japan, India, Turkey, South Korea",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ref_area", "label": "Country/region code", "type": "categorical", "options": ["ARM", "AZE", "GEO", "IND", "ISR", "JPN", "KAZ", "KOR", "TUR", "UZB"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "infrastructure_metric",
+          "columns": ["measure", "unit_measure"],
+          "question": "What infrastructure or flow metric are you measuring, and in what unit?",
+          "hint": "e.g., total inland waterway length in kilometres, or freight volume in tonne-km",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "measure", "label": "Measure type", "type": "categorical", "options": ["LENGTH", "FREIGHT_VOL", "PASSENGER_VOL", "VESSEL_COUNT", "CAPACITY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["KM", "MIO_TKM", "MIO_PKM", "NB", "THS_T"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_context",
+          "columns": ["transport_mode", "vehicle_type", "infrastructure_type"],
+          "question": "What transport mode, vessel type, and waterway type does this apply to?",
+          "hint": "e.g., inland water transport, all vessel types, navigable rivers",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["INLAND_WATER", "SEA", "RIVER", "CANAL"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vessel type", "type": "categorical", "options": ["_T", "BARGE", "TANKER", "CONTAINER", "PASSENGER"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "infrastructure_type", "label": "Waterway type", "type": "categorical", "options": ["_T", "NAVIGABLE_RIVER", "CANAL", "LAKE"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_and_freq",
+          "columns": ["dataflow", "freq"],
+          "question": "What data source and reporting frequency are you using?",
+          "hint": "e.g., OECD infrastructure indicators, annual reporting",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": ["OECD:DF_INFRASTRUCTURE"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["A", "Q", "M"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "economics_context",
+          "columns": ["price_base"],
+          "question": "What price base or valuation method applies to this data?",
+          "hint": "e.g., current prices, constant prices (2015 base)",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["CURRENT", "CONSTANT", "PPP", "V"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["time_period"],
+          "question": "What time period does this inland waterway analysis cover?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["obs_status", "unit_mult", "decimals"],
+          "question": "What is the data quality status and precision for these records?",
+          "hint": "e.g., normal observation, multiplier 0, 1 decimal",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "obs_status", "label": "Observation status", "type": "categorical", "options": ["A", "B", "E", "P", "N"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_mult", "label": "Unit multiplier", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "lane_cost_yield": {
+      "question_groups": [
+        {
+          "group_id": "geographic_scope",
+          "columns": ["ref_area"],
+          "question": "Which country or region does this lane cost and yield data cover?",
+          "hint": "e.g., Japan, India, South Korea, Turkey",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ref_area", "label": "Country/region code", "type": "categorical", "options": ["ARM", "AZE", "GEO", "IND", "ISR", "JPN", "KAZ", "KOR", "TUR", "UZB"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "cost_metric",
+          "columns": ["measure", "unit_measure"],
+          "question": "What cost or safety metric are you analyzing, and in what unit?",
+          "hint": "e.g., fatalities per billion vehicle-km, or cost per tonne-km",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "measure", "label": "Measure type", "type": "categorical", "options": ["CRASHES", "FATALITIES", "INJURED", "COST_TKM", "REVENUE_TKM"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["CRA", "PS", "USD", "USD_TKM", "NB"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_context",
+          "columns": ["transport_mode", "vehicle_type", "infrastructure_type"],
+          "question": "What transport mode, vehicle type, and infrastructure does this lane cost data apply to?",
+          "hint": "e.g., road transport, heavy trucks, motorway",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["ROAD", "RAIL", "AIR", "INLAND_WATER", "SEA"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vehicle type", "type": "categorical", "options": ["_T", "TRUCK", "BUS", "CAR", "MOTORCYCLE", "HGV"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "infrastructure_type", "label": "Infrastructure type", "type": "categorical", "options": ["_T", "MOTORWAY", "URBAN", "RURAL", "NATIONAL_ROAD"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "economics_context",
+          "columns": ["price_base"],
+          "question": "What price base applies to these cost figures?",
+          "hint": "e.g., current prices, or constant 2015 prices",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["CURRENT", "CONSTANT", "PPP", "V"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_and_freq",
+          "columns": ["dataflow", "freq"],
+          "question": "What data source and reporting frequency are you using for lane cost analysis?",
+          "hint": "e.g., OECD safety indicators, annual frequency",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": ["OECD:DF_SAFETY"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["A", "Q", "M"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["time_period"],
+          "question": "What time period does this cost yield analysis cover?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["unit_mult", "decimals"],
+          "question": "What data precision settings apply to these figures?",
+          "hint": "e.g., unit multiplier 0, 1 decimal place",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "unit_mult", "label": "Unit multiplier", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "last_mile_sla": {
+      "question_groups": [
+        {
+          "group_id": "industry_indicator",
+          "columns": ["ind", "inddesc"],
+          "question": "Which business performance indicator are you tracking for last-mile delivery?",
+          "hint": "e.g., revenue per trip, on-time delivery rate, operating cost per km",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ind", "label": "Indicator code", "type": "categorical", "options": ["REV_TRIP", "OTD_RATE", "COST_KM", "UTIL_RATE", "FLEET_SIZE"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "inddesc", "label": "Indicator description", "type": "categorical", "options": ["Revenue per trip", "On-time delivery rate", "Operating cost per km", "Fleet utilization rate", "Active fleet size"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_group",
+          "columns": ["tr_grp", "tr_grpdesc"],
+          "question": "Which transport sub-sector does this last-mile data belong to?",
+          "hint": "e.g., land transport, courier services, logistics and warehousing",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "tr_grp", "label": "Transport group code", "type": "categorical", "options": ["LAND", "COURIER", "LOGISTICS", "WAREHOUSE", "POSTAL"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "tr_grpdesc", "label": "Transport group description", "type": "categorical", "options": ["Land Transport", "Courier and Express", "Logistics and Warehousing", "Warehouse and Storage", "Postal Services"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "reporting_frequency",
+          "columns": ["freq"],
+          "question": "How frequently is this last-mile performance data reported?",
+          "hint": "e.g., monthly, quarterly, or annually",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["M", "Q", "A"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this last-mile SLA data cover?",
+          "hint": "e.g., 2024-Q4 or 2024-12",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "service_detail",
+          "columns": ["sv", "svdesc"],
+          "question": "What specific service metric or value type does this data represent?",
+          "hint": "e.g., gross output, value added, operating surplus",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "sv", "label": "Service value code", "type": "categorical", "options": ["GO", "VA", "OS", "COMP", "REV"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "svdesc", "label": "Service value description", "type": "categorical", "options": ["Gross Output", "Value Added", "Operating Surplus", "Compensation of Employees", "Total Revenue"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "ocean_schedule_reliability": {
+      "question_groups": [
+        {
+          "group_id": "geographic_scope",
+          "columns": ["ref_area"],
+          "question": "Which country or region does this ocean schedule data cover?",
+          "hint": "e.g., Japan, South Korea, India, Turkey",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ref_area", "label": "Country/region code", "type": "categorical", "options": ["ARM", "AZE", "GEO", "IND", "ISR", "JPN", "KAZ", "KOR", "TUR", "UZB"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_indicator",
+          "columns": ["measure", "unit_measure"],
+          "question": "What transport indicator and unit are you using to assess ocean reliability?",
+          "hint": "e.g., freight volume in million tonne-km, or vessel count",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "measure", "label": "Measure type", "type": "categorical", "options": ["FREIGHT_VOL", "PASSENGER_VOL", "VESSEL_COUNT", "PORT_CALLS", "DWELL_TIME"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit_measure", "label": "Unit of measure", "type": "categorical", "options": ["MIO_TKM", "MIO_PKM", "NB", "DAYS", "THS_TEU"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "transport_context",
+          "columns": ["transport_mode", "vehicle_type", "infrastructure_type"],
+          "question": "What transport mode, vessel type, and port infrastructure does this apply to?",
+          "hint": "e.g., sea transport, container vessels, deep-water ports",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "transport_mode", "label": "Transport mode", "type": "categorical", "options": ["SEA", "COASTAL", "OCEAN", "SHORT_SEA"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "vehicle_type", "label": "Vessel type", "type": "categorical", "options": ["_T", "CONTAINER", "BULK", "TANKER", "RORO", "GENERAL_CARGO"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "infrastructure_type", "label": "Port infrastructure", "type": "categorical", "options": ["_T", "DEEP_WATER", "COASTAL", "RIVER_PORT", "TERMINAL"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "economics_context",
+          "columns": ["price_base"],
+          "question": "What price base is used for these ocean transport figures?",
+          "hint": "e.g., current prices, constant 2015 base",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "price_base", "label": "Price base", "type": "categorical", "options": ["CURRENT", "CONSTANT", "PPP", "V"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_and_freq",
+          "columns": ["dataflow", "freq"],
+          "question": "What data source and frequency are you using for ocean reliability analysis?",
+          "hint": "e.g., OECD transport indicators, annual data",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": ["OECD:DF_TRANSPORTINDICATORS"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["A", "Q", "M"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["time_period"],
+          "question": "What time period does this ocean reliability analysis cover?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "data_quality",
+          "columns": ["unit_mult", "decimals"],
+          "question": "What precision settings apply to this ocean schedule data?",
+          "hint": "e.g., unit multiplier 0, 1 decimal place",
+          "input_type": "composite_numeric",
+          "fields": [
+            {"column": "unit_mult", "label": "Unit multiplier", "type": "integer", "min": 0, "max": 9, "default_strategy": "conservative"},
+            {"column": "decimals", "label": "Decimal precision", "type": "integer", "min": 0, "max": 6, "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "port_terminal_congestion": {
+      "question_groups": [
+        {
+          "group_id": "industry_indicator",
+          "columns": ["ind", "inddesc"],
+          "question": "Which business performance indicator are you tracking for port terminal congestion?",
+          "hint": "e.g., throughput volume, dwell time, berth occupancy rate",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "ind", "label": "Indicator code", "type": "categorical", "options": ["THROUGHPUT", "DWELL", "BERTH_OCC", "TURN_TIME", "UTIL"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "inddesc", "label": "Indicator description", "type": "categorical", "options": ["Container Throughput", "Average Dwell Time", "Berth Occupancy Rate", "Vessel Turnaround Time", "Terminal Utilization"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "performance_group",
+          "columns": ["pe_grp", "pe_grpdesc"],
+          "question": "Which performance sub-group does this congestion data belong to?",
+          "hint": "e.g., port operations, terminal handling, vessel services",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "pe_grp", "label": "Performance group code", "type": "categorical", "options": ["PORT_OPS", "TERMINAL", "VESSEL_SVC", "YARD_OPS", "GATE_OPS"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "pe_grpdesc", "label": "Performance group description", "type": "categorical", "options": ["Port Operations", "Terminal Handling", "Vessel Services", "Yard Operations", "Gate Operations"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "variability_metric",
+          "columns": ["sd_value"],
+          "question": "What is the variability or standard deviation for this congestion metric?",
+          "hint": "e.g., 5.2 indicating moderate variability in dwell times",
+          "input_type": "single_numeric",
+          "fields": [
+            {"column": "sd_value", "label": "Variability / std deviation", "type": "float", "min": 0, "max": 100000, "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "reporting_frequency",
+          "columns": ["freq"],
+          "question": "How frequently is port congestion data reported?",
+          "hint": "e.g., monthly, quarterly, or annually",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["M", "Q", "A"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this congestion data cover?",
+          "hint": "e.g., 2024-Q3 or 2024-09",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "service_detail",
+          "columns": ["sv", "svdesc"],
+          "question": "What specific service metric or value type does this congestion data represent?",
+          "hint": "e.g., gross output, operating surplus, total revenue for port services",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "sv", "label": "Service value code", "type": "categorical", "options": ["GO", "VA", "OS", "COMP", "REV"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "svdesc", "label": "Service value description", "type": "categorical", "options": ["Gross Output", "Value Added", "Operating Surplus", "Compensation of Employees", "Total Revenue"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "rail_intermodal_flow": {
+      "question_groups": [
+        {
+          "group_id": "consignment_type",
+          "columns": ["consign"],
+          "question": "What type of rail consignment are you analyzing?",
+          "hint": "e.g., full wagonload, less-than-wagonload, intermodal transport units",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "consign", "label": "Consignment type", "type": "categorical", "options": ["FULL_WL", "LESS_WL", "INTERMODAL", "TOTAL", "BLOCK_TRAIN", "SINGLE_WAGON"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "unit_and_volume",
+          "columns": ["unit"],
+          "question": "What unit is the rail freight volume measured in?",
+          "hint": "e.g., thousand tonnes, million tonne-km",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "unit", "label": "Unit of measure", "type": "categorical", "options": ["THS_T", "MIO_TKM", "NB", "TEU"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "geographic_scope",
+          "columns": ["geo"],
+          "question": "Which European country does this rail intermodal data cover?",
+          "hint": "e.g., DE for Germany, FR for France, NL for Netherlands",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "geo", "label": "Country code (ISO2)", "type": "categorical", "options": ["AT", "BE", "BG", "CH", "CZ", "DE", "DK", "ES", "FI", "FR", "HR", "HU", "IT", "LT", "LV", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK", "UK"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_and_freq",
+          "columns": ["dataflow", "freq"],
+          "question": "What data source and reporting frequency are you using for rail flow data?",
+          "hint": "e.g., Eurostat rail goods consignment data, annual",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataflow", "label": "Data source identifier", "type": "categorical", "options": ["ESTAT:RAIL_GO_CONSGMT"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["A", "Q", "M"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["time_period"],
+          "question": "What time period does this rail intermodal flow analysis cover?",
+          "hint": "e.g., 2023 or 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "confidence_status",
+          "columns": ["conf_status"],
+          "question": "What is the confidentiality or confidence status of this data?",
+          "hint": "e.g., free for publication, confidential, not available",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "conf_status", "label": "Confidentiality status", "type": "categorical", "options": ["F", "C", "N", "D"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "trade_volume_mix": {
+      "question_groups": [
+        {
+          "group_id": "transaction_type",
+          "columns": ["trans", "transdesc"],
+          "question": "What type of merchandise trade transaction are you analyzing?",
+          "hint": "e.g., domestic exports, re-exports, imports",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "trans", "label": "Transaction code", "type": "categorical", "options": ["DX", "RX", "IX", "TX", "TI"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "transdesc", "label": "Transaction description", "type": "categorical", "options": ["Domestic Exports", "Re-exports", "Imports", "Total Exports", "Total Imports"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "reporting_frequency",
+          "columns": ["freq"],
+          "question": "How frequently is this trade volume data reported?",
+          "hint": "e.g., monthly, quarterly, or annually",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "freq", "label": "Reporting frequency", "type": "categorical", "options": ["M", "Q", "A"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this trade volume data cover?",
+          "hint": "e.g., 2024-Q4 or 2024-12",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        },
+        {
+          "group_id": "service_detail",
+          "columns": ["sv", "svdesc"],
+          "question": "What specific trade value or volume metric does this data represent?",
+          "hint": "e.g., total value in HKD, quantity in tonnes, unit value index",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "sv", "label": "Statistical value code", "type": "categorical", "options": ["VAL", "QTY", "UVI", "TOT", "AVG"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "svdesc", "label": "Statistical value description", "type": "categorical", "options": ["Total Value (HKD)", "Quantity (Tonnes)", "Unit Value Index", "Total Trade", "Average Unit Price"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        }
+      ]
+    },
+    "trucking_capacity": {
+      "question_groups": [
+        {
+          "group_id": "dataset_identity",
+          "columns": ["dataset_id", "dataset_name", "table_id"],
+          "question": "Which dataset and table are you using for trucking capacity or re-export analysis?",
+          "hint": "e.g., dataset M450391, Re-exports of Miscellaneous Manufactures by Market",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "dataset_id", "label": "Dataset ID", "type": "categorical", "options": ["M450391"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "dataset_name", "label": "Dataset name", "type": "categorical", "options": ["Re-exports Of Miscellaneous Manufactures By Market"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "table_id", "label": "Table ID", "type": "categorical", "options": ["M450391"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "subject_classification",
+          "columns": ["theme", "subject", "topic"],
+          "question": "What theme, subject, and topic describe the trucking or trade data?",
+          "hint": "e.g., Trade & Investment, External Trade, Manufactures by Market",
+          "input_type": "composite_categorical",
+          "fields": [
+            {"column": "theme", "label": "Theme", "type": "categorical", "options": ["Trade & Investment", "Transport & Communications", "Economy"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "subject", "label": "Subject", "type": "categorical", "options": ["External Trade", "Domestic Trade", "Manufacturing Output"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "topic", "label": "Topic", "type": "categorical", "options": ["Re-exports by Market", "Exports by Commodity", "Imports by Market"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "data_source_detail",
+          "columns": ["datasource", "series_no"],
+          "question": "What data authority publishes this trucking data, and which series?",
+          "hint": "e.g., Singapore Department of Statistics, series 1.1",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "datasource", "label": "Data source authority", "type": "categorical", "options": ["Singapore Department of Statistics", "International Enterprise Singapore", "Trade Development Board"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "series_no", "label": "Series number", "type": "categorical", "options": ["1.1", "1.2", "2.1", "2.2", "3.1"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "cargo_description",
+          "columns": ["row_text", "unit"],
+          "question": "What specific trade line item and unit of measure are you looking at?",
+          "hint": "e.g., Re-exports to Malaysia in thousand dollars",
+          "input_type": "composite_mixed",
+          "fields": [
+            {"column": "row_text", "label": "Trade line item", "type": "categorical", "options": ["Total Re-exports", "Re-exports to Malaysia", "Re-exports to Indonesia", "Re-exports to China", "Re-exports to Hong Kong"], "encoding": "label", "default_strategy": "conservative"},
+            {"column": "unit", "label": "Unit of measure", "type": "categorical", "options": ["Thousand Dollars", "Million Dollars", "Tonnes", "Number"], "encoding": "label", "default_strategy": "conservative"}
+          ]
+        },
+        {
+          "group_id": "time_context",
+          "columns": ["period"],
+          "question": "What reporting period does this trucking capacity data cover?",
+          "hint": "e.g., 2024-06 for June 2024",
+          "input_type": "temporal_context",
+          "auto_derive": true
+        }
+      ]
+    }
+  }
+}

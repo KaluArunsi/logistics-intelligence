@@ -1,0 +1,437 @@
+{
+  "version": 1,
+  "industry": "ecommerce",
+  "updated_at": "2026-02-23T08:10:42.544035+00:00",
+  "aliases": [
+    {
+      "canonical_column": "date",
+      "alias": "TransactionDate",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "none_runtime",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__banksim1__bs140513_032310_csv",
+        "kaggle__banksim1__bsnet140513_032310_csv",
+        "kaggle__chargeback_fraud_transactions__chargeack_frauds_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv",
+        "kaggle__e_commerce_customer_behavior_and_sales_analysis_tr__ecommerce_customer_behavior_dataset_csv",
+        "kaggle__online_sales_dataset_popular_marketplace_data__online_sales_data_csv",
+        "kaggle__paysim1__ps_20174392719_1491204439457_log_csv",
+        "openml__43605_sales_dataset_of_supermarket__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T16:20:21.284535+00:00",
+      "last_seen": "2026-02-17T16:20:21.284535+00:00",
+      "hit_count": 1,
+      "notes": [
+        "heuristic_similarity"
+      ]
+    },
+    {
+      "canonical_column": "location",
+      "alias": "StoreLocation",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "none_runtime",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__banksim1__bs140513_032310_csv",
+        "kaggle__banksim1__bsnet140513_032310_csv",
+        "kaggle__chargeback_fraud_transactions__chargeack_frauds_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv",
+        "kaggle__e_commerce_customer_behavior_and_sales_analysis_tr__ecommerce_customer_behavior_dataset_csv",
+        "kaggle__online_sales_dataset_popular_marketplace_data__online_sales_data_csv",
+        "kaggle__paysim1__ps_20174392719_1491204439457_log_csv",
+        "openml__43605_sales_dataset_of_supermarket__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T16:20:21.284707+00:00",
+      "last_seen": "2026-02-17T16:20:21.284707+00:00",
+      "hit_count": 1,
+      "notes": [
+        "heuristic_similarity"
+      ]
+    },
+    {
+      "canonical_column": "aisle_id",
+      "alias": "a",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv",
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T17:23:16.592490+00:00",
+      "last_seen": "2026-02-17T17:23:16.592490+00:00",
+      "hit_count": 1,
+      "notes": [
+        "heuristic_similarity"
+      ]
+    },
+    {
+      "canonical_column": "order_number",
+      "alias": "b",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv",
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T17:23:16.592765+00:00",
+      "last_seen": "2026-02-17T17:23:16.592765+00:00",
+      "hit_count": 1,
+      "notes": [
+        "heuristic_similarity"
+      ]
+    },
+    {
+      "canonical_column": "administrative_duration",
+      "alias": "time spent on administrative pages before abandoning carts",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.583930+00:00",
+      "last_seen": "2026-02-17T18:43:28.583930+00:00",
+      "hit_count": 1,
+      "notes": [
+        "Directly related to time spent on admin pages before cart abandonment"
+      ]
+    },
+    {
+      "canonical_column": "browser",
+      "alias": "web browsers used by customers who abandon their carts",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.584440+00:00",
+      "last_seen": "2026-02-17T18:43:28.584440+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned Chrome as the browser used, which aligns with the 'browser' column"
+      ]
+    },
+    {
+      "canonical_column": "devicetype",
+      "alias": "types of devices used by customers who abandon their carts",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.584608+00:00",
+      "last_seen": "2026-02-17T18:43:28.584608+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned mobile as the device type, which aligns with the 'devicetype' column"
+      ]
+    },
+    {
+      "canonical_column": "informational_duration",
+      "alias": "time spent on informational pages before abandoning carts",
+      "status": "candidate",
+      "confidence": 0.9,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.584714+00:00",
+      "last_seen": "2026-02-17T18:43:28.584714+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned 3 minutes, which aligns with the 'informational_duration' column"
+      ]
+    },
+    {
+      "canonical_column": "administrative",
+      "alias": "percentage of users who abandoned their carts were accessing administrative or backend pages",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.584824+00:00",
+      "last_seen": "2026-02-17T18:43:28.584824+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned they don't have access to admin pages, but the question implies a percentage, which aligns with the 'administrative' column"
+      ]
+    },
+    {
+      "canonical_column": "cartvalueestimate",
+      "alias": "average estimated value of the carts that are abandoned by customers",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.584922+00:00",
+      "last_seen": "2026-02-17T18:43:28.584922+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned the average estimated value is about 2000 pesos, which aligns with the 'cartvalueestimate' column"
+      ]
+    },
+    {
+      "canonical_column": "gdprconsent",
+      "alias": "users who abandon their carts given consent for data collection under GDPR regulations",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.585026+00:00",
+      "last_seen": "2026-02-17T18:43:28.585026+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned yes, implying users have given consent, which aligns with the 'gdprconsent' column"
+      ]
+    },
+    {
+      "canonical_column": "informational",
+      "alias": "percentage of users who abandoned their carts were accessing informational pages",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.585149+00:00",
+      "last_seen": "2026-02-17T18:43:28.585149+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned 1%, which aligns with the 'informational' column"
+      ]
+    },
+    {
+      "canonical_column": "bouncerates",
+      "alias": "rate at which users leave the site immediately after arriving, especially from the cart page",
+      "status": "candidate",
+      "confidence": 0.7,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.585248+00:00",
+      "last_seen": "2026-02-17T18:43:28.585248+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned bounce rate is 4%, which aligns with the 'bouncerates' column"
+      ]
+    },
+    {
+      "canonical_column": "path_step",
+      "alias": "points in the checkout process where users most frequently exit the site",
+      "status": "candidate",
+      "confidence": 0.6,
+      "source": "groq_runtime",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv",
+        "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv",
+        "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv",
+        "openml__45060_online_shoppers__dataset_csv",
+        "openml__46636_homesite_quote_conversion__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T18:43:28.585348+00:00",
+      "last_seen": "2026-02-17T18:43:28.585348+00:00",
+      "hit_count": 1,
+      "notes": [
+        "User mentioned after they add to cart, which is a step in the checkout process, aligning with the 'path_step' column"
+      ]
+    },
+    {
+      "canonical_column": "total_amount",
+      "alias": "amount",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "groq_runtime",
+      "categories": [
+        "checkout_risk"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__banksim1__bs140513_032310_csv",
+        "kaggle__banksim1__bsnet140513_032310_csv",
+        "kaggle__chargeback_fraud_transactions__chargeack_frauds_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_csv",
+        "kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv",
+        "kaggle__e_commerce_customer_behavior_and_sales_analysis_tr__ecommerce_customer_behavior_dataset_csv",
+        "kaggle__online_sales_dataset_popular_marketplace_data__online_sales_data_csv",
+        "kaggle__paysim1__ps_20174392719_1491204439457_log_csv",
+        "openml__43605_sales_dataset_of_supermarket__dataset_csv"
+      ],
+      "first_seen": "2026-02-17T20:32:43.319464+00:00",
+      "last_seen": "2026-02-17T20:32:43.319464+00:00",
+      "hit_count": 1,
+      "notes": [
+        "Closest semantic match; represents transaction amount"
+      ]
+    },
+    {
+      "canonical_column": "transaction",
+      "alias": "foo_metric",
+      "status": "candidate",
+      "confidence": 0.8,
+      "source": "ollama_runtime",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv",
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "first_seen": "2026-02-23T08:10:42.543223+00:00",
+      "last_seen": "2026-02-23T08:10:42.543223+00:00",
+      "hit_count": 1,
+      "notes": [
+        "foo_metric likely represents a transaction metric."
+      ],
+      "semantic_evidence": [
+        "foo_metric likely represents a transaction metric."
+      ]
+    },
+    {
+      "canonical_column": "user_id",
+      "alias": "baz_token",
+      "status": "candidate",
+      "confidence": 0.7,
+      "source": "ollama_runtime",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv",
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "first_seen": "2026-02-23T08:10:42.543771+00:00",
+      "last_seen": "2026-02-23T08:10:42.543771+00:00",
+      "hit_count": 1,
+      "notes": [
+        "baz_token could be a unique identifier for users, similar to user_id."
+      ],
+      "semantic_evidence": [
+        "baz_token could be a unique identifier for users, similar to user_id."
+      ]
+    },
+    {
+      "canonical_column": "order_dow",
+      "alias": "bar_signal",
+      "status": "candidate",
+      "confidence": 0.6,
+      "source": "ollama_runtime",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "worker_dataset_ids": [
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv",
+        "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv",
+        "openml__43422_the_bread_basket__dataset_csv"
+      ],
+      "first_seen": "2026-02-23T08:10:42.543911+00:00",
+      "last_seen": "2026-02-23T08:10:42.543911+00:00",
+      "hit_count": 1,
+      "notes": [
+        "bar_signal might refer to the day of the week, which is represented by order_dow in the canonical model."
+      ],
+      "semantic_evidence": [
+        "bar_signal might refer to the day of the week, which is represented by order_dow in the canonical model."
+      ]
+    }
+  ]
+}

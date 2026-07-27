@@ -1,0 +1,1013 @@
+{
+  "datasets": {
+    "aircraft_performance": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "Vcruise",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ]
+    },
+    "bts_air_carrier_safety": {
+      "categories": [
+        "safety"
+      ],
+      "category": "safety",
+      "features": {
+        "exclude": [
+          "value"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "incident_severity_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "incident_severity_band",
+        "source": "value",
+        "type": "threshold_split",
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "training": {
+        "l1_target_family": "incident_severity"
+      }
+    },
+    "bts_commuter_airline_safety": {
+      "categories": [
+        "safety"
+      ],
+      "category": "safety",
+      "features": {
+        "exclude": [
+          "value"
+        ],
+        "fe": {},
+        "include": [
+          "metric",
+          "year"
+        ],
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "incident_severity_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "model_name": "randomforest",
+        "l1_target_family": "incident_severity"
+      },
+      "derived_target": {
+        "name": "incident_severity_band",
+        "source": "value",
+        "type": "threshold_split",
+        "threshold": 0.24,
+        "high_label": "high",
+        "low_label": "low"
+      }
+    },
+    "bts_db1b_fares": {
+      "categories": [
+        "pricing"
+      ],
+      "category": "pricing",
+      "features": {
+        "exclude": [
+          "itin_id"
+        ],
+        "fe": {},
+        "include": [
+          "mkt_id"
+        ],
+        "force_one_hot": [
+          "mkt_id"
+        ]
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "fare_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "fare_band",
+        "source": "itin_id",
+        "type": "threshold_split",
+        "threshold": 550,
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "training": {
+        "l1_target_family": "fare_prediction"
+      }
+    },
+    "jfk_weather": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "vis_low",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "vis_low",
+        "source": "vsby",
+        "type": "median_split"
+      },
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "jfk_weather_2024": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "vis_low",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "vis_low",
+        "source": "vsby",
+        "type": "median_split"
+      },
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "kaggle_airline_fares": {
+      "categories": [
+        "pricing"
+      ],
+      "category": "pricing",
+      "features": {
+        "exclude": [
+          "priceperticket"
+        ],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "fare_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "fare_band",
+        "source": "priceperticket",
+        "type": "threshold_split",
+        "threshold": 415,
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "training": {
+        "l1_target_family": "fare_prediction"
+      }
+    },
+    "kaggle_airline_passenger_satisfaction": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "satisfaction",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "kaggle_airplane_crashes": {
+      "categories": [
+        "safety"
+      ],
+      "category": "safety",
+      "derived_target": {
+        "name": "fatalities_high",
+        "source": "Fatalities",
+        "type": "median_split"
+      },
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 512
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "fatalities_high",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "kaggle_bird_strikes": {
+      "categories": [
+        "safety"
+      ],
+      "category": "safety",
+      "features": {
+        "exclude": [
+          "record_id",
+          "aircraft_damage"
+        ],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "incident_severity_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "incident_severity_band",
+        "source": "aircraft_damage",
+        "type": "categorical_map",
+        "map": {
+          "1": "high",
+          "0": "low",
+          "true": "high",
+          "false": "low",
+          "True": "high",
+          "False": "low"
+        },
+        "drop_nulls": true
+      },
+      "training": {
+        "l1_target_family": "incident_severity"
+      }
+    },
+    "kaggle_flight_price_with_booking": {
+      "categories": [
+        "pricing"
+      ],
+      "category": "pricing",
+      "features": {
+        "exclude": [
+          "price"
+        ],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "fare_band",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "fare_band",
+        "source": "price",
+        "type": "threshold_split",
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "training": {
+        "l1_target_family": "fare_prediction"
+      }
+    },
+    "kaggle_predictive_maintenance": {
+      "categories": [
+        "maintenance"
+      ],
+      "category": "maintenance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "Target",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "mendeley_airline_reviews_sentiment": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "sentiment",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "mendeley_airline_reviews_titles": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [
+          "title"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 256
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "title_sentiment_bin",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "title_sentiment_bin",
+        "source": "title",
+        "type": "keyword_polarity",
+        "positive_keywords": [
+          "good",
+          "great",
+          "excellent",
+          "amazing",
+          "pleasant",
+          "comfortable",
+          "smooth",
+          "friendly",
+          "love",
+          "best",
+          "delight"
+        ],
+        "negative_keywords": [
+          "bad",
+          "worst",
+          "terrible",
+          "awful",
+          "delay",
+          "delayed",
+          "cancel",
+          "cancelled",
+          "rude",
+          "poor",
+          "horrible",
+          "problem",
+          "disappoint"
+        ],
+        "positive_label": "positive",
+        "negative_label": "negative",
+        "neutral_label": "neutral",
+        "drop_neutral": true
+      }
+    },
+    "nasa_cmapss_fd001": {
+      "categories": [
+        "maintenance"
+      ],
+      "category": "maintenance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "rul",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ]
+    },
+    "nasa_cmapss_fd002": {
+      "categories": [
+        "maintenance"
+      ],
+      "category": "maintenance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "rul",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ]
+    },
+    "nasa_cmapss_fd003": {
+      "categories": [
+        "maintenance"
+      ],
+      "category": "maintenance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "rul",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ]
+    },
+    "nasa_cmapss_fd004": {
+      "categories": [
+        "maintenance"
+      ],
+      "category": "maintenance",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "rul",
+          "primary": true,
+          "task_type": "regression"
+        }
+      ]
+    },
+    "openflights_airlines": {
+      "categories": [
+        "network"
+      ],
+      "category": "network",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 256
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "active",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "openflights_airports": {
+      "categories": [
+        "network"
+      ],
+      "category": "network",
+      "features": {
+        "exclude": [
+          "latitude"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "hemisphere",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "hemisphere",
+        "source": "latitude",
+        "type": "threshold_split",
+        "threshold": 0.0,
+        "high_label": "north",
+        "low_label": "south"
+      }
+    },
+    "openflights_routes": {
+      "categories": [
+        "network"
+      ],
+      "category": "network",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "stops",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "opensky_europe": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [
+          "icao24"
+        ],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "on_ground",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "opensky_europe_live": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "on_ground",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "opensky_live_states": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "on_ground",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "ourairports_airports": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "scheduled_service",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "schedule_reliability"
+      }
+    },
+    "ourairports_countries": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 256,
+        "force_one_hot": [
+          "code"
+        ]
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "is_americas",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "derived_target": {
+        "name": "is_americas",
+        "source": "continent",
+        "type": "categorical_map",
+        "map": {
+          "NA": "americas",
+          "SA": "americas",
+          "EU": "other",
+          "OC": "other",
+          "AS": "other",
+          "AN": "other",
+          "AF": "other"
+        },
+        "drop_nulls": true
+      },
+      "training": {
+        "l1_target_family": "country_region_profile"
+      }
+    },
+    "ourairports_frequencies": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "derived_target": {
+        "name": "control_signal",
+        "source": "description",
+        "type": "keyword_polarity",
+        "positive_keywords": [
+          "tower",
+          "ground",
+          "approach",
+          "departure",
+          "center",
+          "clearance",
+          "radar",
+          "control"
+        ],
+        "negative_keywords": [
+          "unicom",
+          "ctaf",
+          "multicom",
+          "traffic advisory"
+        ],
+        "positive_label": "controlled",
+        "negative_label": "advisory",
+        "neutral_label": "neutral",
+        "drop_neutral": true
+      },
+      "features": {
+        "exclude": [
+          "description",
+          "frequency_mhz"
+        ],
+        "fe": {},
+        "include": [],
+        "text_features": 256
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "control_signal",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "air_traffic_control_profile"
+      }
+    },
+    "ourairports_navaids": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "type",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "navigation_asset_type"
+      }
+    },
+    "ourairports_regions": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "continent",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "regional_airport_profile"
+      }
+    },
+    "ourairports_runways": {
+      "categories": [
+        "operations"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "lighted",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "runway_infrastructure"
+      }
+    },
+    "ourairports_us_enhanced": {
+      "categories": [
+        "operations",
+        "network"
+      ],
+      "category": "operations",
+      "features": {
+        "exclude": [
+          "ident"
+        ],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "hub_class",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ],
+      "training": {
+        "l1_target_family": "hub_role_profile"
+      }
+    },
+    "skytrax_airline_reviews": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "recommended",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "skytrax_airport_reviews": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "recommended",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "skytrax_lounge_reviews": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "recommended",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "skytrax_seat_reviews": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": []
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "recommended",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    },
+    "twitter_airline_sentiment": {
+      "categories": [
+        "customer"
+      ],
+      "category": "customer",
+      "features": {
+        "exclude": [],
+        "fe": {},
+        "include": [],
+        "text_features": 1024
+      },
+      "sampling": {
+        "max_rows": 200000
+      },
+      "targets": [
+        {
+          "name": "airline_sentiment",
+          "primary": true,
+          "task_type": "classification"
+        }
+      ]
+    }
+  },
+  "industry": "aviation"
+}

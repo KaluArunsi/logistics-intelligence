@@ -1,0 +1,1860 @@
+{
+  "industry": "ecommerce",
+  "version": 1,
+  "notes": "Dataset-level training specs. Add one entry per unique dataset worker. | 2026-02-12 remediation: unskipped held workers; source-backed target remap; corrected high-risk target mismatches | 2026-02-12 retry patch: fixed 5 untrained workers via derived/feature corrections | 2026-02-12 aisles/departments leak-filter fix | 2026-02-12 instacart id-bucket target for aisle/department | 2026-02-13 l1-remediation: normalized ecommerce category targets + semantic-family controls | 2026-02-13 l1-remediation-v2: fixed L0 blockers + merchandising family swap | 2026-02-13 l1-remediation-v3: harmonized label spaces for merchandising/basket/demand",
+  "datasets": {
+    "kaggle__b2b_ecommerce_courier_dataset__company_abc_pincode_zones_xlsx": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "zone",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "warehouse_pincode"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "geo_zone_bucket"
+      },
+      "skip_training": false
+    },
+    "kaggle__b2b_ecommerce_courier_dataset__company_abc_order_report_xlsx": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "merchandising_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "externorderno"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "merchandising_band_core",
+        "disable_imbalance_weighting": true
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "merchandising_band",
+        "source": "order_qty",
+        "type": "threshold_split",
+        "threshold": 1.5,
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "notes": [
+        "l1_harmonized_merchandising_band_from_order_qty"
+      ]
+    },
+    "kaggle__b2b_ecommerce_courier_dataset__courier_company_invoice_xlsx": {
+      "category": "fulfillment_flow",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "targets": [
+        {
+          "name": "billing_amount_rs",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "billing_amount_rs_tier",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      },
+      "derived_target": {
+        "name": "billing_amount_rs_tier",
+        "source": "billing_amount_rs",
+        "type": "threshold_split",
+        "high_label": "high_bill",
+        "low_label": "low_bill"
+      },
+      "notes": [
+        "added_tier_fallback_for_business_decisioning"
+      ]
+    },
+    "kaggle__b2b_ecommerce_courier_dataset__courier_company_rates_xlsx": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "expected_charge_rs",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "weight_slab_kg",
+          "task_type": "regression",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [
+          "mapped_zone_l",
+          "shipment_mode",
+          "zone_match_flag",
+          "charged_weight_kg",
+          "weight_slab_kg",
+          "total_order_qty",
+          "distinct_sku_count",
+          "order_weight_kg",
+          "rate_fixed_rs",
+          "rate_additional_rs"
+        ],
+        "exclude": [
+          "order_id",
+          "awb_code",
+          "rate_key"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 20
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      },
+      "skip_training": false,
+      "notes": [
+        "derived_trainable_dataset_from_invoice_order_zone_and_rate_card",
+        "replaces_single_row_rate_card_with_row_level_charge_examples"
+      ]
+    },
+    "kaggle__b2b_ecommerce_courier_dataset__expected_result_xlsx": {
+      "category": "fulfillment_flow",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "targets": [
+        {
+          "name": "overbilled_flag",
+          "task_type": "classification",
+          "primary": true
+        },
+        {
+          "name": "charge_delta_rs",
+          "task_type": "regression",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [
+          "mapped_zone_l",
+          "shipment_mode",
+          "zone_match_flag",
+          "charged_weight_kg",
+          "weight_slab_kg",
+          "total_order_qty",
+          "distinct_sku_count",
+          "order_weight_kg",
+          "expected_charge_rs",
+          "billing_amount_rs_num"
+        ],
+        "exclude": [
+          "order_id",
+          "awb_code",
+          "charge_delta_abs_rs"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 20
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      },
+      "skip_training": false,
+      "notes": [
+        "derived_trainable_dataset_from_invoice_order_zone_and_rate_card",
+        "target_overbilled_flag_derived_from_billed_vs_expected_charge"
+      ]
+    },
+    "kaggle__banksim1__bs140513_032310_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk",
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "fraud",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "kaggle__banksim1__bsnet140513_032310_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk"
+      ],
+      "targets": [
+        {
+          "name": "fraud",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false
+    },
+    "kaggle__brazilian_ecommerce__olist_customers_dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "customer_state",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "customer_id",
+          "customer_unique_id"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "geo_customer_state"
+      },
+      "skip_training": false
+    },
+    "kaggle__brazilian_ecommerce__olist_geolocation_dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "geolocation_region",
+          "task_type": "classification",
+          "primary": true
+        },
+        {
+          "name": "geolocation_state",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [
+          "geolocation_zip_code_prefix",
+          "geolocation_city",
+          "geolocation_lat",
+          "geolocation_lng"
+        ],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 60
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "geolocation_region",
+        "source": "geolocation_state",
+        "type": "categorical_map",
+        "map": {
+          "AC": "north",
+          "AP": "north",
+          "AM": "north",
+          "PA": "north",
+          "RO": "north",
+          "RR": "north",
+          "TO": "north",
+          "AL": "northeast",
+          "BA": "northeast",
+          "CE": "northeast",
+          "MA": "northeast",
+          "PB": "northeast",
+          "PE": "northeast",
+          "PI": "northeast",
+          "RN": "northeast",
+          "SE": "northeast",
+          "DF": "central_west",
+          "GO": "central_west",
+          "MT": "central_west",
+          "MS": "central_west",
+          "ES": "southeast",
+          "MG": "southeast",
+          "RJ": "southeast",
+          "SP": "southeast",
+          "PR": "south",
+          "RS": "south",
+          "SC": "south",
+          "ac": "north",
+          "ap": "north",
+          "am": "north",
+          "pa": "north",
+          "ro": "north",
+          "rr": "north",
+          "to": "north",
+          "al": "northeast",
+          "ba": "northeast",
+          "ce": "northeast",
+          "ma": "northeast",
+          "pb": "northeast",
+          "pe": "northeast",
+          "pi": "northeast",
+          "rn": "northeast",
+          "se": "northeast",
+          "df": "central_west",
+          "go": "central_west",
+          "mt": "central_west",
+          "ms": "central_west",
+          "es": "southeast",
+          "mg": "southeast",
+          "rj": "southeast",
+          "sp": "southeast",
+          "pr": "south",
+          "rs": "south",
+          "sc": "south"
+        },
+        "drop_nulls": true
+      }
+    },
+    "kaggle__brazilian_ecommerce__olist_order_items_dataset_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "merchandising_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "price"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false,
+        "l1_target_family": "unit_price_band"
+      },
+      "derived_target": {
+        "name": "merchandising_band",
+        "source": "price",
+        "type": "threshold_split",
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "notes": [
+        "added_tier_fallback_for_business_decisioning"
+      ]
+    },
+    "kaggle__brazilian_ecommerce__olist_orders_dataset_csv": {
+      "category": "fulfillment_flow",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "targets": [
+        {
+          "name": "late_delivery_flag",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "order_delivered_customer_date",
+          "order_status"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "late_delivery"
+      },
+      "derived_target": {
+        "name": "late_delivery_flag",
+        "source": "order_status",
+        "type": "categorical_map",
+        "map": {
+          "delivered": "on_time",
+          "shipped": "delayed",
+          "canceled": "delayed",
+          "cancelled": "delayed",
+          "unavailable": "delayed",
+          "invoiced": "delayed",
+          "processing": "delayed",
+          "created": "delayed",
+          "approved": "delayed"
+        },
+        "drop_nulls": true
+      }
+    },
+    "kaggle__brazilian_ecommerce__olist_sellers_dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "seller_state",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "seller_id"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "geo_seller_state"
+      },
+      "skip_training": false
+    },
+    "kaggle__chargeback_fraud_transactions__chargeack_frauds_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk"
+      ],
+      "targets": [
+        {
+          "name": "chargeback_risk_flag",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "same_amount_repeat_count"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "chargeback_risk"
+      },
+      "derived_target": {
+        "name": "chargeback_risk_flag",
+        "source": "same_amount_repeat_count",
+        "type": "threshold_split",
+        "threshold": 1,
+        "high_label": "fraud",
+        "low_label": "legit"
+      }
+    },
+    "kaggle__customer_shopping_trends_dataset__shopping_trends_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk"
+      ],
+      "targets": [
+        {
+          "name": "subscription_status",
+          "task_type": "classification",
+          "primary": true
+        },
+        {
+          "name": "discount_applied",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "customer_id"
+        ],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "subscription_retention"
+      },
+      "skip_training": false
+    },
+    "kaggle__customer_shopping_trends_dataset__shopping_trends_updated_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk"
+      ],
+      "targets": [
+        {
+          "name": "subscription_status",
+          "task_type": "classification",
+          "primary": true
+        },
+        {
+          "name": "discount_applied",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "customer_id"
+        ],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "subscription_retention"
+      },
+      "skip_training": false
+    },
+    "kaggle__delivery_logistics_dataset_india_multi_partner__delivery_logistics_csv": {
+      "category": "fulfillment_flow",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "targets": [
+        {
+          "name": "late_delivery_flag",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "delayed"
+        ],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "late_delivery"
+      },
+      "derived_target": {
+        "name": "late_delivery_flag",
+        "source": "delayed",
+        "type": "categorical_map",
+        "map": {
+          "yes": "delayed",
+          "no": "on_time",
+          "Yes": "delayed",
+          "No": "on_time",
+          "Y": "delayed",
+          "N": "on_time",
+          "1": "delayed",
+          "0": "on_time"
+        },
+        "drop_nulls": true
+      }
+    },
+    "kaggle__delivery_truck_trips_data__delivery_truck_trip_data_xlsx": {
+      "category": "fulfillment_flow",
+      "categories": [
+        "fulfillment_flow"
+      ],
+      "targets": [
+        {
+          "name": "late_delivery_flag",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "delay"
+        ],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "late_delivery"
+      },
+      "derived_target": {
+        "name": "late_delivery_flag",
+        "source": "delay",
+        "type": "categorical_map",
+        "map": {
+          "R": "delayed",
+          "r": "delayed",
+          "unknown": "on_time",
+          "Unknown": "on_time"
+        },
+        "drop_nulls": true
+      }
+    },
+    "kaggle__e_commerce_customer_behavior_and_sales_analysis_tr__ecommerce_customer_behavior_dataset_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk",
+        "conversion_optimization",
+        "fulfillment_flow",
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "unit_price",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "kaggle__ecommerce_dataset__events_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "event",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "event_intent"
+      },
+      "skip_training": false
+    },
+    "kaggle__ecommerce_user_journeys_google_merchandise_store__dataset_v4_csv": {
+      "category": "conversion_optimization",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "targets": [
+        {
+          "name": "total_revenue",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "kaggle__ecommerce_users_of_a_french_c2c_fashion_store__6m_0k_99k_users_dataset_public_csv": {
+      "category": "catalog_quality",
+      "categories": [
+        "catalog_quality"
+      ],
+      "targets": [
+        {
+          "name": "productssold",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "productssold_tier",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "identifierhash"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "productssold_tier",
+        "source": "productssold",
+        "type": "threshold_split",
+        "high_label": "active_seller",
+        "low_label": "zero_sales",
+        "threshold": 1
+      },
+      "notes": [
+        "added_business_tier_fallback_target"
+      ]
+    },
+    "kaggle__ecommerce_users_of_a_french_c2c_fashion_store__comparison_of_sellers_by_gender_and_country_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "totalproductssold",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "totalproductssold_tier",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false,
+      "notes": [
+        "skip_small_aggregate_non_predictive_table",
+        "added_business_tier_fallback_target"
+      ],
+      "derived_target": {
+        "name": "totalproductssold_tier",
+        "source": "totalproductssold",
+        "type": "threshold_split",
+        "high_label": "high",
+        "low_label": "low"
+      }
+    },
+    "kaggle__ecommerce_users_of_a_french_c2c_fashion_store__users_6m0xxk_2024_public_csv": {
+      "category": "catalog_quality",
+      "categories": [
+        "catalog_quality"
+      ],
+      "targets": [
+        {
+          "name": "productssold",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "productssold_tier",
+          "task_type": "classification",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "identifierhash"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "productssold_tier",
+        "source": "productssold",
+        "type": "threshold_split",
+        "high_label": "active_seller",
+        "low_label": "zero_sales",
+        "threshold": 1
+      },
+      "notes": [
+        "added_business_tier_fallback_target"
+      ]
+    },
+    "kaggle__flipkart_products__flipkart_com_ecommerce_sample_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "retail_price",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      }
+    },
+    "kaggle__instacart_online_grocery_basket_analysis_dataset__departments_csv": {
+      "category": "basket_intelligence",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "targets": [
+        {
+          "name": "basket_segment_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "department_id"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "basket_segment_band"
+      },
+      "skip_training": false,
+      "notes": "Dimension/lookup table; excluded from standalone worker training.",
+      "derived_target": {
+        "name": "basket_segment_band",
+        "source": "department_id",
+        "type": "threshold_split",
+        "threshold": 10.5,
+        "high_label": "high",
+        "low_label": "low"
+      }
+    },
+    "kaggle__instacart_online_grocery_basket_analysis_dataset__orders_csv": {
+      "category": "basket_intelligence",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "targets": [
+        {
+          "name": "basket_segment_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "order_id",
+          "user_id",
+          "eval_set"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "basket_segment_band"
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "basket_segment_band",
+        "source": "eval_set",
+        "type": "categorical_map",
+        "map": {
+          "prior": "low",
+          "train": "high",
+          "test": "high"
+        },
+        "drop_nulls": true
+      }
+    },
+    "kaggle__instacart_online_grocery_basket_analysis_dataset__products_csv": {
+      "category": "basket_intelligence",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "targets": [
+        {
+          "name": "basket_segment_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "product_id",
+          "department_id"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "basket_segment_band"
+      },
+      "skip_training": false,
+      "notes": "Dimension/lookup table; excluded from standalone worker training.",
+      "derived_target": {
+        "name": "basket_segment_band",
+        "source": "department_id",
+        "type": "threshold_split",
+        "threshold": 10.5,
+        "high_label": "high",
+        "low_label": "low"
+      }
+    },
+    "kaggle__online_retail_ii_uci__online_retail_ii_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "country",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "customer_id",
+          "customerid",
+          "invoice",
+          "invoiceno"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "retail_geo_mix"
+      },
+      "notes": [
+        "target_provenance:online_retail_quantity_forecast_proxy"
+      ],
+      "skip_training": false
+    },
+    "kaggle__online_sales_dataset_popular_marketplace_data__online_sales_data_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk",
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "unit_price",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      }
+    },
+    "kaggle__online_shoppers_purchasing_intention_dataset__online_shoppers_intention_csv": {
+      "category": "conversion_optimization",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "targets": [
+        {
+          "name": "revenue",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      }
+    },
+    "kaggle__paysim1__ps_20174392719_1491204439457_log_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk"
+      ],
+      "targets": [
+        {
+          "name": "isfraud",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "kaggle__retail_transaction_dataset__retail_transaction_dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "demand_level",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "quantity"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "long_horizon_volume"
+      },
+      "notes": [
+        "target_provenance:transaction_sales_price_regression"
+      ],
+      "derived_target": {
+        "name": "demand_level",
+        "source": "quantity",
+        "type": "threshold_split",
+        "high_label": "high_demand",
+        "low_label": "baseline_demand"
+      }
+    },
+    "kaggle__uk_ecommerce_purchase_intention_dataset__ecommerce_dataset_csv": {
+      "category": "conversion_optimization",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "targets": [
+        {
+          "name": "revenue",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      }
+    },
+    "kaggle__unlock_profits_with_e_commerce_sales_data__amazon_sale_report_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "merchandising_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "amount"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "merchandising_band_core"
+      },
+      "derived_target": {
+        "name": "merchandising_band",
+        "source": "amount",
+        "type": "threshold_split",
+        "high_label": "high",
+        "low_label": "low"
+      }
+    },
+    "kaggle__unlock_profits_with_e_commerce_sales_data__international_sale_report_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "gross_amt",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "pcs",
+          "task_type": "regression",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false
+    },
+    "kaggle__unlock_profits_with_e_commerce_sales_data__may_2022_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "amazon_mrp",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "final_mrp_old",
+          "task_type": "regression",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "sku"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false
+    },
+    "kaggle__unlock_profits_with_e_commerce_sales_data__p_l_march_2021_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "amazon_mrp",
+          "task_type": "regression",
+          "primary": true
+        },
+        {
+          "name": "final_mrp_old",
+          "task_type": "regression",
+          "primary": false
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "sku"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false
+    },
+    "kaggle__womens_ecommerce_clothing_reviews__womens_clothing_e_commerce_reviews_csv": {
+      "category": "catalog_quality",
+      "categories": [
+        "catalog_quality"
+      ],
+      "targets": [
+        {
+          "name": "recommended_ind",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "",
+          "clothing_id"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      },
+      "notes": [
+        "target_switched_to_explicit_recommendation_label"
+      ]
+    },
+    "openml__42183_dataset_sales__dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "demand_level",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "sales"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false,
+        "l1_target_family": "long_horizon_volume"
+      },
+      "derived_target": {
+        "name": "demand_level",
+        "source": "sales",
+        "type": "threshold_split",
+        "high_label": "high_demand",
+        "low_label": "baseline_demand"
+      }
+    },
+    "openml__43383_superstore_sales_dataset__dataset_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "merchandising_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "row_id",
+          "order_id",
+          "customer_id",
+          "product_id",
+          "customer_name",
+          "product_name",
+          "sales"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "sales_revenue_band"
+      },
+      "skip_training": false,
+      "derived_target": {
+        "name": "merchandising_band",
+        "source": "sales",
+        "type": "threshold_split",
+        "threshold": 576,
+        "high_label": "high",
+        "low_label": "low"
+      },
+      "notes": [
+        "l1_harmonized_merchandising_band_from_sales"
+      ]
+    },
+    "openml__43413_store_20_retail_data_analytics__dataset_csv": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "fuel_price",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "ordinal",
+        "one_hot_max_unique": 40
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "openml__43422_the_bread_basket__dataset_csv": {
+      "category": "basket_intelligence",
+      "categories": [
+        "basket_intelligence"
+      ],
+      "targets": [
+        {
+          "name": "weekday_weekend",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false,
+        "l1_target_family": "basket_temporal"
+      },
+      "skip_training": false,
+      "notes": [
+        "target_provenance:openml_bread_basket_weekday_weekend"
+      ]
+    },
+    "openml__43605_sales_dataset_of_supermarket__dataset_csv": {
+      "category": "checkout_risk",
+      "categories": [
+        "checkout_risk",
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "price",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      }
+    },
+    "openml__45060_online_shoppers__dataset_csv": {
+      "category": "conversion_optimization",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "targets": [
+        {
+          "name": "class",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      },
+      "notes": [
+        "target_fix_revenue_missing_use_class"
+      ]
+    },
+    "openml__45646_rossmann_store_sales_processed__dataset_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "sales",
+          "task_type": "regression",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "store_sales_forecast"
+      }
+    },
+    "openml__45968_braidflowsessionlevel__dataset_csv": {
+      "category": "catalog_quality",
+      "categories": [
+        "catalog_quality"
+      ],
+      "targets": [
+        {
+          "name": "flow_state",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "uid"
+        ],
+        "fe": {},
+        "text_features": 128
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true
+      },
+      "skip_training": false,
+      "notes": "Non-ecommerce sensor dataset retained for traceability, excluded from training."
+    },
+    "openml__46636_homesite_quote_conversion__dataset_csv": {
+      "category": "conversion_optimization",
+      "categories": [
+        "conversion_optimization"
+      ],
+      "targets": [
+        {
+          "name": "quoteconversion_flag",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [],
+        "fe": {},
+        "text_features": 128,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 30
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": false
+      }
+    },
+    "openml__46830_sales_data__dataset_csv": {
+      "category": "merchandising",
+      "categories": [
+        "merchandising"
+      ],
+      "targets": [
+        {
+          "name": "merchandising_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "high_sales"
+        ],
+        "fe": {},
+        "text_features": 64
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "merchandising_band_core"
+      },
+      "notes": [
+        "target_fix_high_sales_binary_classification",
+        "target_provenance:openml_schema_high_sales_binary"
+      ],
+      "derived_target": {
+        "name": "merchandising_band",
+        "source": "high_sales",
+        "type": "categorical_map",
+        "map": {
+          "Yes": "high",
+          "No": "low",
+          "yes": "high",
+          "no": "low",
+          "true": "high",
+          "false": "low",
+          "True": "high",
+          "False": "low",
+          "1": "high",
+          "0": "low"
+        },
+        "drop_nulls": true
+      }
+    },
+    "uci__online_retail__online_retail_xlsx": {
+      "category": "demand_signal",
+      "categories": [
+        "demand_signal"
+      ],
+      "targets": [
+        {
+          "name": "unitprice_band",
+          "task_type": "classification",
+          "primary": true
+        }
+      ],
+      "features": {
+        "include": [],
+        "exclude": [
+          "customer_id",
+          "customerid",
+          "invoice",
+          "invoiceno"
+        ],
+        "fe": {},
+        "text_features": 64,
+        "high_cardinality_encoding": "frequency",
+        "one_hot_max_unique": 60
+      },
+      "sampling": {
+        "max_rows": 250000,
+        "batch_size": 50000
+      },
+      "training": {
+        "gating": true,
+        "l1_target_family": "long_horizon_volume"
+      },
+      "notes": [
+        "target_provenance:online_retail_quantity_forecast_proxy"
+      ],
+      "skip_training": false,
+      "derived_target": {
+        "name": "unitprice_band",
+        "source": "unitprice",
+        "type": "threshold_split",
+        "high_label": "premium_price",
+        "low_label": "standard_price"
+      }
+    }
+  }
+}

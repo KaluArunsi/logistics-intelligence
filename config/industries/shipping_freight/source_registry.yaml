@@ -1,0 +1,175 @@
+version: 1
+industry: shipping_freight
+source_policy:
+  official_only: true
+  allow_kaggle: false
+  allow_openml: false
+  allow_huggingface: false
+  trust_tiers: ["official", "government", "multilateral", "standards_body"]
+
+regional_intake_targets:
+  us: 50
+  asia: 30
+  europe: 25
+  other: 15
+
+regions:
+  us:
+    priority: 1
+    sources:
+      - id: cbp_public_data_portal
+        owner: U.S. Customs and Border Protection
+        type: government
+        access: portal
+        url: "https://www.cbp.gov/newsroom/stats/cbp-public-data-portal"
+        categories_hint: ["customs_compliance", "cross_border_flow", "trade_volume_mix"]
+      - id: bts_border_crossing
+        owner: Bureau of Transportation Statistics
+        type: government
+        access: api_or_download
+        url: "https://www.bts.gov/browse-statistical-products-and-data/border-crossing-data/border-crossingentry-data"
+        categories_hint: ["cross_border_flow", "eta_delay_risk", "trucking_capacity"]
+      - id: bts_faf
+        owner: Bureau of Transportation Statistics
+        type: government
+        access: download
+        url: "https://www.bts.gov/faf"
+        categories_hint: ["trade_volume_mix", "lane_cost_yield", "rail_intermodal_flow"]
+      - id: fmcsa_data_program
+        owner: Federal Motor Carrier Safety Administration
+        type: government
+        access: download
+        url: "https://www.fmcsa.dot.gov/registration/fmcsa-data-dissemination-program"
+        categories_hint: ["carrier_safety_risk", "trucking_capacity", "fleet_utilization"]
+      - id: usitc_dataweb_api
+        owner: U.S. International Trade Commission
+        type: government
+        access: api
+        url: "https://www.usitc.gov/applications/dataweb/api/dataweb_query_api.html"
+        categories_hint: ["trade_volume_mix", "customs_compliance"]
+      - id: census_trade_api
+        owner: U.S. Census Bureau
+        type: government
+        access: api
+        url: "https://api.census.gov/data/timeseries.html"
+        categories_hint: ["trade_volume_mix", "cross_border_flow"]
+      - id: noaa_accessais
+        owner: NOAA
+        type: government
+        access: download
+        url: "https://coast.noaa.gov/digitalcoast/tools/ais.html"
+        categories_hint: ["ocean_schedule_reliability", "port_terminal_congestion", "eta_delay_risk"]
+      - id: usace_wcsc
+        owner: U.S. Army Corps of Engineers
+        type: government
+        access: download
+        url: "https://www.iwr.usace.army.mil/About/Technical-Centers/WCSC-Waterborne-Commerce-Statistics-Center/"
+        categories_hint: ["inland_waterway_flow", "port_terminal_congestion"]
+
+  asia:
+    priority: 2
+    sources:
+      - id: singapore_mpa_data_gov_sg
+        owner: Maritime and Port Authority of Singapore
+        type: government
+        access: api_or_download
+        url: "https://data.gov.sg/dataset/vessel-arrivals-75-gt-monthly"
+        categories_hint: ["ocean_schedule_reliability", "port_terminal_congestion"]
+      - id: korea_customs_data_go_kr
+        owner: Korea Customs Service
+        type: government
+        access: api
+        url: "https://www.data.go.kr/en/data/15102108/openapi.do"
+        categories_hint: ["customs_compliance", "trade_volume_mix"]
+      - id: india_ogd_ports
+        owner: Government of India Open Government Data Platform
+        type: government
+        access: download
+        url: "https://www.data.gov.in/"
+        categories_hint: ["inland_waterway_flow", "port_terminal_congestion", "cross_border_flow"]
+      - id: japan_customs_trade_stats
+        owner: Japan Customs
+        type: government
+        access: download
+        url: "https://www.customs.go.jp/toukei/info/tsdl_e.htm"
+        categories_hint: ["trade_volume_mix", "customs_compliance"]
+      - id: hong_kong_trade_idds
+        owner: Hong Kong Census and Statistics Department
+        type: government
+        access: api
+        url: "https://tradeidds.censtatd.gov.hk/"
+        categories_hint: ["trade_volume_mix", "cross_border_flow"]
+      - id: hong_kong_data_gov_ckan
+        owner: Hong Kong SAR Government
+        type: government
+        access: api
+        url: "https://data.gov.hk/en-data/"
+        categories_hint: ["last_mile_sla", "fleet_utilization", "carrier_safety_risk", "trade_volume_mix"]
+
+  europe:
+    priority: 3
+    sources:
+      - id: eurostat_bulk
+        owner: Eurostat
+        type: government
+        access: bulk_download
+        url: "https://ec.europa.eu/eurostat/data/bulkdownload"
+        categories_hint: ["trade_volume_mix", "rail_intermodal_flow", "inland_waterway_flow"]
+      - id: uk_dft_road_freight
+        owner: UK Department for Transport
+        type: government
+        access: download
+        url: "https://www.gov.uk/government/statistics/road-freight-statistics-2024"
+        categories_hint: ["trucking_capacity", "fleet_utilization", "lane_cost_yield"]
+      - id: uk_trade_api
+        owner: UK Department for Business and Trade
+        type: government
+        access: api
+        url: "https://data.api.trade.gov.uk/"
+        categories_hint: ["trade_volume_mix", "customs_compliance"]
+      - id: hmrc_api_catalogue
+        owner: HM Revenue & Customs
+        type: government
+        access: api
+        url: "https://www.api.gov.uk/hmrc/"
+        categories_hint: ["customs_compliance", "cross_border_flow"]
+      - id: uk_data_gov_ckan
+        owner: UK Government
+        type: government
+        access: api
+        url: "https://data.gov.uk/"
+        categories_hint: ["fleet_utilization", "trucking_capacity", "last_mile_sla", "carrier_safety_risk"]
+
+  other:
+    priority: 4
+    sources:
+      - id: un_comtrade
+        owner: United Nations
+        type: multilateral
+        access: api
+        url: "https://comtrade.un.org/"
+        categories_hint: ["trade_volume_mix", "cross_border_flow"]
+      - id: world_bank_lpi
+        owner: World Bank
+        type: multilateral
+        access: download
+        url: "https://datacatalog.worldbank.org/search/dataset/0038649/Logistics-Performance-Index"
+        categories_hint: ["carrier_safety_risk", "lane_cost_yield", "customs_compliance"]
+      - id: unctad_maritime
+        owner: UNCTAD
+        type: multilateral
+        access: download
+        url: "https://unctad.org/"
+        categories_hint: ["ocean_schedule_reliability", "port_terminal_congestion"]
+      - id: itf_transport
+        owner: International Transport Forum (OECD)
+        type: multilateral
+        access: download
+        url: "https://www.itf-oecd.org/data-statistics"
+        categories_hint: ["trade_volume_mix", "rail_intermodal_flow", "trucking_capacity"]
+      - id: oecd_sdmx_transport
+        owner: OECD / ITF
+        type: multilateral
+        access: api
+        url: "https://sdmx.oecd.org/public/rest/data"
+        categories_hint: ["fleet_utilization", "last_mile_sla", "carrier_safety_risk", "inland_waterway_flow"]

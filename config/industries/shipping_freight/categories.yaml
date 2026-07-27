@@ -1,0 +1,92 @@
+# Shipping & Freight Category Definitions
+
+categories:
+  customs_compliance:
+    description: "Customs hold prediction, inspection risk, and filing compliance."
+    task_type: classification
+    keywords: ["customs", "compliance", "entry", "inspection", "hold", "clearance", "broker", "hs code"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]
+
+  cross_border_flow:
+    description: "Cross-border throughput and border wait-time forecasting."
+    task_type: regression
+    keywords: ["border", "crossing", "throughput", "queue", "port of entry", "delay", "transborder", "entry", "land port", "country"]
+    metrics: ["rmse", "mape", "r2"]
+
+  trade_volume_mix:
+    description: "Commodity and mode-level freight volume/value forecasting."
+    task_type: regression
+    keywords: ["trade", "imports", "exports", "commodity", "hs", "value", "tonnage", "teu"]
+    metrics: ["rmse", "mape", "r2"]
+
+  port_terminal_congestion:
+    description: "Port and terminal congestion, dwell, and berth wait prediction."
+    task_type: regression
+    keywords: ["port", "terminal", "berth", "dwell", "yard", "congestion", "vessel queue"]
+    metrics: ["rmse", "mape", "r2"]
+
+  ocean_schedule_reliability:
+    description: "Ocean schedule adherence and arrival reliability classification."
+    task_type: classification
+    keywords: ["ocean", "vessel", "schedule", "eta", "ata", "blank sailing", "on-time"]
+    metrics: ["f1_score", "accuracy", "roc_auc"]
+
+  inland_waterway_flow:
+    description: "Inland waterway traffic flow and lock-delay prediction."
+    task_type: regression
+    keywords: ["waterway", "barge", "lock", "river", "throughput", "delay", "draft", "tug", "tow", "canal"]
+    metrics: ["rmse", "mape", "r2"]
+
+  rail_intermodal_flow:
+    description: "Rail intermodal terminal and transfer performance modeling."
+    task_type: regression
+    keywords: ["rail", "intermodal", "terminal", "dwell", "transfer", "container", "yard"]
+    metrics: ["rmse", "mape", "r2"]
+
+  trucking_capacity:
+    description: "Truckload capacity tightness and market availability modeling."
+    task_type: regression
+    keywords: ["truckload", "capacity", "load to truck", "spot market", "equipment type", "lane", "truck", "tractor", "trailer", "freight mobility", "travel time"]
+    metrics: ["rmse", "mape", "r2"]
+
+  fleet_utilization:
+    description: "Fleet/asset utilization and empty-mile reduction."
+    task_type: regression
+    keywords: ["fleet", "utilization", "empty miles", "asset", "tractor", "trailer", "idle"]
+    metrics: ["rmse", "mape", "r2"]
+
+  eta_delay_risk:
+    description: "Delay-risk and ETA deviation prediction."
+    task_type: classification
+    keywords: ["eta", "delay", "arrival", "late", "route risk", "transit variance", "travel time", "transit time", "deviation", "on-time", "reliability"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]
+
+  last_mile_sla:
+    description: "Last-mile SLA breach and delivery exception prediction."
+    task_type: classification
+    keywords: ["last mile", "sla", "delivery", "exception", "failed attempt", "time window"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]
+
+  lane_cost_yield:
+    description: "Lane-level cost, revenue, and yield optimization."
+    task_type: regression
+    keywords: ["lane", "cost", "yield", "margin", "rate", "fuel", "accessorial", "price", "expense", "revenue", "operating cost"]
+    metrics: ["rmse", "mape", "r2"]
+
+  claims_damage_risk:
+    description: "Cargo damage/claims risk and loss severity prediction."
+    task_type: classification
+    keywords: ["claims", "damage", "loss", "cargo", "incident", "severity"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]
+
+  carrier_safety_risk:
+    description: "Carrier safety incidents, violations, and crash risk."
+    task_type: classification
+    keywords: ["carrier", "safety", "violation", "inspection", "crash", "incident", "csa"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]
+
+  cold_chain_integrity:
+    description: "Cold-chain excursion and product integrity risk prediction."
+    task_type: classification
+    keywords: ["cold chain", "temperature", "excursion", "reefer", "spoilage", "integrity"]
+    metrics: ["f1_score", "accuracy", "mcc", "roc_auc"]

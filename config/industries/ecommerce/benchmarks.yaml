@@ -1,0 +1,42 @@
+# Ecommerce Benchmark Thresholds
+
+classification:
+  primary_metric: f1_score
+  minimum:
+    accuracy: 0.90
+    f1_score: 0.90
+    mcc: 0.75
+    roc_auc: 0.90
+  good:
+    accuracy: 0.92
+    f1_score: 0.91
+    mcc: 0.78
+    roc_auc: 0.93
+  excellent:
+    accuracy: 0.95
+    f1_score: 0.94
+    mcc: 0.86
+    roc_auc: 0.97
+
+regression:
+  minimum:
+    r2: 0.90
+    rmse_normalized: 0.12
+    mae_normalized: 0.10
+  good:
+    r2: 0.92
+    rmse_normalized: 0.10
+    mae_normalized: 0.08
+  excellent:
+    r2: 0.95
+    rmse_normalized: 0.07
+    mae_normalized: 0.05
+
+# Domain-specific KPI placeholders for ecommerce.
+domain:
+  conversion:
+    uplift_min: 0.05
+  inventory:
+    stockout_precision_min: 0.90
+  fraud:
+    fraud_recall_min: 0.90

@@ -1,0 +1,278 @@
+version: 1
+industry: aviation
+contract:
+  required_category_fields:
+    - business_scope
+    - subproblems
+    - canonical_features
+    - feature_engineering_playbook
+    - leakage_guardrails
+    - data_quality_gates
+    - acceptance_gates
+  required_subproblem_fields:
+    - id
+    - objective
+    - task_type
+    - canonical_targets
+    - inference_outputs
+
+categories:
+  demand:
+    business_scope: "Forecast passenger and booking demand by route/time horizon."
+    subproblems:
+      - id: route_load_factor
+        objective: "Predict route-level load factor."
+        task_type: regression
+        canonical_targets: [load_factor]
+        fallback_targets: [passenger_count]
+        inference_outputs: [load_factor_forecast]
+      - id: booking_volume
+        objective: "Predict bookings over short/medium horizons."
+        task_type: regression
+        canonical_targets: [bookings]
+        fallback_targets: [seat_demand]
+        inference_outputs: [booking_forecast]
+    canonical_features:
+      schedule: [departure_hour, day_of_week, month, season]
+      route: [origin, destination, route_distance_km]
+      commercial: [fare_bucket, promo_flag]
+    feature_engineering_playbook:
+      - temporal cyclic encodings
+      - rolling demand windows
+      - route-level priors
+    leakage_guardrails:
+      forbidden_columns: [future_bookings, post_departure_actuals]
+      conditional_forbidden_patterns: [".*future.*", ".*actual_.*"]
+      notes: "No post-departure fields in predictive features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [origin, destination]
+    acceptance_gates:
+      l0_regression_min_r2: 0.80
+      l1_regression_min_r2: 0.80
+      minimum_unique_workers: 3
+
+  maintenance:
+    business_scope: "Predict asset degradation, RUL, and failure risk for aircraft systems."
+    subproblems:
+      - id: rul_prediction
+        objective: "Predict remaining useful life in cycles/time."
+        task_type: regression
+        canonical_targets: [rul, remaining_useful_life]
+        fallback_targets: [cycles_to_failure]
+        inference_outputs: [rul_estimate]
+      - id: failure_risk
+        objective: "Predict near-term maintenance/failure event risk."
+        task_type: classification
+        canonical_targets: [failure_event, maintenance_required]
+        fallback_targets: [target]
+        inference_outputs: [failure_probability]
+    canonical_features:
+      telemetry: [sensor_streams, operating_cycles, engine_settings]
+      context: [ambient_temp, altitude, load]
+      history: [maintenance_interval, prior_faults]
+    feature_engineering_playbook:
+      - sensor trend/derivative features
+      - rolling window statistics
+      - anomaly deviation scores
+    leakage_guardrails:
+      forbidden_columns: [post_failure_notes, replacement_action_taken]
+      conditional_forbidden_patterns: [".*post_.*", ".*action_taken.*"]
+      notes: "No post-failure outcomes in training features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.20
+      max_duplicate_row_ratio: 0.03
+      required_key_hints: [asset_id, cycle]
+    acceptance_gates:
+      l0_regression_min_r2: 0.80
+      l0_classification_min_f1: 0.80
+      l1_regression_min_r2: 0.80
+      minimum_unique_workers: 3
+
+  safety:
+    business_scope: "Classify incident risk and severity from operations/environment factors."
+    subproblems:
+      - id: incident_severity
+        objective: "Predict severity class for incident reports."
+        task_type: classification
+        canonical_targets: [incident_severity]
+        fallback_targets: [risk_level]
+        inference_outputs: [severity_class, severity_probability]
+      - id: incident_occurrence
+        objective: "Predict likelihood of safety event occurrence."
+        task_type: classification
+        canonical_targets: [incident_flag]
+        fallback_targets: [accident_flag]
+        inference_outputs: [incident_probability]
+    canonical_features:
+      operation: [aircraft_type, flight_phase, operator]
+      environment: [weather, visibility, wind]
+      crew_context: [experience_band, duty_time]
+    feature_engineering_playbook:
+      - text signal extraction for narratives
+      - severity keyword features
+      - weather risk index
+    leakage_guardrails:
+      forbidden_columns: [investigation_outcome, final_cause, enforcement_decision]
+      conditional_forbidden_patterns: [".*final_.*", ".*investigation.*"]
+      notes: "Downstream investigation outputs are not valid predictors."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [event_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.80
+      l1_classification_min_f1: 0.80
+      minimum_unique_workers: 3
+
+  pricing:
+    business_scope: "Predict fares/yield and optimize pricing outcomes."
+    subproblems:
+      - id: fare_prediction
+        objective: "Predict ticket fare for itinerary context."
+        task_type: regression
+        canonical_targets: [fare, price]
+        fallback_targets: [priceperticket]
+        inference_outputs: [fare_prediction]
+      - id: revenue_yield
+        objective: "Predict yield under market/route conditions."
+        task_type: regression
+        canonical_targets: [yield]
+        fallback_targets: [revenue_per_seat]
+        inference_outputs: [yield_forecast]
+    canonical_features:
+      itinerary: [origin, destination, stops, duration]
+      temporal: [booking_lead_days, departure_month]
+      market: [carrier, competition_index]
+    feature_engineering_playbook:
+      - lead-time transformations
+      - route-carrier interactions
+      - market-level priors
+    leakage_guardrails:
+      forbidden_columns: [final_settlement_fare, post_sale_adjustment]
+      conditional_forbidden_patterns: [".*settlement.*", ".*post_sale.*"]
+      notes: "No post-transaction adjustments in training features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [origin, destination]
+    acceptance_gates:
+      l0_regression_min_r2: 0.80
+      l1_regression_min_r2: 0.80
+      minimum_unique_workers: 3
+
+  customer:
+    business_scope: "Predict satisfaction/sentiment and service quality outcomes."
+    subproblems:
+      - id: sentiment_classification
+        objective: "Classify positive/neutral/negative traveler sentiment."
+        task_type: classification
+        canonical_targets: [sentiment, airline_sentiment]
+        fallback_targets: [rating_bin]
+        inference_outputs: [sentiment_label, confidence]
+      - id: satisfaction_score
+        objective: "Predict overall satisfaction recommendation."
+        task_type: classification
+        canonical_targets: [overall_rating, recommendation]
+        fallback_targets: [rating]
+        inference_outputs: [satisfaction_class]
+    canonical_features:
+      feedback: [review_text, title, cabin_class]
+      trip_context: [route, flight_time, traveler_type]
+      service: [seat_comfort, staff_service, food_score]
+    feature_engineering_playbook:
+      - text embeddings/hash features
+      - derived polarity features
+      - service aggregate scores
+    leakage_guardrails:
+      forbidden_columns: [post_resolution_status, moderation_label]
+      conditional_forbidden_patterns: [".*resolved.*", ".*moderation.*"]
+      notes: "No post-support outcomes in sentiment/satisfaction features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.35
+      max_duplicate_row_ratio: 0.07
+      required_key_hints: [review_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.80
+      l1_classification_min_f1: 0.80
+      minimum_unique_workers: 3
+
+  operations:
+    business_scope: "Predict operational reliability and process efficiency outcomes."
+    subproblems:
+      - id: schedule_reliability
+        objective: "Predict reliability status from operational context."
+        task_type: classification
+        canonical_targets: [status, reliability_class]
+        fallback_targets: [on_time_flag]
+        inference_outputs: [reliability_probability]
+      - id: resource_efficiency
+        objective: "Predict utilization/efficiency class for infrastructure usage."
+        task_type: classification
+        canonical_targets: [utilization_class]
+        fallback_targets: [efficiency_band]
+        inference_outputs: [efficiency_score]
+    canonical_features:
+      airport: [runway_count, navaids_count, frequency_count]
+      weather: [wind_speed, visibility, conditions]
+      traffic: [movement_count, queue_depth]
+    feature_engineering_playbook:
+      - time bucket features
+      - capacity utilization ratios
+      - weather severity composites
+    leakage_guardrails:
+      forbidden_columns: [final_dispatch_result, realized_turnaround]
+      conditional_forbidden_patterns: [".*realized.*", ".*final.*"]
+      notes: "Avoid outcome-generated values from downstream operations logs."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [airport_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.80
+      l1_classification_min_f1: 0.80
+      minimum_unique_workers: 3
+
+  network:
+    business_scope: "Model network topology, connectivity, and traffic-flow classes."
+    subproblems:
+      - id: hub_spoke_classification
+        objective: "Predict node class in network (hub/spoke/mixed)."
+        task_type: classification
+        canonical_targets: [hub_class]
+        fallback_targets: [node_role]
+        inference_outputs: [network_role_probability]
+      - id: route_connectivity
+        objective: "Predict connectivity class or route viability signal."
+        task_type: classification
+        canonical_targets: [connectivity_class]
+        fallback_targets: [route_status]
+        inference_outputs: [connectivity_score]
+    canonical_features:
+      topology: [degree, centrality, route_count]
+      geography: [lat, lon, country_region]
+      flow: [traffic_volume, directional_balance]
+    feature_engineering_playbook:
+      - graph centrality features
+      - route distance bands
+      - directional flow imbalance metrics
+    leakage_guardrails:
+      forbidden_columns: [future_network_plan, post_period_route_changes]
+      conditional_forbidden_patterns: [".*future_plan.*", ".*post_period.*"]
+      notes: "No future network planning decisions in model features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [origin, destination]
+    acceptance_gates:
+      l0_classification_min_f1: 0.80
+      l1_classification_min_f1: 0.80
+      minimum_unique_workers: 3
+
+industry_completion_gates:
+  min_unique_l0_workers: 30
+  min_categories: 5
+  min_workers_per_category: 3
+  require_all_l0_passed: true
+  require_all_l1_passed: true

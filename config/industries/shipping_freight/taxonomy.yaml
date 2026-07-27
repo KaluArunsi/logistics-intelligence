@@ -1,0 +1,412 @@
+version: 1
+industry: shipping_freight
+contract:
+  required_category_fields:
+    - business_scope
+    - subproblems
+    - canonical_features
+    - feature_engineering_playbook
+    - leakage_guardrails
+    - data_quality_gates
+    - acceptance_gates
+  required_subproblem_fields:
+    - id
+    - objective
+    - task_type
+    - canonical_targets
+    - inference_outputs
+
+categories:
+  customs_compliance:
+    business_scope: "Predict customs holds, inspection exposure, and filing quality risk."
+    subproblems:
+      - id: clearance_risk
+        objective: "Classify entries likely to face customs holds or escalated inspection."
+        task_type: classification
+        canonical_targets: [clearance_hold_flag, inspection_required, compliance_risk_tier]
+        fallback_targets: [hold_flag, exam_flag]
+        inference_outputs: [risk_probability, risk_tier]
+    canonical_features:
+      filing: [hs_code, declaration_value, filing_type, document_completeness]
+      lane: [origin_country, destination_country, port_of_entry]
+      actor: [importer_profile, broker_profile]
+    feature_engineering_playbook: ["hs chapter bucketing", "country-risk priors", "filing anomaly flags"]
+    leakage_guardrails:
+      forbidden_columns: [inspection_outcome, final_penalty_amount]
+      conditional_forbidden_patterns: [".*postclearance.*", ".*adjudication.*"]
+      notes: "No post-inspection outcomes in training features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      required_key_hints: [entry_id]
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  cross_border_flow:
+    business_scope: "Forecast border crossing volume and wait-time pressure."
+    subproblems:
+      - id: border_throughput
+        objective: "Predict crossing volumes and queue delay by lane and border point."
+        task_type: regression
+        canonical_targets: [cross_border_volume, crossing_time_hours, queue_delay_minutes]
+        fallback_targets: [throughput, wait_time]
+        inference_outputs: [volume_forecast, delay_forecast]
+    canonical_features:
+      lane: [border_port, lane_type, direction]
+      temporal: [date, day_of_week, holiday_flag]
+      context: [mode, weather, incident_flag]
+    feature_engineering_playbook: ["rolling traffic windows", "event flags", "seasonal encodings"]
+    leakage_guardrails:
+      forbidden_columns: [future_wait_time, post_period_summary]
+      conditional_forbidden_patterns: [".*future.*", ".*next_.*"]
+      notes: "Use only observations available prior to prediction cutoff."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      timestamp_fields: [date]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  trade_volume_mix:
+    business_scope: "Model trade volume/value mix by commodity, route, and mode."
+    subproblems:
+      - id: commodity_flow
+        objective: "Forecast tonnage/TEU/value at commodity and corridor levels."
+        task_type: regression
+        canonical_targets: [tonnage, teu_volume, value_usd]
+        fallback_targets: [trade_value, shipment_count]
+        inference_outputs: [volume_projection, value_projection]
+    canonical_features:
+      commodity: [hs_code, commodity_group]
+      geography: [origin_country, destination_country, corridor]
+      mode: [transport_mode, port_or_border]
+    feature_engineering_playbook: ["commodity embeddings", "route interaction terms", "share-of-mode features"]
+    leakage_guardrails:
+      forbidden_columns: [revised_annual_totals]
+      conditional_forbidden_patterns: [".*revision.*", ".*finalized.*"]
+      notes: "Avoid post-revision totals in training."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+      timestamp_fields: [period]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  port_terminal_congestion:
+    business_scope: "Predict berth/yard congestion and terminal dwell pressure."
+    subproblems:
+      - id: congestion_forecast
+        objective: "Estimate queue, dwell, and congestion level at terminal granularity."
+        task_type: regression
+        canonical_targets: [berth_wait_hours, terminal_dwell_hours, congestion_level]
+        fallback_targets: [queue_length, turnaround_time]
+        inference_outputs: [dwell_forecast, congestion_score]
+    canonical_features:
+      terminal: [port_id, terminal_id, berth_count]
+      traffic: [arrivals, departures, crane_moves]
+      ops: [yard_utilization, labor_availability]
+    feature_engineering_playbook: ["capacity-utilization features", "arrival burst features", "rolling dwell stats"]
+    leakage_guardrails:
+      forbidden_columns: [final_daily_congestion_index]
+      conditional_forbidden_patterns: [".*post_shift.*"]
+      notes: "No end-of-day finalized outcomes in features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.04
+      timestamp_fields: [event_ts]
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  ocean_schedule_reliability:
+    business_scope: "Classify on-time reliability and major schedule disruptions."
+    subproblems:
+      - id: vessel_schedule_reliability
+        objective: "Classify whether vessel calls will arrive/depart on schedule."
+        task_type: classification
+        canonical_targets: [on_time_arrival, schedule_deviation_bucket, blank_sailing_flag]
+        fallback_targets: [delay_flag, reliability_tier]
+        inference_outputs: [on_time_probability, disruption_risk]
+    canonical_features:
+      voyage: [service_name, vessel_type, leg_distance]
+      plan_vs_actual: [planned_eta, planned_etd, actual_last_milestone]
+      context: [port_congestion_signal, weather_index]
+    feature_engineering_playbook: ["eta residuals", "service-level priors", "weather-route interactions"]
+    leakage_guardrails:
+      forbidden_columns: [actual_arrival_time, actual_departure_time]
+      conditional_forbidden_patterns: [".*actual_ata.*", ".*actual_atd.*"]
+      notes: "Do not include target-defining timestamps."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  inland_waterway_flow:
+    business_scope: "Forecast inland waterway flow and lock delay behavior."
+    subproblems:
+      - id: lock_delay_forecast
+        objective: "Predict lock delay and throughput on inland corridors."
+        task_type: regression
+        canonical_targets: [barge_volume, lock_delay_hours, waterway_throughput]
+        fallback_targets: [lock_wait_time, tow_count]
+        inference_outputs: [delay_forecast, throughput_forecast]
+    canonical_features:
+      waterway: [lock_id, river_segment, draft_restriction]
+      traffic: [upbound_count, downbound_count]
+      environment: [water_level, weather]
+    feature_engineering_playbook: ["hydrology seasonality", "upbound/downbound imbalance", "lagged lock occupancy"]
+    leakage_guardrails:
+      forbidden_columns: [post_lock_clear_time]
+      conditional_forbidden_patterns: [".*post_.*"]
+      notes: "Exclude post-passage columns."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.35
+      max_duplicate_row_ratio: 0.05
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  rail_intermodal_flow:
+    business_scope: "Model intermodal rail transfer efficiency and dwell."
+    subproblems:
+      - id: intermodal_transfer_efficiency
+        objective: "Predict rail terminal dwell and transfer cycle time."
+        task_type: regression
+        canonical_targets: [intermodal_transit_hours, rail_dwell_hours, container_turn_time]
+        fallback_targets: [dwell_hours, transfer_delay]
+        inference_outputs: [cycle_time_forecast, delay_risk_score]
+    canonical_features:
+      terminal: [terminal_id, lane, equipment_type]
+      movement: [inbound_containers, outbound_containers]
+      schedule: [planned_train_arrival, departure_slot]
+    feature_engineering_playbook: ["terminal congestion proxies", "equipment mismatch flags", "schedule adherence deltas"]
+    leakage_guardrails:
+      forbidden_columns: [final_departure_time]
+      conditional_forbidden_patterns: [".*actual_departure.*"]
+      notes: "Use pre-transfer state only."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  trucking_capacity:
+    business_scope: "Forecast truckload capacity tightness by market and lane."
+    subproblems:
+      - id: market_capacity_tightness
+        objective: "Predict capacity index and load-to-truck pressure."
+        task_type: regression
+        canonical_targets: [capacity_index, load_to_truck_ratio, capacity_tightness_tier]
+        fallback_targets: [spot_rate_index, rejection_rate]
+        inference_outputs: [capacity_forecast, tightness_band]
+    canonical_features:
+      market: [region, lane, equipment_type]
+      demand: [load_postings, tender_volume]
+      supply: [truck_postings, available_tractors]
+    feature_engineering_playbook: ["supply-demand imbalance", "holiday shocks", "spot vs contract spread"]
+    leakage_guardrails:
+      forbidden_columns: [next_day_published_index]
+      conditional_forbidden_patterns: [".*next_day.*"]
+      notes: "No look-ahead market index fields."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.05
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  fleet_utilization:
+    business_scope: "Optimize fleet usage, empty miles, and asset productivity."
+    subproblems:
+      - id: asset_utilization_optimization
+        objective: "Predict utilization and idle-time risk by asset."
+        task_type: regression
+        canonical_targets: [asset_utilization_pct, empty_mile_ratio, driver_idle_hours]
+        fallback_targets: [utilization_rate, idle_time]
+        inference_outputs: [utilization_forecast, empty_mile_risk]
+    canonical_features:
+      asset: [tractor_id, trailer_type, asset_age]
+      trip: [loaded_miles, empty_miles, stops]
+      operations: [dwell_time, appointment_slip]
+    feature_engineering_playbook: ["trip-chain features", "dwell decompositions", "asset cohort aggregates"]
+    leakage_guardrails:
+      forbidden_columns: [month_end_utilization_actual]
+      conditional_forbidden_patterns: [".*actual_.*"]
+      notes: "No month-close realized KPIs."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.04
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  eta_delay_risk:
+    business_scope: "Predict ETA error and delay probability for active shipments."
+    subproblems:
+      - id: shipment_delay_classification
+        objective: "Classify late-arrival risk against promise windows."
+        task_type: classification
+        canonical_targets: [late_arrival_flag, eta_error_minutes, delay_risk_band]
+        fallback_targets: [delay_flag, on_time_flag]
+        inference_outputs: [delay_probability, eta_confidence_band]
+    canonical_features:
+      route: [origin, destination, distance]
+      telemetry: [last_ping_ts, speed, dwell_events]
+      context: [traffic_index, weather_alert]
+    feature_engineering_playbook: ["remaining-transit features", "checkpoint lateness deltas", "contextual risk flags"]
+    leakage_guardrails:
+      forbidden_columns: [actual_arrival_ts]
+      conditional_forbidden_patterns: [".*delivered_at.*"]
+      notes: "Avoid delivery completion timestamps in features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.03
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  last_mile_sla:
+    business_scope: "Predict final-mile SLA breaches and failed delivery attempts."
+    subproblems:
+      - id: sla_breach_detection
+        objective: "Classify delivery SLA breach and exception outcomes."
+        task_type: classification
+        canonical_targets: [sla_breach_flag, delivery_exception_flag, attempt_success]
+        fallback_targets: [failed_attempt_flag, otif_flag]
+        inference_outputs: [sla_breach_probability, exception_risk]
+    canonical_features:
+      stop: [stop_sequence, route_id, delivery_zone]
+      promise: [time_window_start, time_window_end]
+      execution: [attempt_count, driver_shift_length]
+    feature_engineering_playbook: ["stop-density features", "time-window slack", "attempt-history priors"]
+    leakage_guardrails:
+      forbidden_columns: [customer_confirmation_time]
+      conditional_forbidden_patterns: [".*proof_of_delivery.*"]
+      notes: "No post-delivery proof fields."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.03
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  lane_cost_yield:
+    business_scope: "Model lane economics for pricing and margin control."
+    subproblems:
+      - id: lane_margin_forecast
+        objective: "Forecast lane-level cost-per-mile and gross margin."
+        task_type: regression
+        canonical_targets: [cost_per_mile, gross_margin_pct, lane_yield_bucket]
+        fallback_targets: [rate_per_mile, contribution_margin]
+        inference_outputs: [cost_forecast, yield_forecast]
+    canonical_features:
+      lane: [origin_market, destination_market, distance]
+      cost: [fuel_index, tolls, detention, accessorials]
+      pricing: [contract_rate, spot_rate]
+    feature_engineering_playbook: ["fuel passthrough features", "lane-season interaction", "cost normalization per mile"]
+    leakage_guardrails:
+      forbidden_columns: [final_invoice_total]
+      conditional_forbidden_patterns: [".*settled_.*"]
+      notes: "Exclude settled invoice artifacts."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.04
+    acceptance_gates:
+      l0_regression_min_r2: 0.85
+      l1_regression_min_r2: 0.85
+      minimum_unique_workers: 5
+
+  claims_damage_risk:
+    business_scope: "Predict cargo damage claims and severity exposure."
+    subproblems:
+      - id: cargo_claim_likelihood
+        objective: "Classify claim filing likelihood and expected damage severity band."
+        task_type: classification
+        canonical_targets: [claim_filed_flag, damage_severity, claim_amount_band]
+        fallback_targets: [claim_flag, damage_flag]
+        inference_outputs: [claim_probability, severity_band]
+    canonical_features:
+      shipment: [commodity_type, package_type, route]
+      handling: [touch_count, transfer_count, dwell_events]
+      condition: [temperature_excursions, shock_events]
+    feature_engineering_playbook: ["handling-risk scores", "fragility lookups", "event-sequence counts"]
+    leakage_guardrails:
+      forbidden_columns: [claims_adjuster_outcome, settled_claim_amount]
+      conditional_forbidden_patterns: [".*settlement.*", ".*adjuster.*"]
+      notes: "No post-claims adjudication signals."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.04
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  carrier_safety_risk:
+    business_scope: "Predict safety incidents and compliance violation risk."
+    subproblems:
+      - id: incident_risk_scoring
+        objective: "Classify carrier-level safety risk and incident propensity."
+        task_type: classification
+        canonical_targets: [safety_incident_flag, violation_risk_tier, crash_likelihood]
+        fallback_targets: [incident_flag, violation_flag]
+        inference_outputs: [incident_probability, safety_tier]
+    canonical_features:
+      carrier: [carrier_id, authority_age, safety_rating]
+      inspections: [inspection_count, out_of_service_rate, violation_points]
+      assets: [equipment_age, maintenance_events]
+    feature_engineering_playbook: ["carrier history priors", "inspection trend slopes", "risk aggregation windows"]
+    leakage_guardrails:
+      forbidden_columns: [post_incident_investigation_outcome]
+      conditional_forbidden_patterns: [".*post_incident.*"]
+      notes: "No incident-resolution columns."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.25
+      max_duplicate_row_ratio: 0.03
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5
+
+  cold_chain_integrity:
+    business_scope: "Detect temperature-control failures and spoilage exposure."
+    subproblems:
+      - id: temperature_excursion_detection
+        objective: "Classify excursions and product-integrity breach risk."
+        task_type: classification
+        canonical_targets: [temperature_excursion_flag, cold_chain_break_event, spoilage_risk]
+        fallback_targets: [excursion_flag, integrity_failure]
+        inference_outputs: [excursion_probability, spoilage_risk_band]
+    canonical_features:
+      telemetry: [temperature_series, humidity_series, setpoint]
+      operations: [door_open_events, dwell_time, route_duration]
+      product: [product_class, required_temp_band]
+    feature_engineering_playbook: ["time-in-excursion features", "setpoint deviation stats", "thermal recovery rates"]
+    leakage_guardrails:
+      forbidden_columns: [post_delivery_quality_audit]
+      conditional_forbidden_patterns: [".*post_delivery.*", ".*lab_result.*"]
+      notes: "No post-shipment quality outcomes as features."
+    data_quality_gates:
+      max_null_ratio_per_feature: 0.30
+      max_duplicate_row_ratio: 0.03
+    acceptance_gates:
+      l0_classification_min_f1: 0.85
+      l1_classification_min_f1: 0.85
+      minimum_unique_workers: 5

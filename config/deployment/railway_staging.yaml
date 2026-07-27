@@ -1,0 +1,46 @@
+environment: staging
+platform: railway
+policy_mode: zero_budget
+
+deployment_scope:
+  industries:
+    - ecommerce
+    - shipping_freight
+    - trucking_delivery
+  exclude:
+    - aviation
+
+service_topology:
+  backend_api:
+    enabled: true
+    source: Dockerfile
+    start_command: python tools/run_backend.py --host 0.0.0.0
+    healthcheck: /healthz
+  frontend_ui:
+    enabled: true
+    preferred_hosting: free_static
+    notes:
+      - serve via free static hosting or lightweight container
+      - UI can point to Railway backend using localStorage.apiBase
+
+domain_policy:
+  custom_domain_required: false
+  default_public_url: "*.up.railway.app"
+  demo_mode_allowed: true
+
+cost_constraints:
+  strict_zero_budget: true
+  paid_services_required: false
+  allow_paid_llm: false
+  allow_paid_datastores: false
+  allow_paid_observability: false
+
+llm_runtime:
+  preferred: ollama_cloud
+  fallback: disabled
+  require_cloud_ollama: true
+
+ops_controls:
+  rate_limits_enabled: true
+  retention_ttl_enabled: true
+  prompt_injection_guardrails_enabled: true

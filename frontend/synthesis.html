@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tell Toji about your business problem and get a focused analysis workflow.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23155E40'/><text x='7' y='24' font-size='20' fill='white' font-weight='700'>T</text></svg>">
+    <title>Tell us - Logistics Intelligence</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+        main {
+            max-width: 940px;
+            margin: 56px auto 96px;
+            padding: 0 28px;
+        }
+
+        .page-eyebrow {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            line-height: 1.08;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* ── Single form card ───────────────────────────────── */
+        .form-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-block {
+            padding: 28px 32px;
+        }
+
+        .form-divider {
+            height: 1px;
+            background: var(--border);
+        }
+
+        .form-footer {
+            padding: 24px 32px 28px;
+            background: linear-gradient(180deg, rgba(247,247,243,0.76), rgba(242,240,234,0.7));
+        }
+
+        .block-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        /* ── Industry options grid ──────────────────────────── */
+        .industry-select {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .industry-option {
+            padding: 20px 14px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.12s, border-color 0.12s, box-shadow 0.12s ease;
+            background: rgba(247,247,243,0.9);
+            border: 1px solid rgba(222, 217, 207, 0.92);
+            border-radius: var(--radius-md);
+        }
+
+        .industry-option:hover {
+            background: color-mix(in srgb, var(--accent) 6%, var(--bg-card));
+            border-color: rgba(21, 94, 64, 0.16);
+        }
+
+        .industry-option.selected {
+            background: linear-gradient(180deg, rgba(21, 94, 64, 0.12), rgba(21, 94, 64, 0.04));
+            border-color: rgba(21, 94, 64, 0.2);
+            box-shadow: var(--shadow-md);
+        }
+
+        .industry-option svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 8px;
+            stroke: var(--text-muted);
+        }
+
+        .industry-option:hover svg { stroke: var(--accent); }
+        .industry-option.selected svg { stroke: var(--accent); }
+
+        .industry-option .label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: -0.01em;
+        }
+
+        .industry-option:hover .label { color: var(--accent); }
+        .industry-option.selected .label { color: var(--accent); }
+
+        /* ── Custom industry + summary ──────────────────────── */
+        .custom-industry-wrap {
+            display: none;
+            margin-bottom: 10px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .custom-industry-wrap.active { display: flex; }
+        .custom-industry-wrap input { flex: 1; }
+
+        .industry-summary {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            background: rgba(247,247,243,0.9);
+            border-radius: var(--radius-md);
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .industry-summary strong { color: var(--text-primary); }
+
+        .industry-primer {
+            display: none;
+            margin-top: 10px;
+            border: 1px solid var(--border);
+            background: rgba(247,247,243,0.9);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+        }
+
+        .industry-primer.active { display: block; }
+
+        .industry-primer-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 7px;
+            letter-spacing: -0.01em;
+        }
+
+        .industry-primer-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Category chips ─────────────────────────────────── */
+        .category-pick-label {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: none;
+        }
+
+        .suggested-categories {
+            display: none;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .suggested-categories.active { display: flex; }
+
+        .suggest-chip {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 13px;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color 0.12s, color 0.12s;
+            letter-spacing: -0.01em;
+        }
+
+        .suggest-chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .field-note {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .required { color: var(--error); }
+
+        /* ── Textarea + inputs ──────────────────────────────── */
+        label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14.5px;
+            font-family: inherit;
+            background: rgba(247,247,243,0.94);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.15s;
+            box-sizing: border-box;
+        }
+
+        textarea { resize: vertical; min-height: 136px; }
+        textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
+        textarea::placeholder, input[type="text"]::placeholder { font-style: italic; }
+
+        /* ── Progress ───────────────────────────────────────── */
+        .progress-container {
+            display: none;
+            margin-top: 14px;
+            padding: 16px 18px;
+            background: rgba(247,247,243,0.92);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .step-progress {
+            width: 100%;
+            height: 2px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: var(--border);
+            margin-bottom: 8px;
+        }
+
+        .step-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.25s ease;
+        }
+
+        .progress-step {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ── Form footer actions ────────────────────────────── */
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 720px) {
+            .industry-select { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 640px) {
+            main {
+                margin: 32px auto 64px;
+                padding: 0 16px;
+            }
+
+            h1 { font-size: 28px; }
+
+            .subtitle { font-size: 15px; }
+
+            .form-block { padding: 18px 16px; }
+
+            .form-footer { padding: 16px; }
+
+            /* Stack form actions vertically, full-width */
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 8px;
+            }
+
+            .form-actions .btn,
+            .form-actions .btn-primary,
+            .form-actions .btn-secondary {
+                width: 100%;
+                min-height: 44px;
+                justify-content: center;
+            }
+
+            .industry-option { padding: 14px 8px; }
+
+            .suggest-chip {
+                min-height: 40px;
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .industry-select { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">T</div>
+                Logistics Intelligence
+            </a>
+            <nav>
+                <a href="upload.html">Upload data</a>
+                <a href="chat.html" target="_blank">Ask Toji</a>
+                <a href="index.html" class="back-link">&larr; Back</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <p class="page-eyebrow">Describe the challenge</p>
+        <h1>What are you trying to solve?</h1>
+        <p class="subtitle">Share your industry and the business problem in plain language. Our bespoke AI, Toji, will build the analysis around your context and guide the conversation from there.</p>
+
+        <div class="llm-runtime" style="margin-bottom: 24px;">
+            <div class="llm-dot" id="llmDot"></div>
+            <span id="llmRuntimeText">Toji runtime ready</span>
+        </div>
+
+        <form id="synthesisForm" novalidate>
+            <div class="form-card">
+
+                <!-- Industry block -->
+                <div class="form-block">
+                    <div class="block-label">Industry</div>
+
+                    <div class="industry-select">
+                        <div class="industry-option" data-industry="ecommerce" onclick="selectIndustry('ecommerce', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="20" r="1"></circle>
+                                <circle cx="17" cy="20" r="1"></circle>
+                                <path d="M3 4h2l2.2 10.5a2 2 0 0 0 2 1.5h7.6a2 2 0 0 0 2-1.6L22 7H7"></path>
+                            </svg>
+                            <div class="label">E-Commerce</div>
+                        </div>
+                        <div class="industry-option" data-industry="shipping_freight" onclick="selectIndustry('shipping_freight', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 15h20"></path>
+                                <path d="M4 15l2.5-6h11L20 15"></path>
+                                <path d="M7 9V6h8v3"></path>
+                                <path d="M3 18c1.8 1.2 3.5 1.2 5.3 0 1.8 1.2 3.5 1.2 5.4 0 1.8 1.2 3.5 1.2 5.3 0"></path>
+                            </svg>
+                            <div class="label">Shipping &amp; Freight</div>
+                        </div>
+                        <div class="industry-option" data-industry="trucking_delivery" onclick="selectIndustry('trucking_delivery', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="7" cy="17" r="2"></circle>
+                                <circle cx="17" cy="17" r="2"></circle>
+                                <path d="M1 17V9h11v8"></path>
+                                <path d="M12 12h4l3 3v2h-7z"></path>
+                            </svg>
+                            <div class="label">Trucking &amp; Delivery</div>
+                        </div>
+                        <div class="industry-option" data-industry="__custom__" onclick="selectIndustry('__custom__', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="9"></circle>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                            <div class="label">Other Industry</div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="industry" name="industry" required>
+                    <div class="custom-industry-wrap" id="customIndustryWrap">
+                        <input id="customIndustryInput" type="text" placeholder="e.g., aviation, manufacturing, healthcare">
+                        <button type="button" class="btn btn-secondary" onclick="applyCustomIndustryFromInput()">Use</button>
+                    </div>
+                    <div class="industry-primer" id="industryPrimer">
+                        <div class="industry-primer-label">Try examples:</div>
+                        <div class="industry-primer-chips" id="industryPrimerChips">
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('restaurant')">restaurant</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('coffee shop')">coffee shop</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('pharmacy')">pharmacy</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('clinic')">clinic</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('auto repair')">auto repair</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('salon')">salon</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('wholesale distributor')">wholesale distributor</button>
+                            <button type="button" class="suggest-chip" onclick="applyIndustryPrimer('construction subcontractor')">construction subcontractor</button>
+                        </div>
+                    </div>
+                    <div class="industry-summary" id="industrySummary"><strong>Selected:</strong> none yet</div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <!-- Category block -->
+                <div class="form-block">
+                    <div class="block-label">Category</div>
+                    <p class="category-pick-label" id="categoryPickLabel">Select one category to focus this analysis:</p>
+                    <div class="suggested-categories" id="suggestedCategories"></div>
+                    <p class="field-note" id="categoryHelp">For custom industries, Toji will identify the right focus area during your conversation.</p>
+                    <input type="hidden" id="selectedCategory" name="selected_category">
+                </div>
+
+                <div class="form-divider"></div>
+
+                <!-- Problem statement block -->
+                <div class="form-block">
+                    <label for="problemStatement">Business problem <span class="required">*</span></label>
+                    <textarea
+                        id="problemStatement"
+                        name="problem_statement"
+                        placeholder="Example: Late supplier deliveries and weak reorder planning are causing stockouts. I want a practical plan to stabilize weekly fulfillment and protect margin."
+                        required></textarea>
+
+                    <div class="progress-container" id="progressContainer">
+                        <div class="step-progress">
+                            <div class="step-progress-fill" id="stepProgressFill"></div>
+                        </div>
+                        <div class="progress-step" id="progressStep">Preparing Toji intake...</div>
+                    </div>
+
+                    <div class="error-message" id="errorMessage"></div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <!-- Footer actions -->
+                <div class="form-footer">
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Continue to Toji &rarr;</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </main>
+
+    <script src="shared.js"></script>
+    <script>
+        let _selectedCategory = null;
+        const DRAFT_KEY = "synthesis_problem_draft_v2";
+
+        function setProgress(percent) {
+            const v = Math.max(0, Math.min(100, Number(percent) || 0));
+            const fill = document.getElementById("stepProgressFill");
+            if (fill) fill.style.width = `${v}%`;
+        }
+
+        async function updateLlmRuntimeStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/healthz`);
+                const payload = await res.json();
+                const enabled = Boolean(payload.llm_enabled);
+                const dot = document.getElementById("llmDot");
+                const text = document.getElementById("llmRuntimeText");
+                if (dot) dot.style.background = enabled ? "#10b981" : "#f59e0b";
+                if (text) text.textContent = enabled ? "Toji runtime ready" : "Toji unavailable";
+            } catch (_err) {
+                const dot = document.getElementById("llmDot");
+                const text = document.getElementById("llmRuntimeText");
+                if (dot) dot.style.background = "#f59e0b";
+                if (text) text.textContent = "Toji status unavailable";
+            }
+        }
+
+        function resetCategorySelectionUi(message) {
+            const wrap = document.getElementById("suggestedCategories");
+            const label = document.getElementById("categoryPickLabel");
+            const help = document.getElementById("categoryHelp");
+            const hidden = document.getElementById("selectedCategory");
+            if (wrap) {
+                wrap.classList.remove("active");
+                wrap.innerHTML = "";
+            }
+            if (label) label.style.display = "none";
+            if (help && message) help.innerHTML = message;
+            _selectedCategory = null;
+            if (hidden) hidden.value = "";
+        }
+
+        function renderIndustrySummary(industry) {
+            const summary = document.getElementById("industrySummary");
+            if (!summary) return;
+            const pretty = String(industry || "").replace(/_/g, " ");
+            summary.innerHTML = `<strong>Selected:</strong> ${pretty || "none yet"}`;
+        }
+
+        function applyIndustryPrimer(value) {
+            const input = document.getElementById("customIndustryInput");
+            if (input) input.value = String(value || "");
+            applyCustomIndustryFromInput();
+        }
+
+        function selectCategory(rawCategory, chipEl) {
+            _selectedCategory = String(rawCategory || "").trim();
+            const hidden = document.getElementById("selectedCategory");
+            if (hidden) hidden.value = _selectedCategory;
+            document.querySelectorAll(".suggest-chip").forEach((c) => {
+                c.style.borderColor = "";
+                c.style.color = "";
+            });
+            if (chipEl) {
+                chipEl.style.borderColor = "var(--accent)";
+                chipEl.style.color = "var(--text-primary)";
+            }
+            saveDraft();
+        }
+
+        async function loadCategoryChips(industry) {
+            if (!isKnownIndustry(industry)) {
+                const customName = sessionStorage.getItem("customIndustryName") || "your industry";
+                resetCategorySelectionUi(
+                    `Toji will ask you targeted questions about <strong>${escapeHtml(customName)}</strong> to identify the right focus area. Just describe your problem below.`
+                );
+                return;
+            }
+            const wrap = document.getElementById("suggestedCategories");
+            const label = document.getElementById("categoryPickLabel");
+            const help = document.getElementById("categoryHelp");
+            resetCategorySelectionUi("Loading categories...");
+            try {
+                await ensureSession();
+                const res = await fetch(`${API_BASE}/intake/categories/${encodeURIComponent(industry)}`);
+                if (!res.ok) {
+                    resetCategorySelectionUi("Could not load categories. Toji can still infer a category in chat.");
+                    return;
+                }
+                const data = await res.json();
+                const cats = Array.isArray(data.categories) ? data.categories : [];
+                if (!cats.length) {
+                    resetCategorySelectionUi("No predefined categories found for this industry yet.");
+                    return;
+                }
+                if (label) label.style.display = "block";
+                wrap.classList.add("active");
+                wrap.innerHTML = "";
+                if (help) help.textContent = "Choose one category. Toji can refine or change it during chat.";
+                cats.forEach((row, idx) => {
+                    const raw = String(row.category || "").trim();
+                    if (!raw) return;
+                    const labelTxt = String(row.label || raw.replace(/_/g, " "));
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "suggest-chip";
+                    btn.textContent = labelTxt;
+                    btn.onclick = () => selectCategory(raw, btn);
+                    wrap.appendChild(btn);
+                    if (idx === 0) selectCategory(raw, btn);
+                });
+            } catch (_err) {
+                resetCategorySelectionUi("Could not load categories. Toji can still infer a category in chat.");
+            }
+        }
+
+        function selectIndustry(industry, element) {
+            const customWrap = document.getElementById("customIndustryWrap");
+            const primerWrap = document.getElementById("industryPrimer");
+            const hidden = document.getElementById("industry");
+            const customInput = document.getElementById("customIndustryInput");
+            document.querySelectorAll(".industry-option").forEach((el) => el.classList.remove("selected"));
+            if (element) element.classList.add("selected");
+
+            if (industry === "__custom__") {
+                if (customWrap) customWrap.classList.add("active");
+                if (primerWrap) primerWrap.classList.add("active");
+                const normalized = _normalizeIndustryValue(customInput ? customInput.value : "");
+                hidden.value = normalized || "";
+                if (normalized) {
+                    sessionStorage.setItem("selectedIndustry", normalized);
+                    renderIndustrySummary(normalized);
+                } else {
+                    renderIndustrySummary("custom industry");
+                }
+                resetCategorySelectionUi("For <strong>Other Industry</strong>, no predefined categories are shown.");
+                saveDraft();
+                return;
+            }
+
+            if (customWrap) customWrap.classList.remove("active");
+            if (primerWrap) primerWrap.classList.remove("active");
+            hidden.value = industry;
+            sessionStorage.setItem("selectedIndustry", industry);
+            renderIndustrySummary(industry);
+            saveDraft();
+            loadCategoryChips(industry);
+        }
+
+        function applyCustomIndustryFromInput() {
+            const input = document.getElementById("customIndustryInput");
+            const rawText = String((input && input.value) || "").trim();
+            const normalized = _normalizeIndustryValue(rawText);
+            const err = document.getElementById("errorMessage");
+            if (!normalized) {
+                err.textContent = "Type a valid industry name first.";
+                err.style.display = "block";
+                return;
+            }
+            err.style.display = "none";
+            document.getElementById("industry").value = normalized;
+            // Store both the enum value and the user's actual text for display
+            sessionStorage.setItem("selectedIndustry", normalized);
+            sessionStorage.setItem("customIndustryName", rawText);
+            renderIndustrySummary(rawText || normalized);
+            // Auto-set category for custom industries so the form doesn't block
+            _selectedCategory = "general_operations";
+            document.getElementById("selectedCategory").value = _selectedCategory;
+            resetCategorySelectionUi(
+                `Toji will ask you targeted questions about your <strong>${escapeHtml(rawText)}</strong> business to understand the right focus area. Just describe your problem below.`
+            );
+            saveDraft();
+        }
+
+        function saveDraft() {
+            const payload = {
+                industry: document.getElementById("industry").value || "",
+                custom_industry: document.getElementById("customIndustryInput").value || "",
+                selected_category: _selectedCategory || "",
+                problem_statement: document.getElementById("problemStatement").value || "",
+            };
+            sessionStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
+        }
+
+        function restoreDraft() {
+            try {
+                const raw = sessionStorage.getItem(DRAFT_KEY);
+                if (!raw) return;
+                const data = JSON.parse(raw);
+                if (data && typeof data === "object") {
+                    if (typeof data.custom_industry === "string") {
+                        document.getElementById("customIndustryInput").value = data.custom_industry;
+                    }
+                    if (typeof data.problem_statement === "string") {
+                        document.getElementById("problemStatement").value = data.problem_statement;
+                    }
+                    if (typeof data.selected_category === "string") {
+                        _selectedCategory = data.selected_category.trim() || null;
+                        document.getElementById("selectedCategory").value = _selectedCategory || "";
+                    }
+                }
+            } catch (_err) {}
+        }
+
+        function initializeIndustrySelection() {
+            const queryIndustry = new URLSearchParams(window.location.search).get("industry");
+            const storedIndustry = sessionStorage.getItem("selectedIndustry");
+            const currentHidden = document.getElementById("industry").value;
+            const preferredRaw = [queryIndustry, currentHidden, storedIndustry, "ecommerce"].find(
+                (v) => String(v || "").trim().length > 0
+            );
+            const preferred = _normalizeIndustryValue(preferredRaw || "ecommerce");
+            if (isKnownIndustry(preferred)) {
+                const target = document.querySelector(`.industry-option[data-industry="${preferred}"]`);
+                if (target) {
+                    selectIndustry(preferred, target);
+                    return;
+                }
+            }
+            const customCard = document.querySelector('.industry-option[data-industry="__custom__"]');
+            const customInput = document.getElementById("customIndustryInput");
+            if (customInput && preferred) customInput.value = preferred.replace(/_/g, " ");
+            if (customCard) selectIndustry("__custom__", customCard);
+        }
+
+        document.getElementById("synthesisForm").addEventListener("input", saveDraft);
+
+        document.getElementById("synthesisForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const err = document.getElementById("errorMessage");
+            err.style.display = "none";
+
+            const industry = String(document.getElementById("industry").value || "").trim();
+            const problemStatement = String(document.getElementById("problemStatement").value || "").trim();
+            const category = String(_selectedCategory || "").trim();
+
+            if (!industry) {
+                err.textContent = "Please select an industry.";
+                err.style.display = "block";
+                return;
+            }
+            if (!problemStatement) {
+                err.textContent = "Please describe your business problem.";
+                err.style.display = "block";
+                return;
+            }
+            if (!category && isKnownIndustry(industry) && industry !== 'other_industry') {
+                err.textContent = "Please select a category.";
+                err.style.display = "block";
+                return;
+            }
+
+            const submitBtn = document.getElementById("submitBtn");
+            const progress = document.getElementById("progressContainer");
+            const step = document.getElementById("progressStep");
+            const pendingChatWindow = window.open("about:blank", "_blank");
+            if (pendingChatWindow && pendingChatWindow.document) {
+                pendingChatWindow.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opening Toji...</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #F7F6F1;
+      color: #0A0A0A;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .card {
+      width: min(520px, calc(100vw - 32px));
+      background: #fff;
+      border: 1px solid #DED9CF;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 18px 44px rgba(10,10,10,0.08);
+    }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #155E40;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    p {
+      margin: 0;
+      color: #5C5C5A;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Toji</div>
+    <h1>Preparing your chat</h1>
+    <p>Hold on while Toji carries your business context into a new conversation.</p>
+  </div>
+</body>
+</html>`);
+                pendingChatWindow.document.close();
+            }
+            submitBtn.disabled = true;
+            progress.style.display = "block";
+            setProgress(10);
+            step.textContent = "Starting secure session...";
+
+            try {
+                await ensureSession();
+                setProgress(40);
+                step.textContent = "Sending business context to Toji...";
+
+                const tellRes = await fetch(`${API_BASE}/intake/tell-us`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        industry,
+                        problem_statement: problemStatement,
+                        context: {
+                            category: category || null,
+                            selected_category_hint: category || null,
+                            workflow_goal: problemStatement,
+                        },
+                    }),
+                });
+                const tellJson = await tellRes.json();
+                if (!tellRes.ok) {
+                    throw new Error(extractError(tellJson, "Tell-us intake failed"));
+                }
+
+                setProgress(85);
+                step.textContent = "Opening Toji chat...";
+                sessionStorage.removeItem(DRAFT_KEY);
+                const customName = sessionStorage.getItem("customIndustryName") || "";
+                const qs = new URLSearchParams({
+                    intake_mode: "1",
+                    industry,
+                    category: category || "general_operations",
+                });
+                if (customName) qs.set("custom_industry", customName);
+                const chatUrl = `chat.html?${qs.toString()}`;
+                if (pendingChatWindow && !pendingChatWindow.closed) {
+                    pendingChatWindow.location.href = chatUrl;
+                    pendingChatWindow.focus();
+                } else {
+                    window.open(chatUrl, "_blank");
+                }
+            } catch (error) {
+                try {
+                    if (pendingChatWindow && !pendingChatWindow.closed) pendingChatWindow.close();
+                } catch (_err) {}
+                err.textContent = error.message || "Could not continue to Toji chat.";
+                err.style.display = "block";
+                submitBtn.disabled = false;
+            }
+        });
+
+        (async function init() {
+            initTheme();
+            await updateLlmRuntimeStatus();
+            restoreDraft();
+            initializeIndustrySelection();
+        })();
+    </script>
+</body>
+</html>
